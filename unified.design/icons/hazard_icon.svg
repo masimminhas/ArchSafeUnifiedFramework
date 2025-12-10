@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" version="1.1"
+     xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Hazard Triangle Icon</title>
+  <desc id="desc">A warning triangle with an exclamation mark for representing an integrated hazard.</desc>
+  <defs>
+    <linearGradient id="g1" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#FFA000"/>
+    </linearGradient>
+    <filter id="f1" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Triangle background with shadow -->
+  <g filter="url(#f1)">
+    <path d="M256 48 L464 416 L48 416 Z" fill="url(#g1)" stroke="#BF360C" stroke-width="14" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Exclamation mark -->
+  <g transform="translate(0, -6)">
+    <rect x="238" y="150" width="36" height="150" rx="10" ry="10" fill="#3E2723"/>
+    <circle cx="256" cy="338" r="20" fill="#3E2723"/>
+  </g>
+
+  <!-- Optional subtle highlight -->
+  <path d="M256 72 L422 392 L256 392 Z" fill="rgba(255,255,255,0.08)"/>
+</svg>

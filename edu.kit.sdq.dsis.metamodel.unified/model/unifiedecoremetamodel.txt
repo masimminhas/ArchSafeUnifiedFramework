@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="unified" nsURI="http://edu.kit.sdq.dsis.metamodel/unified" nsPrefix="unified">
+  <eClassifiers xsi:type="ecore:EClass" name="UnifiedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SafetyCriticalityLevel">
+    <eLiterals name="LOW"/>
+    <eLiterals name="MEDIUM" value="1"/>
+    <eLiterals name="HIGH" value="2"/>
+    <eLiterals name="CRITICAL" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionStatus">
+    <eLiterals name="OPEN"/>
+    <eLiterals name="IN_PROGRESS" value="1"/>
+    <eLiterals name="COMPLETED" value="2"/>
+    <eLiterals name="VERIFIED" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FMEAAnalysis" eSuperTypes="#//UnifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rpnThreshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fmeaItems" upperBound="-1"
+        eType="#//FMEAItem" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FMEAItem" eSuperTypes="#//UnifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="severity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occurrence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="detection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="localEffect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="systemEffect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendedAction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionStatus" eType="#//ActionStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failureMode" eType="#//BlockFailureMode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedComponent" lowerBound="1"
+        eType="#//SafetyCriticalBlock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnifiedSystemModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fmeaAnalysis" upperBound="-1"
+        eType="#//FMEAAnalysis" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalHazards" upperBound="-1"
+        eType="#//IntegratedHazard" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootBlocks" upperBound="-1"
+        eType="#//SafetyCriticalBlock" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemBlocks" upperBound="-1"
+        eType="#//SystemBlock" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blockAssociations" upperBound="-1"
+        eType="#//BlockAssociation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blockConnections" upperBound="-1"
+        eType="#//BlockConnection" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegratedHazard" eSuperTypes="#//UnifiedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="System-level dangers that span multiple components with risk level quantification"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="riskLevel" eType="#//RiskLevel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedBlocks" upperBound="-1"
+        eType="#//SafetyCriticalBlock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyCriticalBlock" eSuperTypes="#//SystemBlock">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="System components that require safety analysis with embedded failure modes and criticality levels"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="safetyCriticality" eType="#//SafetyCriticalityLevel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failureModes" upperBound="-1"
+        eType="#//BlockFailureMode" containment="true" eOpposite="#//BlockFailureMode/affectedBlock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RiskLevel">
+    <eLiterals name="NEGLIGIBLE"/>
+    <eLiterals name="MARGINAL" value="1"/>
+    <eLiterals name="CRITICAL_RISK" value="2"/>
+    <eLiterals name="CATASTROPHIC" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemBlock" eSuperTypes="#//UnifiedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Regular system components without mandatory safety annotations for non-critical parts"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subBlocks" upperBound="-1"
+        eType="#//SystemBlock" containment="true" eOpposite="#//SystemBlock/parentBlock"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentBlock" eType="#//SystemBlock"
+        eOpposite="#//SystemBlock/subBlocks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associationAsSource" eType="#//BlockAssociation"
+        eOpposite="#//BlockAssociation/sourceBlock"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associationAsTarget" eType="#//BlockAssociation"
+        eOpposite="#//BlockAssociation/targetBlock"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionAsSource" eType="#//BlockConnection"
+        eOpposite="#//BlockConnection/fromBlock"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionAsTarget" eType="#//BlockConnection"
+        eOpposite="#//BlockConnection/toBlock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlockAssociation" eSuperTypes="#//UnifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="associationType" eType="#//AssociationType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceBlock" lowerBound="1"
+        eType="#//SystemBlock" eOpposite="#//SystemBlock/associationAsSource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetBlock" lowerBound="1"
+        eType="#//SystemBlock" eOpposite="#//SystemBlock/associationAsTarget"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlockConnection" eSuperTypes="#//UnifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionType" eType="#//ConnectionType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromBlock" lowerBound="1"
+        eType="#//SystemBlock" eOpposite="#//SystemBlock/connectionAsSource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toBlock" lowerBound="1"
+        eType="#//SystemBlock" eOpposite="#//SystemBlock/connectionAsTarget"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlockFailureMode" eSuperTypes="#//UnifiedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Specific failure scenarios attached directly to system components with detectability and severity metrics"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedBlock" eType="#//SafetyCriticalBlock"
+        eOpposite="#//SafetyCriticalBlock/failureModes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ConnectionType">
+    <eLiterals name="DATA_FLOW"/>
+    <eLiterals name="CONTROL_FLOW" value="1"/>
+    <eLiterals name="POWER_FLOW" value="2"/>
+    <eLiterals name="SIGNAL_FLOW" value="3"/>
+    <eLiterals name="MECHANICAL" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AssociationType">
+    <eLiterals name="DEPENDENCY"/>
+    <eLiterals name="AGGREGATION" value="1"/>
+    <eLiterals name="COMPOSITION" value="2"/>
+    <eLiterals name="ASSOCIATION" value="3"/>
+    <eLiterals name="REALIZATION" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>

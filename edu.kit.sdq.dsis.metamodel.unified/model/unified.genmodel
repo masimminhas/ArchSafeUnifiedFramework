@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/edu.kit.sdq.dsis.metamodel.unified/src-gen" creationIcons="false"
+    editDirectory="/edu.kit.sdq.dsis.metamodel.unified.edit/src-gen" editorDirectory="/edu.kit.sdq.dsis.metamodel.unified.editor/src-gen"
+    modelPluginID="edu.kit.sdq.dsis.metamodel.unified" modelName="Unified" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>unified.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Unified" basePackage="edu.kit.sdq.dsis.metamodel" disposableProviderFactory="true"
+      ecorePackage="unified.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="unified.ecore#//SafetyCriticalityLevel">
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//SafetyCriticalityLevel/LOW"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//SafetyCriticalityLevel/MEDIUM"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//SafetyCriticalityLevel/HIGH"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//SafetyCriticalityLevel/CRITICAL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="unified.ecore#//ActionStatus">
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ActionStatus/OPEN"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ActionStatus/IN_PROGRESS"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ActionStatus/COMPLETED"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ActionStatus/VERIFIED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="unified.ecore#//RiskLevel">
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//RiskLevel/NEGLIGIBLE"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//RiskLevel/MARGINAL"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//RiskLevel/CRITICAL_RISK"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//RiskLevel/CATASTROPHIC"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="unified.ecore#//ConnectionType">
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ConnectionType/DATA_FLOW"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ConnectionType/CONTROL_FLOW"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ConnectionType/POWER_FLOW"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ConnectionType/SIGNAL_FLOW"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//ConnectionType/MECHANICAL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="unified.ecore#//AssociationType">
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//AssociationType/DEPENDENCY"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//AssociationType/AGGREGATION"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//AssociationType/COMPOSITION"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//AssociationType/ASSOCIATION"/>
+      <genEnumLiterals ecoreEnumLiteral="unified.ecore#//AssociationType/REALIZATION"/>
+    </genEnums>
+    <genClasses ecoreClass="unified.ecore#//UnifiedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//UnifiedElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//UnifiedElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//FMEAAnalysis">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAAnalysis/rpnThreshold"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//FMEAAnalysis/fmeaItems"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//FMEAItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/occurrence"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/detection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/localEffect"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/systemEffect"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/recommendedAction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//FMEAItem/actionStatus"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//FMEAItem/failureMode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//FMEAItem/analyzedComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//UnifiedSystemModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/fmeaAnalysis"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/globalHazards"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/rootBlocks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/systemBlocks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/blockAssociations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/blockConnections"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//IntegratedHazard">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//IntegratedHazard/riskLevel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//IntegratedHazard/relatedBlocks"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//SafetyCriticalBlock">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//SafetyCriticalBlock/safetyCriticality"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//SafetyCriticalBlock/failureModes"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//SystemBlock">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//SystemBlock/subBlocks"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//SystemBlock/parentBlock"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//SystemBlock/associationAsSource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//SystemBlock/associationAsTarget"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//SystemBlock/connectionAsSource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//SystemBlock/connectionAsTarget"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//BlockAssociation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//BlockAssociation/associationType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//BlockAssociation/sourceBlock"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//BlockAssociation/targetBlock"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//BlockConnection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//BlockConnection/connectionType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//BlockConnection/fromBlock"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//BlockConnection/toBlock"/>
+    </genClasses>
+    <genClasses ecoreClass="unified.ecore#//BlockFailureMode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference unified.ecore#//BlockFailureMode/affectedBlock"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

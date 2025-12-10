@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: edu.kit.sdq.dsis.metamodel.unified;singleton:=true
+Automatic-Module-Name: edu.kit.sdq.dsis.metamodel.unified
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: edu.kit.sdq.dsis.metamodel.unified,
+ edu.kit.sdq.dsis.metamodel.unified.impl,
+ edu.kit.sdq.dsis.metamodel.unified.util
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy

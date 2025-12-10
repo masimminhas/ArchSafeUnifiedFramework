@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" xmlns:validation="http://www.eclipse.org/sirius/description/validation/1.1.0" name="unified" version="12.0.0.2017041100">
+  <ownedViewpoints name="UnifiedModeling" modelFileExtension="unified">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="ArchitectureDiagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <validationSet name="architectureValidation">
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="BlockNameRequired" level="WARNING" message="Block name should be defined for better traceability." targetClass="unified::SystemBlock">
+          <audits auditExpression="aql:self.name != null and self.name.trim().size() > 0"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="ConnectionTypeDefined" message="Connection type should be specified." targetClass="unified::BlockConnection">
+          <audits auditExpression="aql:self.connectionType != null"/>
+        </ownedRules>
+      </validationSet>
+      <defaultLayer name="ArchitectureLayer">
+        <nodeMappings name="AD_SystemBlock_Node" semanticCandidatesExpression="feature:systemBlocks" domainClass="unified::SystemBlock">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelPosition="node" resizeKind="NSEW" width="14" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="AD_SafetyCriticalBlock_Node" semanticCandidatesExpression="feature:rootBlocks" domainClass="unified::SafetyCriticalBlock">
+          <style xsi:type="style:SquareDescription" borderSizeComputationExpression="2" labelSize="10" showIcon="false" labelPosition="node" resizeKind="NSEW" width="14" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="AD_BlockConnection_Edge" semanticCandidatesExpression="aql:self.blockConnections" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SystemBlock_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SystemBlock_Node']" targetFinderExpression="aql:self.toBlock" sourceFinderExpression="aql:self.fromBlock" domainClass="unified::BlockConnection" useDomainElement="true">
+          <style targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="aql:self.connectionType.toString()">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="AD_BlockAssociation_Edge" semanticCandidatesExpression="aql:self.blockAssociations" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SystemBlock_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SystemBlock_Node']" targetFinderExpression="aql:self.targetBlock" sourceFinderExpression="aql:self.sourceBlock" domainClass="unified::BlockAssociation" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputArrowWithDiamond" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="aql:self.associationType.toString()">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <toolSections name="ArchitectureModeling">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="AD_Create_SystemBlock" label="System Block" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SystemBlock_Node']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SystemBlock" referenceName="systemBlocks" variableName="newBlock">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SystemBlock_' + (container.systemBlocks->size() + 1)"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="AD_Create_SafetyCriticalBlock" label="Safety Critical Block" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@nodeMappings[name='AD_SafetyCriticalBlock_Node']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyCriticalBlock" referenceName="rootBlocks" variableName="newBlock">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyBlock_' + (container.rootBlocks->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="safetyCriticality" valueExpression="aql:unified::SafetyCriticalityLevel::HIGH"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AD_Create_BlockConnection" label="Block Connection" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@edgeMappings[name='AD_BlockConnection_Edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:source.eContainer()">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::BlockConnection" referenceName="blockConnections" variableName="newConnection">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="fromBlock" valueExpression="var:source"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="toBlock" valueExpression="var:target"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="connectionType" valueExpression="aql:unified::ConnectionType::DATA_FLOW"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:source.name + '_to_' + target.name"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="AD_Create_BlockAssociation" label="Block Association" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='ArchitectureDiagram']/@defaultLayer/@edgeMappings[name='AD_BlockAssociation_Edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:source.eContainer()">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::BlockAssociation" referenceName="blockAssociations" variableName="newAssociation">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="sourceBlock" valueExpression="var:source"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="targetBlock" valueExpression="var:target"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="associationType" valueExpression="aql:unified::AssociationType::DEPENDENCY"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:source.name + '_assoc_' + target.name"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="SafetyDiagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <validationSet name="safetyValidation">
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="SafetyBlockNameRequired" level="ERROR" message="Safety critical block name must be defined." targetClass="unified::SafetyCriticalBlock">
+          <audits auditExpression="aql:self.name != null and self.name.trim().size() > 0"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="HazardNameRequired" level="ERROR" message="Hazard must have a descriptive name." targetClass="unified::IntegratedHazard">
+          <audits auditExpression="aql:self.name != null and self.name.trim().size() > 0"/>
+        </ownedRules>
+      </validationSet>
+      <defaultLayer name="SafetyLayer">
+        <nodeMappings name="SD_IntegratedHazard_Node" semanticCandidatesExpression="feature:globalHazards" domainClass="unified::IntegratedHazard">
+          <style xsi:type="style:SquareDescription" borderSizeComputationExpression="2" showIcon="false" iconPath="/unified.design/icons/IntegratedHazard.png" labelPosition="node" resizeKind="NSEW" width="12" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="SD_HazardToBlock_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@nodeMappings[name='SD_IntegratedHazard_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']" targetFinderExpression="aql:self.relatedBlocks">
+          <style lineStyle="dash_dot" targetArrow="InputClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="threatens">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="SD_SafetyCriticalBlock_Container" semanticCandidatesExpression="feature:rootBlocks" domainClass="unified::SafetyCriticalBlock" childrenPresentation="List">
+          <borderedNodeMappings name="SD_BlockFailureMode_BorderedNode" semanticCandidatesExpression="feature:failureModes" domainClass="unified::BlockFailureMode">
+            <style xsi:type="style:SquareDescription" borderSizeComputationExpression="2" borderLineStyle="dot" showIcon="false" labelPosition="node" resizeKind="NSEW" width="10" height="4">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="2" labelSize="10" showIcon="false" widthComputationExpression="14" heightComputationExpression="8">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="SafetyTools" label="Safety Analysis Tools">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="SD_Create_SafetyCriticalBlock" label="Safety Critical Block" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyCriticalBlock" referenceName="rootBlocks" variableName="newBlock">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyBlock_' + (container.rootBlocks->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="safetyCriticality" valueExpression="aql:unified::SafetyCriticalityLevel::HIGH"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="SD_Create_IntegratedHazard" label="Integrated Hazard" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@nodeMappings[name='SD_IntegratedHazard_Node']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::IntegratedHazard" referenceName="globalHazards" variableName="newHazard">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'Hazard_' + (container.globalHazards->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="riskLevel" valueExpression="aql:unified::RiskLevel::CRITICAL_RISK"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="SD_Create_FailureMode" label="Failure Mode" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']/@borderedNodeMappings[name='SD_BlockFailureMode_BorderedNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::BlockFailureMode" referenceName="failureModes" variableName="newFailureMode">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FM_' + (container.failureModes->size() + 1)"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="SD_Create_HazardToBlockEdge" label="Hazard to Block Relation" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@edgeMappings[name='SD_HazardToBlock_Edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="relatedBlocks" valueExpression="aql:self.relatedBlocks->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="FMEADiagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <validationSet name="fmeaValidation">
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="FMEAItemComplete" level="ERROR" message="FMEA item must have severity, occurrence, and detection values defined." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:self.severity > 0 and self.occurrence > 0 and self.detection > 0"/>
+        </ownedRules>
+      </validationSet>
+      <defaultLayer name="FMEA_Layer">
+        <nodeMappings name="FMEA_SafetyBlock_Node" semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)" domainClass="unified::SystemBlock">
+          <borderedNodeMappings name="FMEA_FailureMode_BorderedNode" semanticCandidatesExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then self.oclAsType(unified::SafetyCriticalBlock).failureModes else Sequence{} endif" domainClass="unified::BlockFailureMode">
+            <style xsi:type="style:SquareDescription" showIcon="false" labelPosition="node" width="10" height="4">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelPosition="node" resizeKind="NSEW" width="14" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="FMEA_ItemToComponent_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyBlock_Node']" targetFinderExpression="aql:self.analyzedComponent">
+          <style>
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="analyzes">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_ItemToFailureMode_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyBlock_Node']/@borderedNodeMappings[name='FMEA_FailureMode_BorderedNode']" targetFinderExpression="aql:self.failureMode">
+          <style lineStyle="dash">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="relates to">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="FMEA_Analysis_Container" semanticCandidatesExpression="aql:self.fmeaAnalysis" domainClass="unified::FMEAAnalysis">
+          <subNodeMappings name="FMEA_Item_Node" semanticCandidatesExpression="feature:fmeaItems" domainClass="unified::FMEAItem">
+            <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.name + ' [RPN=' + (self.severity * self.occurrence * self.detection).toString() + ']'" labelPosition="node" width="12" height="6">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" labelSize="10" labelExpression="aql:self.name + ' [Threshold: ' + self.rpnThreshold.toString() + ']'" roundedCorner="true" borderSize="1">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="FMEATools" label="FMEA Analysis Tools">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="FMEA_Create_Analysis" label="FMEA Analysis" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FMEAAnalysis" referenceName="fmeaAnalysis" variableName="newAnalysis">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FMEA_' + (container.fmeaAnalysis->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="rpnThreshold" valueExpression="100"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_Item" label="FMEA Item" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FMEAItem" referenceName="fmeaItems" variableName="newItem">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FMEAItem_' + (container.fmeaItems->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="severity" valueExpression="5"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="occurrence" valueExpression="3"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="detection" valueExpression="4"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="actionStatus" valueExpression="aql:unified::ActionStatus::OPEN"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_Component" label="Link Item to Component" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToComponent_Edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="analyzedComponent" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_FailureMode" label="Link Item to Failure Mode" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToFailureMode_Edge']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="failureMode" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="TraceabilityDiagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <defaultLayer name="TraceabilityLayer">
+        <nodeMappings name="TRACE_SystemBlock_Node" semanticCandidatesExpression="feature:systemBlocks" domainClass="unified::SystemBlock">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelPosition="node" resizeKind="NSEW" width="10" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="TRACE_SafetyCriticalBlock_Node" semanticCandidatesExpression="feature:rootBlocks" domainClass="unified::SafetyCriticalBlock">
+          <style xsi:type="style:SquareDescription" borderSizeComputationExpression="2" labelSize="9" showIcon="false" labelPosition="node" resizeKind="NSEW" width="12" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="TRACE_Hazard_Node" semanticCandidatesExpression="feature:globalHazards" domainClass="unified::IntegratedHazard">
+          <style xsi:type="style:SquareDescription" borderSizeComputationExpression="2" showIcon="false" iconPath="/unified.design/icons/IntegratedHazard.png" labelPosition="node" resizeKind="NSEW" width="12" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="TRACE_FMEAItem_Node" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems" domainClass="unified::FMEAItem">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.name + ' [RPN=' + (self.severity * self.occurrence * self.detection).toString() + ']'" labelPosition="node" width="12" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="TRACE_HazardToBlock_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_Hazard_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetFinderExpression="aql:self.relatedBlocks">
+          <style lineStyle="dash">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="threatens">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_FMEAToComponent_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_FMEAItem_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetFinderExpression="aql:self.analyzedComponent">
+          <style lineStyle="dot">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_orange']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="analyzes">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_BlockConnection_Edge" semanticCandidatesExpression="aql:self.blockConnections" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetFinderExpression="aql:self.toBlock" sourceFinderExpression="aql:self.fromBlock" domainClass="unified::BlockConnection" useDomainElement="true">
+          <style>
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+            <centerLabelStyleDescription labelSize="7" showIcon="false">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_BlockAssociation_Edge" semanticCandidatesExpression="aql:self.blockAssociations" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetFinderExpression="aql:self.targetBlock" sourceFinderExpression="aql:self.sourceBlock" domainClass="unified::BlockAssociation" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputArrowWithDiamond">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <centerLabelStyleDescription labelSize="7" showIcon="false">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.metamodel.unified.design.Services"/>
+  </ownedViewpoints>
+</description:Group>
