@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unified:UnifiedSystemModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:unified="http://edu.kit.sdq.dsis.metamodel/unified">
+  <fmeaAnalysis id="fmea_aeb_001" name="AEB_System_FMEA" rpnThreshold="100">
+    <fmeaItems id="fmea_item_001" name="Sensor_Data_Corruption" severity="9" occurrence="4" detection="5" localEffect="Incorrect distance measurement to forward mobile object" systemEffect="AV may not maintain minimum safe distance leading to collision" recommendedAction="Implement sensor fusion and redundancy; add plausibility checks" actionStatus="IN_PROGRESS" failureMode="//@rootBlocks.0/@failureModes.0" analyzedComponent="//@rootBlocks.0" responsiblePerson="Minhas"/>
+    <fmeaItems id="fmea_item_002" name="CIBd_Calculation_Error" severity="8" occurrence="3" detection="6" localEffect="Incorrect collision imminent braking distance calculated" systemEffect="Late or early brake application" recommendedAction="Add runtime monitoring of CIBd calculations; implement watchdog" failureMode="//@rootBlocks.1/@failureModes.0" analyzedComponent="//@rootBlocks.1"/>
+    <fmeaItems id="fmea_item_003" name="Brake_Actuation_Delay" severity="7" occurrence="5" detection="4" localEffect="Braking force command not executed in time" systemEffect="Vehicle reaches minimum safe distance before stopping" recommendedAction="Reduce communication latency; implement fail-operational braking" actionStatus="COMPLETED" failureMode="//@rootBlocks.2/@failureModes.1" analyzedComponent="//@rootBlocks.2"/>
+    <fmeaItems id="fmea_item_004" name="BFC_Communication_Loss" severity="9" occurrence="2" detection="7" localEffect="Brake force command not received by actuator" systemEffect="No braking action despite collision threat" recommendedAction="Implement redundant communication channels with CRC" actionStatus="VERIFIED" analyzedComponent="//@rootBlocks.3"/>
+    <fmeaItems id="fmea_item_005" name="Excessive_Deceleration" severity="8" occurrence="3" detection="5" localEffect="Braking force exceeds required deceleration rate" systemEffect="Occupants exposed to unhealthy g-forces" recommendedAction="Implement braking force limiter based on occupant safety thresholds" actionStatus="IN_PROGRESS" failureMode="//@rootBlocks.2/@failureModes.0" analyzedComponent="//@rootBlocks.2"/>
+  </fmeaAnalysis>
+  <fmeaAnalysis/>
+  <globalHazards id="hazard_001" name="AH1_MSD_Violation_FMO" riskLevel="CATASTROPHIC" relatedBlocks="//@rootBlocks.0 //@rootBlocks.1 //@rootBlocks.3"/>
+  <globalHazards id="hazard_002" name="AH2_Entry_into_Prohibited_Area" riskLevel="CRITICAL_RISK" relatedBlocks="//@rootBlocks.1 //@rootBlocks.3"/>
+  <globalHazards id="hazard_003" name="AH3_Unsafe_G_Forces_on_Occupants" riskLevel="CRITICAL_RISK" relatedBlocks="//@rootBlocks.2 //@rootBlocks.1"/>
+  <globalHazards id="hazard_004" name="Cybersecurity_Sensor_Spoofing" riskLevel="CATASTROPHIC" relatedBlocks="//@rootBlocks.0"/>
+  <rootBlocks id="block_state_estimator" name="State_Estimator" associationAsSource="//@blockAssociations.1 //@blockAssociations.0" connectionAsSource="//@blockConnections.3" connectionAsTarget="//@blockConnections.0 //@blockConnections.1" safetyCriticality="CRITICAL">
+    <failureModes id="fm_se_001" name="Incorrect_OPP_Calculation"/>
+    <failureModes id="fm_se_002" name="Sensor_Data_Spoofing"/>
+    <failureModes id="fm_se_003" name="Missing_Object_Detection"/>
+    <failureModes id="fm_se_004" name="Delayed_Feedback_Processing"/>
+  </rootBlocks>
+  <rootBlocks id="block_aeb_controller" name="AEB_Controller" associationAsSource="//@blockAssociations.2" connectionAsSource="//@blockConnections.5" connectionAsTarget="//@blockConnections.3 //@blockConnections.4" safetyCriticality="CRITICAL">
+    <failureModes id="fm_ctrl_001" name="CIBd_Calculation_Fault"/>
+    <failureModes id="fm_ctrl_002" name="BFC_Not_Provided_When_Required"/>
+    <failureModes id="fm_ctrl_003" name="BFC_Inadequate_Value"/>
+    <failureModes id="fm_ctrl_004" name="BFC_Applied_Too_Late"/>
+    <failureModes id="fm_ctrl_005" name="BFC_Stopped_Too_Soon"/>
+  </rootBlocks>
+  <rootBlocks id="block_brake_actuator" name="Brake_Actuator" associationAsSource="//@blockAssociations.3" connectionAsSource="//@blockConnections.6 //@blockConnections.9" connectionAsTarget="//@blockConnections.5" safetyCriticality="HIGH">
+    <failureModes id="fm_act_001" name="Excessive_Braking_Force"/>
+    <failureModes id="fm_act_002" name="Brake_Response_Delay"/>
+    <failureModes id="fm_act_003" name="Brake_Command_Not_Executed"/>
+    <failureModes name="FM_5"/>
+  </rootBlocks>
+  <rootBlocks id="block_path_planning" name="Path_Planning_Module" associationAsTarget="//@blockAssociations.2" connectionAsSource="//@blockConnections.4" connectionAsTarget="//@blockConnections.8" safetyCriticality="HIGH">
+    <failureModes id="fm_pp_001" name="Invalid_Trajectory_Prediction"/>
+    <failureModes id="fm_pp_002" name="PA_Not_Identified"/>
+  </rootBlocks>
+  <rootBlocks name="SafetyBlock_6" associationAsTarget="//@blockAssociations.4" connectionAsTarget="//@blockConnections.9" safetyCriticality="HIGH"/>
+  <systemBlocks id="block_vehicle_sensors" name="Vehicle_Sensors" associationAsTarget="//@blockAssociations.1" connectionAsSource="//@blockConnections.0" connectionAsTarget="//@blockConnections.7">
+    <subBlocks id="block_speed_sensor" name="Speed_Sensor"/>
+    <subBlocks id="block_wheel_sensor" name="Wheel_Speed_Sensor"/>
+    <subBlocks id="block_imu" name="IMU_Sensor"/>
+  </systemBlocks>
+  <systemBlocks id="block_ad_sensors" name="AD_Sensors" associationAsTarget="//@blockAssociations.0" connectionAsSource="//@blockConnections.1" connectionAsTarget="//@blockConnections.2">
+    <subBlocks id="block_lidar" name="LIDAR"/>
+    <subBlocks id="block_radar" name="RADAR"/>
+    <subBlocks id="block_camera" name="Stereo_Camera"/>
+  </systemBlocks>
+  <systemBlocks id="block_environment" name="Environment" connectionAsSource="//@blockConnections.2 //@blockConnections.8">
+    <subBlocks id="block_fmo" name="Forward_Mobile_Objects"/>
+    <subBlocks id="block_immobile" name="Immobile_Objects"/>
+    <subBlocks id="block_road" name="Road_Conditions"/>
+  </systemBlocks>
+  <systemBlocks id="block_vehicle" name="Vehicle_Dynamics" connectionAsSource="//@blockConnections.7" connectionAsTarget="//@blockConnections.6"/>
+  <systemBlocks name="SystemBlock_6" associationAsSource="//@blockAssociations.4"/>
+  <systemBlocks name="SystemBlock_7" blockType="PROCESSING_UNIT"/>
+  <blockAssociations id="assoc_001" name="Sensors_to_StateEstimator" sourceBlock="//@rootBlocks.0" targetBlock="//@systemBlocks.1"/>
+  <blockAssociations id="assoc_002" name="ADSensors_to_StateEstimator" sourceBlock="//@rootBlocks.0" targetBlock="//@systemBlocks.0"/>
+  <blockAssociations id="assoc_004" name="PathPlanning_to_Controller" sourceBlock="//@rootBlocks.1" targetBlock="//@rootBlocks.3"/>
+  <blockAssociations name="Brake_Actuator_assoc_SystemBlock_6" sourceBlock="//@rootBlocks.2"/>
+  <blockAssociations name="SystemBlock_6_assoc_SafetyBlock_6" sourceBlock="//@systemBlocks.4" targetBlock="//@rootBlocks.4"/>
+  <blockConnections id="conn_001" name="VehicleSensors_to_StateEstimator" fromBlock="//@systemBlocks.0" toBlock="//@rootBlocks.0"/>
+  <blockConnections id="conn_002" name="ADSensors_to_StateEstimator" fromBlock="//@systemBlocks.1" toBlock="//@rootBlocks.0"/>
+  <blockConnections id="conn_003" name="Environment_to_ADSensors" connectionType="SIGNAL_FLOW" fromBlock="//@systemBlocks.2" toBlock="//@systemBlocks.1"/>
+  <blockConnections id="conn_004" name="StateEstimator_to_Controller" fromBlock="//@rootBlocks.0" toBlock="//@rootBlocks.1"/>
+  <blockConnections id="conn_005" name="PathPlanning_to_Controller" fromBlock="//@rootBlocks.3" toBlock="//@rootBlocks.1"/>
+  <blockConnections id="conn_006" name="Controller_to_Actuator_BFC" connectionType="CONTROL_FLOW" fromBlock="//@rootBlocks.1" toBlock="//@rootBlocks.2"/>
+  <blockConnections id="conn_007" name="Actuator_to_Vehicle_BrakingForce" connectionType="MECHANICAL" fromBlock="//@rootBlocks.2" toBlock="//@systemBlocks.3"/>
+  <blockConnections id="conn_008" name="Vehicle_Feedback_to_Sensors" connectionType="SIGNAL_FLOW" fromBlock="//@systemBlocks.3" toBlock="//@systemBlocks.0"/>
+  <blockConnections id="conn_009" name="Environment_Feedback_to_PathPlanning" fromBlock="//@systemBlocks.2" toBlock="//@rootBlocks.3"/>
+  <blockConnections name="Brake_Actuator_to_SafetyBlock_6" connectionType="CONTROL_FLOW" fromBlock="//@rootBlocks.2" toBlock="//@rootBlocks.4"/>
+</unified:UnifiedSystemModel>

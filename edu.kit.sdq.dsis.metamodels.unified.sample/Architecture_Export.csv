@@ -1,0 +1,41 @@
+=== ARCHITECTURE SUMMARY ===
+Metric,Value
+Total System Blocks,4
+Total Safety Critical Blocks,5
+Total Connections,12
+Total Associations,5
+Total Hazards,7
+Total Failure Modes,13
+
+
+=== SYSTEM BLOCKS ===
+Name,Block Type,Description
+Vehicle_Speed_Sensor,SENSOR,Wheel speed sensor for vehicle velocity measurement
+Driver_HMI_Display,USER_INTERFACE,Human-machine interface for warnings and system status
+12V_Power_Supply,POWER_SUPPLY,Vehicle electrical power supply unit
+System_Diagnostics,PROCESSING_UNIT,Diagnostic and fault detection module
+
+
+=== SAFETY CRITICAL BLOCKS ===
+Name,Safety Criticality,ASIL Level,Has Redundancy,Failure Modes Count
+AEB_Controller,CRITICAL,ASIL_D,Yes,3
+Forward_Radar_Sensor,HIGH,ASIL_C,No,3
+Front_Camera_Sensor,HIGH,ASIL_B,No,2
+Electronic_Brake_Actuator,CRITICAL,ASIL_D,Yes,3
+CAN_Communication_Bus,HIGH,ASIL_C,No,2
+
+
+=== CONNECTIONS ===
+Connection Name,From Block,To Block,Connection Type
+Radar_to_Controller,Forward_Radar_Sensor,AEB_Controller,DATA_FLOW
+Camera_to_Controller,Front_Camera_Sensor,AEB_Controller,DATA_FLOW
+Controller_to_Brake,AEB_Controller,Electronic_Brake_Actuator,CONTROL_FLOW
+Speed_to_Controller,Vehicle_Speed_Sensor,AEB_Controller,DATA_FLOW
+Controller_to_HMI,AEB_Controller,Driver_HMI_Display,SIGNAL_FLOW
+CAN_Radar,CAN_Communication_Bus,Forward_Radar_Sensor,DATA_FLOW
+CAN_Camera,CAN_Communication_Bus,Front_Camera_Sensor,DATA_FLOW
+CAN_Controller,CAN_Communication_Bus,AEB_Controller,DATA_FLOW
+Power_to_Controller,12V_Power_Supply,AEB_Controller,POWER_FLOW
+Diagnostics_to_Controller,System_Diagnostics,AEB_Controller,DATA_FLOW
+Electronic_Brake_Actuator_to_SafetyBlock_7,Electronic_Brake_Actuator,,SIGNAL_FLOW
+SystemBlock_7_to_SafetyBlock_8,,,SIGNAL_FLOW
