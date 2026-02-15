@@ -80,7 +80,7 @@
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
                 <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SystemBlock" referenceName="systemBlocks" variableName="newBlock">
                   <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SystemBlock_' + (container.systemBlocks->size() + 1)"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="blockType" valueExpression="aql:unified::BlockType::PROCESSING_UNIT"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="blockType" valueExpression="aql: unified::BlockType::PROCESSING_UNIT"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -381,6 +381,29 @@
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
           </style>
         </nodeMappings>
+        <nodeMappings name="FMEA_TechnicalReq_Node" semanticCandidatesExpression="feature:technicalRequirements" domainClass="unified::TechnicalSafetyRequirement">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name" labelPosition="node" resizeKind="NSEW" width="12" height="4">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="FMEA_SafetyMechanism_Node" semanticCandidatesExpression="feature:safetyMechanisms" domainClass="unified::SafetyMechanism">
+          <style xsi:type="style:SquareDescription" showIcon="false" labelExpression="aql:self.name + ' [' + self.mechanismType.toString() + ']'" labelPosition="node" resizeKind="NSEW" width="10" height="3">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="FMEA_SafetyGoal_Node" semanticCandidatesExpression="feature:safetyGoals" domainClass="unified::SafetyGoal">
+          <style xsi:type="style:SquareDescription" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name" labelPosition="node" resizeKind="NSEW" width="10" height="3">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
         <edgeMappings name="FMEA_ItemToComponent_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyBlock_Node']" targetFinderExpression="aql:self.analyzedComponent">
           <style>
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
@@ -396,6 +419,31 @@
             <centerLabelStyleDescription showIcon="false" labelExpression="relates to">
               <labelFormat>bold</labelFormat>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_MechanismToItem_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" targetFinderExpression="aql:self.validatedBy" sourceFinderExpression="aql:self" domainClass="unified::SafetyMechanism" useDomainElement="true">
+          <style lineStyle="dot">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="validated by">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_TechReqToItem_Edge" semanticCandidatesExpression="aql:self.technicalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" targetFinderExpression="aql:self.verifiedBy" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="verified by">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_MechanismToItem_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" targetFinderExpression="aql:self.validatedBy" sourceFinderExpression="aql:self" domainClass="unified::SafetyMechanism" useDomainElement="true">
+          <style lineStyle="dot">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="validated by">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
@@ -417,7 +465,7 @@
           </style>
         </containerMappings>
         <toolSections name="FMEATools" label="FMEA Analysis Tools">
-          <ownedTools xsi:type="tool:ContainerCreationDescription" name="FMEA_Create_Analysis" label="FMEA Analysis" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="FMEA_Create_Analysis" label="FMEA Analysis" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-analysis.gif">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -429,7 +477,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_Item" label="FMEA Item" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_Item" label="FMEA Item" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_Analysis_Container']/@subNodeMappings[name='FMEA_Item_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-item.gif">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -444,7 +492,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_Component" label="Link Item to Component" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToComponent_Edge']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_Component" label="Link Item to Component" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToComponent_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-component.gif">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -455,7 +503,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_FailureMode" label="Link Item to Failure Mode" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToFailureMode_Edge']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_FailureMode" label="Link Item to Failure Mode" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToFailureMode_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-failure.gif">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -463,6 +511,63 @@
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
                 <subModelOperations xsi:type="tool_1:SetValue" featureName="failureMode" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_TechReq" label="Technical Safety Requirement" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_TechnicalReq_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-tech-req.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::TechnicalSafetyRequirement" referenceName="technicalRequirements" variableName="newReq">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'TSR_' + (container.technicalRequirements->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="requirementId" valueExpression="aql:'TSR-' + (container.technicalRequirements->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="status" valueExpression="aql:unified::RequirementStatus::DRAFT"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_Mechanism" label="Safety Mechanism" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-mechanism.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyMechanism" referenceName="safetyMechanisms" variableName="newMech">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'Mechanism_' + (container.safetyMechanisms->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="mechanismType" valueExpression="aql:unified::SafetyMechanismType::REDUNDANCY"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_TechReqToItem" label="Link TSR to FMEA (Verification)" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_TechReqToItem_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/verification-link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="verifiedBy" valueExpression="aql:self.verifiedBy->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_MechanismToItem" label="Link Mechanism to FMEA (Validation)" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_MechanismToItem_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validation-link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="validatedBy" valueExpression="aql:self.validatedBy->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="FMEA_Delete_MechanismValidation" label="Remove Validation Link" mappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_MechanismToItem_Edge']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="validatedBy" valueExpression="aql:self.validatedBy->excluding(target)"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
@@ -550,6 +655,35 @@
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
           </style>
         </nodeMappings>
+        <nodeMappings name="TRACE_SafetyGoal_Node" semanticCandidatesExpression="feature:safetyGoals" domainClass="unified::SafetyGoal">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name + ' [' + self.asilLevel.toString() + ']'" labelPosition="node" resizeKind="NSEW" width="14" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="TRACE_FunctionalReq_Node" semanticCandidatesExpression="feature:functionalRequirements" domainClass="unified::FunctionalSafetyRequirement">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name" labelPosition="node" resizeKind="NSEW" width="12" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="TRACE_TechnicalReq_Node" semanticCandidatesExpression="feature:technicalRequirements" domainClass="unified::TechnicalSafetyRequirement">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name" labelPosition="node" resizeKind="NSEW" width="12" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="TRACE_SafetyMechanism_Node" semanticCandidatesExpression="feature:safetyMechanisms" domainClass="unified::SafetyMechanism">
+          <style xsi:type="style:SquareDescription" showIcon="false" labelExpression="aql:self.name" labelPosition="node" resizeKind="NSEW" width="10" height="4">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+          </style>
+        </nodeMappings>
         <edgeMappings name="TRACE_HazardToBlock_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_Hazard_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node']" targetFinderExpression="aql:self.relatedBlocks">
           <style lineStyle="dash">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
@@ -581,6 +715,62 @@
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
             <centerLabelStyleDescription labelSize="7" showIcon="false">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_GoalToHazard_Edge" semanticCandidatesExpression="aql:self.safetyGoals" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyGoal_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_Hazard_Node']" targetFinderExpression="aql:self.relatedHazard" sourceFinderExpression="aql:self" domainClass="unified::SafetyGoal" useDomainElement="true">
+          <style lineStyle="dash">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="addresses">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_GoalToFunctional_Edge" semanticCandidatesExpression="aql:self.safetyGoals" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyGoal_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_FunctionalReq_Node']" targetFinderExpression="aql:self.allocatedTo" sourceFinderExpression="aql:self" domainClass="unified::SafetyGoal" useDomainElement="true">
+          <style targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="allocates">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_FunctionalToTechnical_Edge" semanticCandidatesExpression="aql:self.functionalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_FunctionalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_TechnicalReq_Node']" targetFinderExpression="aql:self.refinedTo" sourceFinderExpression="aql:self" domainClass="unified::FunctionalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="refines">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_TechReqToBlock_Edge" semanticCandidatesExpression="aql:self.technicalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node']" targetFinderExpression="aql:self.realizedBy" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dot" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="realized by">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_TechReqToFMEA_Edge" semanticCandidatesExpression="aql:self.technicalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_FMEAItem_Node']" targetFinderExpression="aql:self.verifiedBy" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dash_dot">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="verified by">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_TechReqToMechanism_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyMechanism_Node']" targetFinderExpression="aql:self.eContainer().safetyMechanisms->select(sm | sm.implements->includes(self))" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dot" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="implements">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_FunctionalToBlock_Edge" semanticCandidatesExpression="aql:self.functionalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_FunctionalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node']" targetFinderExpression="aql:self.implementedBy" sourceFinderExpression="aql:self" domainClass="unified::FunctionalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dot">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="implemented">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
@@ -1004,6 +1194,189 @@
     <variables name="container" documentation="The semantic element corresponding to the view container."/>
     <firstModelOperation xsi:type="tool_1:RemoveElement"/>
   </delete>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="RequirementsDiagram" label="Requirements Diagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <validationSet name="requirementsValidation">
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="SafetyGoalHasASIL" level="ERROR" message="Safety Goal must have an ASIL level assigned." targetClass="unified::SafetyGoal">
+          <audits auditExpression="aql:self.asilLevel != null"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="RequirementHasText" level="ERROR" message="Requirement must have requirement text defined." targetClass="unified::Requirement">
+          <audits auditExpression="aql:self.requirementText != null and self.requirementText.size() > 0"/>
+        </ownedRules>
+      </validationSet>
+      <defaultLayer name="RequirementsLayer">
+        <nodeMappings name="REQ_FunctionalReq_Node" semanticCandidatesExpression="feature:functionalRequirements" domainClass="unified::FunctionalSafetyRequirement">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name" labelPosition="node" resizeKind="NSEW" width="14" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="REQ_TechnicalReq_Node" semanticCandidatesExpression="feature:technicalRequirements" domainClass="unified::TechnicalSafetyRequirement">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name" labelPosition="node" resizeKind="NSEW" width="14" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="REQ_SafetyMechanism_Node" semanticCandidatesExpression="feature:safetyMechanisms" domainClass="unified::SafetyMechanism">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.name + ' [' + self.mechanismType.toString() + ']'" labelPosition="node" resizeKind="NSEW" width="12" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="REQ_Hazard_Node" semanticCandidatesExpression="feature:globalHazards" domainClass="unified::IntegratedHazard">
+          <style xsi:type="style:EllipseNodeDescription" labelSize="9" showIcon="false" labelExpression="aql:self.name" labelPosition="node" resizeKind="NSEW" width="10" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="REQ_HazardToGoal_Edge" semanticCandidatesExpression="aql:self.globalHazards" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_Hazard_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@containerMappings[name='REQ_SafetyGoal_Container']" targetFinderExpression="aql:self.eContainer().safetyGoals->select(sg | sg.relatedHazard = self)" sourceFinderExpression="aql:self" domainClass="unified::IntegratedHazard" useDomainElement="true">
+          <style sizeComputationExpression="2" routingStyle="manhattan">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="addresses">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="REQ_GoalToFunctional_Edge" semanticCandidatesExpression="aql:self.safetyGoals" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@containerMappings[name='REQ_SafetyGoal_Container']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_FunctionalReq_Node']" targetFinderExpression="aql:self.allocatedTo" sourceFinderExpression="aql:self" domainClass="unified::SafetyGoal" useDomainElement="true">
+          <style targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="allocates to">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="REQ_FunctionalToTechnical_Edge" semanticCandidatesExpression="aql:self.functionalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_FunctionalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_TechnicalReq_Node']" targetFinderExpression="aql:self.refinedTo" sourceFinderExpression="aql:self" domainClass="unified::FunctionalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="refines to">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="REQ_TechnicalToMechanism_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_SafetyMechanism_Node']" targetFinderExpression="aql:self" sourceFinderExpression="feature:implements" domainClass="unified::SafetyMechanism" useDomainElement="true">
+          <style lineStyle="dot" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="implemented by">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="REQ_SafetyGoal_Container" semanticCandidatesExpression="feature:safetyGoals" domainClass="unified::SafetyGoal">
+          <style xsi:type="style:FlatContainerStyleDescription" labelSize="10" labelExpression="aql:self.requirementId + ': ' + self.name" roundedCorner="true" borderSize="2">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="RequirementsTools" label="Requirements Tools">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="REQ_Create_SafetyGoal" label="Safety Goal" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@containerMappings[name='REQ_SafetyGoal_Container']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/safety-goal.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyGoal" referenceName="safetyGoals" variableName="newGoal">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyGoal_' + (container.safetyGoals->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="requirementId" valueExpression="aql:'SG-' + (container.safetyGoals->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="asilLevel" valueExpression="aql:unified::ASILLevel::ASIL_B"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="status" valueExpression="aql:unified::RequirementStatus::DRAFT"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="REQ_Create_Functional" label="Functional Safety Requirement" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_FunctionalReq_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/functional-req.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FunctionalSafetyRequirement" referenceName="functionalRequirements" variableName="newReq">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FSR_' + (container.functionalRequirements->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="requirementId" valueExpression="aql:'FSR-' + (container.functionalRequirements->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="status" valueExpression="aql:unified::RequirementStatus::DRAFT"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="REQ_Create_Technical" label="Technical Safety Requirement" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_TechnicalReq_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/technical-req.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::TechnicalSafetyRequirement" referenceName="technicalRequirements" variableName="newReq">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'TSR_' + (container.technicalRequirements->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="requirementId" valueExpression="aql:'TSR-' + (container.technicalRequirements->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="status" valueExpression="aql:unified::RequirementStatus::DRAFT"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="REQ_Create_SafetyMechanism" label="Safety Mechanism" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@nodeMappings[name='REQ_SafetyMechanism_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/safety-mechanism.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyMechanism" referenceName="safetyMechanisms" variableName="newMech">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyMechanism_' + (container.safetyMechanisms->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="mechanismType" valueExpression="aql:unified::SafetyMechanismType::REDUNDANCY"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="REQ_Link_HazardToGoal" label="Link Hazard to Goal" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@edgeMappings[name='REQ_HazardToGoal_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:target">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="relatedHazard" valueExpression="var:source"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="REQ_Allocate_GoalToFunctional" label="Allocate to Functional" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@edgeMappings[name='REQ_GoalToFunctional_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/allocate.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="allocatedTo" valueExpression="aql:self.allocatedTo->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="REQ_Refine_FunctionalToTechnical" label="Refine to Technical" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@edgeMappings[name='REQ_FunctionalToTechnical_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/refine.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="refinedTo" valueExpression="aql:self.refinedTo->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="REQ_Link_TechnicalToMechanism" label="Link to Mechanism" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='RequirementsDiagram']/@defaultLayer/@edgeMappings[name='REQ_TechnicalToMechanism_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:target">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="implements" valueExpression="aql:self.implements->including(source)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.metamodel.unified.design.Services"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.services.AdvancedAnalysisServices"/>

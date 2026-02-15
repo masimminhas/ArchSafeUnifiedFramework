@@ -69,4 +69,8 @@
   <blockConnections id="conn_008" name="Vehicle_Feedback_to_Sensors" connectionType="SIGNAL_FLOW" fromBlock="//@systemBlocks.3" toBlock="//@systemBlocks.0"/>
   <blockConnections id="conn_009" name="Environment_Feedback_to_PathPlanning" fromBlock="//@systemBlocks.2" toBlock="//@rootBlocks.3"/>
   <blockConnections name="Brake_Actuator_to_SafetyBlock_6" connectionType="CONTROL_FLOW" fromBlock="//@rootBlocks.2" toBlock="//@rootBlocks.4"/>
+  <safetyGoals name="SafetyGoal_2" requirementId="SG-2" asilLevel="ASIL_B" relatedHazard="//@globalHazards.2" allocatedTo="//@functionalRequirements.0"/>
+  <functionalRequirements name="FSR_2" requirementId="FSR-2" allocatedFrom="//@safetyGoals.0" refinedTo="//@technicalRequirements.0"/>
+  <technicalRequirements name="TSR_2" requirementId="TSR-2" refinesFrom="//@functionalRequirements.0"/>
+  <safetyMechanisms name="Mechanism_2" implements="//@technicalRequirements.0"/>
 </unified:UnifiedSystemModel>
