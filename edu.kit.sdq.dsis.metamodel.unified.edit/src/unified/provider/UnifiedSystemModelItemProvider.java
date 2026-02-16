@@ -132,6 +132,10 @@ public class UnifiedSystemModelItemProvider
 			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__BLOCK_ASSOCIATIONS);
 			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__BLOCK_CONNECTIONS);
 			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA);
+			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS);
+			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS);
+			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS);
+			childrenFeatures.add(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS);
 		}
 		return childrenFeatures;
 	}
@@ -198,6 +202,10 @@ public class UnifiedSystemModelItemProvider
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__BLOCK_ASSOCIATIONS:
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__BLOCK_CONNECTIONS:
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA:
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS:
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS:
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS:
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -254,6 +262,26 @@ public class UnifiedSystemModelItemProvider
 			(createChildParameter
 				(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA,
 				 UnifiedFactory.eINSTANCE.createAnalysisMetadata()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS,
+				 UnifiedFactory.eINSTANCE.createSafetyGoal()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS,
+				 UnifiedFactory.eINSTANCE.createFunctionalSafetyRequirement()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS,
+				 UnifiedFactory.eINSTANCE.createTechnicalSafetyRequirement()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS,
+				 UnifiedFactory.eINSTANCE.createSafetyMechanism()));
 	}
 
 	/**

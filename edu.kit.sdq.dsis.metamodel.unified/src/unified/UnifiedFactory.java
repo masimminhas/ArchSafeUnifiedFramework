@@ -112,6 +112,42 @@ public interface UnifiedFactory extends EFactory {
 	AnalysisMetadata createAnalysisMetadata();
 
 	/**
+	 * Returns a new object of class '<em>Safety Goal</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Safety Goal</em>'.
+	 * @generated
+	 */
+	SafetyGoal createSafetyGoal();
+
+	/**
+	 * Returns a new object of class '<em>Functional Safety Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Functional Safety Requirement</em>'.
+	 * @generated
+	 */
+	FunctionalSafetyRequirement createFunctionalSafetyRequirement();
+
+	/**
+	 * Returns a new object of class '<em>Technical Safety Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Technical Safety Requirement</em>'.
+	 * @generated
+	 */
+	TechnicalSafetyRequirement createTechnicalSafetyRequirement();
+
+	/**
+	 * Returns a new object of class '<em>Safety Mechanism</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Safety Mechanism</em>'.
+	 * @generated
+	 */
+	SafetyMechanism createSafetyMechanism();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

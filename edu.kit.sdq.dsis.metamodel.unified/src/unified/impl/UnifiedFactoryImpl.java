@@ -67,6 +67,10 @@ public class UnifiedFactoryImpl extends EFactoryImpl implements UnifiedFactory {
 			case UnifiedPackage.BLOCK_CONNECTION: return createBlockConnection();
 			case UnifiedPackage.BLOCK_FAILURE_MODE: return createBlockFailureMode();
 			case UnifiedPackage.ANALYSIS_METADATA: return createAnalysisMetadata();
+			case UnifiedPackage.SAFETY_GOAL: return createSafetyGoal();
+			case UnifiedPackage.FUNCTIONAL_SAFETY_REQUIREMENT: return createFunctionalSafetyRequirement();
+			case UnifiedPackage.TECHNICAL_SAFETY_REQUIREMENT: return createTechnicalSafetyRequirement();
+			case UnifiedPackage.SAFETY_MECHANISM: return createSafetyMechanism();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -102,6 +106,16 @@ public class UnifiedFactoryImpl extends EFactoryImpl implements UnifiedFactory {
 				return createASILLevelFromString(eDataType, initialValue);
 			case UnifiedPackage.BLOCK_TYPE:
 				return createBlockTypeFromString(eDataType, initialValue);
+			case UnifiedPackage.REQUIREMENT_STATUS:
+				return createRequirementStatusFromString(eDataType, initialValue);
+			case UnifiedPackage.VERIFICATION_METHOD:
+				return createVerificationMethodFromString(eDataType, initialValue);
+			case UnifiedPackage.FUNCTIONAL_REQUIREMENT_TYPE:
+				return createFunctionalRequirementTypeFromString(eDataType, initialValue);
+			case UnifiedPackage.TECHNICAL_REQUIREMENT_CATEGORY:
+				return createTechnicalRequirementCategoryFromString(eDataType, initialValue);
+			case UnifiedPackage.SAFETY_MECHANISM_TYPE:
+				return createSafetyMechanismTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -137,6 +151,16 @@ public class UnifiedFactoryImpl extends EFactoryImpl implements UnifiedFactory {
 				return convertASILLevelToString(eDataType, instanceValue);
 			case UnifiedPackage.BLOCK_TYPE:
 				return convertBlockTypeToString(eDataType, instanceValue);
+			case UnifiedPackage.REQUIREMENT_STATUS:
+				return convertRequirementStatusToString(eDataType, instanceValue);
+			case UnifiedPackage.VERIFICATION_METHOD:
+				return convertVerificationMethodToString(eDataType, instanceValue);
+			case UnifiedPackage.FUNCTIONAL_REQUIREMENT_TYPE:
+				return convertFunctionalRequirementTypeToString(eDataType, instanceValue);
+			case UnifiedPackage.TECHNICAL_REQUIREMENT_CATEGORY:
+				return convertTechnicalRequirementCategoryToString(eDataType, instanceValue);
+			case UnifiedPackage.SAFETY_MECHANISM_TYPE:
+				return convertSafetyMechanismTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -240,6 +264,46 @@ public class UnifiedFactoryImpl extends EFactoryImpl implements UnifiedFactory {
 	public AnalysisMetadata createAnalysisMetadata() {
 		AnalysisMetadataImpl analysisMetadata = new AnalysisMetadataImpl();
 		return analysisMetadata;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SafetyGoal createSafetyGoal() {
+		SafetyGoalImpl safetyGoal = new SafetyGoalImpl();
+		return safetyGoal;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FunctionalSafetyRequirement createFunctionalSafetyRequirement() {
+		FunctionalSafetyRequirementImpl functionalSafetyRequirement = new FunctionalSafetyRequirementImpl();
+		return functionalSafetyRequirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TechnicalSafetyRequirement createTechnicalSafetyRequirement() {
+		TechnicalSafetyRequirementImpl technicalSafetyRequirement = new TechnicalSafetyRequirementImpl();
+		return technicalSafetyRequirement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SafetyMechanism createSafetyMechanism() {
+		SafetyMechanismImpl safetyMechanism = new SafetyMechanismImpl();
+		return safetyMechanism;
 	}
 
 	/**
@@ -459,6 +523,106 @@ public class UnifiedFactoryImpl extends EFactoryImpl implements UnifiedFactory {
 	 * @generated
 	 */
 	public String convertBlockTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RequirementStatus createRequirementStatusFromString(EDataType eDataType, String initialValue) {
+		RequirementStatus result = RequirementStatus.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRequirementStatusToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public VerificationMethod createVerificationMethodFromString(EDataType eDataType, String initialValue) {
+		VerificationMethod result = VerificationMethod.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertVerificationMethodToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FunctionalRequirementType createFunctionalRequirementTypeFromString(EDataType eDataType, String initialValue) {
+		FunctionalRequirementType result = FunctionalRequirementType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertFunctionalRequirementTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TechnicalRequirementCategory createTechnicalRequirementCategoryFromString(EDataType eDataType, String initialValue) {
+		TechnicalRequirementCategory result = TechnicalRequirementCategory.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTechnicalRequirementCategoryToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SafetyMechanismType createSafetyMechanismTypeFromString(EDataType eDataType, String initialValue) {
+		SafetyMechanismType result = SafetyMechanismType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSafetyMechanismTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -204,13 +204,49 @@ public interface UnifiedPackage extends EPackage {
 	int UNIFIED_SYSTEM_MODEL__LAST_MODIFIED = 8;
 
 	/**
+	 * The feature id for the '<em><b>Safety Goals</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFIED_SYSTEM_MODEL__SAFETY_GOALS = 9;
+
+	/**
+	 * The feature id for the '<em><b>Functional Requirements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS = 10;
+
+	/**
+	 * The feature id for the '<em><b>Technical Requirements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS = 11;
+
+	/**
+	 * The feature id for the '<em><b>Safety Mechanisms</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS = 12;
+
+	/**
 	 * The number of structural features of the '<em>System Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL_FEATURE_COUNT = 9;
+	int UNIFIED_SYSTEM_MODEL_FEATURE_COUNT = 13;
 
 	/**
 	 * The number of operations of the '<em>System Model</em>' class.
@@ -476,13 +512,22 @@ public interface UnifiedPackage extends EPackage {
 	int FMEA_ITEM__DUE_DATE = UNIFIED_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
+	 * The feature id for the '<em><b>Validates Mechanisms</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FMEA_ITEM__VALIDATES_MECHANISMS = UNIFIED_ELEMENT_FEATURE_COUNT + 13;
+
+	/**
 	 * The number of structural features of the '<em>FMEA Item</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FMEA_ITEM_FEATURE_COUNT = UNIFIED_ELEMENT_FEATURE_COUNT + 13;
+	int FMEA_ITEM_FEATURE_COUNT = UNIFIED_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of operations of the '<em>FMEA Item</em>' class.
@@ -1212,6 +1257,695 @@ public interface UnifiedPackage extends EPackage {
 	int ANALYSIS_METADATA_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link unified.impl.RequirementImpl <em>Requirement</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.impl.RequirementImpl
+	 * @see unified.impl.UnifiedPackageImpl#getRequirement()
+	 * @generated
+	 */
+	int REQUIREMENT = 11;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__ID = UNIFIED_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__NAME = UNIFIED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__DESCRIPTION = UNIFIED_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__REQUIREMENT_ID = UNIFIED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__REQUIREMENT_TEXT = UNIFIED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__STATUS = UNIFIED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Verification Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__VERIFICATION_METHOD = UNIFIED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Rationale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__RATIONALE = UNIFIED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Derived From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__DERIVED_FROM = UNIFIED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Satisfied By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT__SATISFIED_BY = UNIFIED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of structural features of the '<em>Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_FEATURE_COUNT = UNIFIED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The number of operations of the '<em>Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_OPERATION_COUNT = UNIFIED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link unified.impl.SafetyGoalImpl <em>Safety Goal</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.impl.SafetyGoalImpl
+	 * @see unified.impl.UnifiedPackageImpl#getSafetyGoal()
+	 * @generated
+	 */
+	int SAFETY_GOAL = 12;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__ID = REQUIREMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__NAME = REQUIREMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__DESCRIPTION = REQUIREMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__REQUIREMENT_ID = REQUIREMENT__REQUIREMENT_ID;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__REQUIREMENT_TEXT = REQUIREMENT__REQUIREMENT_TEXT;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__STATUS = REQUIREMENT__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Verification Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__VERIFICATION_METHOD = REQUIREMENT__VERIFICATION_METHOD;
+
+	/**
+	 * The feature id for the '<em><b>Rationale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__RATIONALE = REQUIREMENT__RATIONALE;
+
+	/**
+	 * The feature id for the '<em><b>Derived From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__DERIVED_FROM = REQUIREMENT__DERIVED_FROM;
+
+	/**
+	 * The feature id for the '<em><b>Satisfied By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__SATISFIED_BY = REQUIREMENT__SATISFIED_BY;
+
+	/**
+	 * The feature id for the '<em><b>Asil Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__ASIL_LEVEL = REQUIREMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Related Hazard</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__RELATED_HAZARD = REQUIREMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Safe State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__SAFE_STATE = REQUIREMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Allocated To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL__ALLOCATED_TO = REQUIREMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Safety Goal</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL_FEATURE_COUNT = REQUIREMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Safety Goal</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_GOAL_OPERATION_COUNT = REQUIREMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link unified.impl.FunctionalSafetyRequirementImpl <em>Functional Safety Requirement</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.impl.FunctionalSafetyRequirementImpl
+	 * @see unified.impl.UnifiedPackageImpl#getFunctionalSafetyRequirement()
+	 * @generated
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__ID = REQUIREMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__NAME = REQUIREMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__DESCRIPTION = REQUIREMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__REQUIREMENT_ID = REQUIREMENT__REQUIREMENT_ID;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__REQUIREMENT_TEXT = REQUIREMENT__REQUIREMENT_TEXT;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__STATUS = REQUIREMENT__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Verification Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__VERIFICATION_METHOD = REQUIREMENT__VERIFICATION_METHOD;
+
+	/**
+	 * The feature id for the '<em><b>Rationale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__RATIONALE = REQUIREMENT__RATIONALE;
+
+	/**
+	 * The feature id for the '<em><b>Derived From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__DERIVED_FROM = REQUIREMENT__DERIVED_FROM;
+
+	/**
+	 * The feature id for the '<em><b>Satisfied By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__SATISFIED_BY = REQUIREMENT__SATISFIED_BY;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__REQUIREMENT_TYPE = REQUIREMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Allocated From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__ALLOCATED_FROM = REQUIREMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Refined To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__REFINED_TO = REQUIREMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Implemented By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT__IMPLEMENTED_BY = REQUIREMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Functional Safety Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT_FEATURE_COUNT = REQUIREMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Functional Safety Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_SAFETY_REQUIREMENT_OPERATION_COUNT = REQUIREMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link unified.impl.TechnicalSafetyRequirementImpl <em>Technical Safety Requirement</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.impl.TechnicalSafetyRequirementImpl
+	 * @see unified.impl.UnifiedPackageImpl#getTechnicalSafetyRequirement()
+	 * @generated
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT = 14;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__ID = REQUIREMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__NAME = REQUIREMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__DESCRIPTION = REQUIREMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__REQUIREMENT_ID = REQUIREMENT__REQUIREMENT_ID;
+
+	/**
+	 * The feature id for the '<em><b>Requirement Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__REQUIREMENT_TEXT = REQUIREMENT__REQUIREMENT_TEXT;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__STATUS = REQUIREMENT__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Verification Method</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__VERIFICATION_METHOD = REQUIREMENT__VERIFICATION_METHOD;
+
+	/**
+	 * The feature id for the '<em><b>Rationale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__RATIONALE = REQUIREMENT__RATIONALE;
+
+	/**
+	 * The feature id for the '<em><b>Derived From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__DERIVED_FROM = REQUIREMENT__DERIVED_FROM;
+
+	/**
+	 * The feature id for the '<em><b>Satisfied By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__SATISFIED_BY = REQUIREMENT__SATISFIED_BY;
+
+	/**
+	 * The feature id for the '<em><b>Technical Category</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__TECHNICAL_CATEGORY = REQUIREMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Allocated ASIL</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__ALLOCATED_ASIL = REQUIREMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Refines From</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__REFINES_FROM = REQUIREMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Realized By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__REALIZED_BY = REQUIREMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Verified By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT__VERIFIED_BY = REQUIREMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Technical Safety Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT_FEATURE_COUNT = REQUIREMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of operations of the '<em>Technical Safety Requirement</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TECHNICAL_SAFETY_REQUIREMENT_OPERATION_COUNT = REQUIREMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link unified.impl.SafetyMechanismImpl <em>Safety Mechanism</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.impl.SafetyMechanismImpl
+	 * @see unified.impl.UnifiedPackageImpl#getSafetyMechanism()
+	 * @generated
+	 */
+	int SAFETY_MECHANISM = 15;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__ID = UNIFIED_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__NAME = UNIFIED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__DESCRIPTION = UNIFIED_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Mechanism Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__MECHANISM_TYPE = UNIFIED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Diagnostic Coverage</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__DIAGNOSTIC_COVERAGE = UNIFIED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Implements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__IMPLEMENTS = UNIFIED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Implemented In</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__IMPLEMENTED_IN = UNIFIED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Validated By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM__VALIDATED_BY = UNIFIED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Safety Mechanism</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM_FEATURE_COUNT = UNIFIED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of operations of the '<em>Safety Mechanism</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAFETY_MECHANISM_OPERATION_COUNT = UNIFIED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link unified.SafetyCriticalityLevel <em>Safety Criticality Level</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1219,7 +1953,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getSafetyCriticalityLevel()
 	 * @generated
 	 */
-	int SAFETY_CRITICALITY_LEVEL = 11;
+	int SAFETY_CRITICALITY_LEVEL = 16;
 
 	/**
 	 * The meta object id for the '{@link unified.ActionStatus <em>Action Status</em>}' enum.
@@ -1229,7 +1963,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getActionStatus()
 	 * @generated
 	 */
-	int ACTION_STATUS = 12;
+	int ACTION_STATUS = 17;
 
 	/**
 	 * The meta object id for the '{@link unified.RiskLevel <em>Risk Level</em>}' enum.
@@ -1239,7 +1973,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getRiskLevel()
 	 * @generated
 	 */
-	int RISK_LEVEL = 13;
+	int RISK_LEVEL = 18;
 
 	/**
 	 * The meta object id for the '{@link unified.ConnectionType <em>Connection Type</em>}' enum.
@@ -1249,7 +1983,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getConnectionType()
 	 * @generated
 	 */
-	int CONNECTION_TYPE = 14;
+	int CONNECTION_TYPE = 19;
 
 	/**
 	 * The meta object id for the '{@link unified.AssociationType <em>Association Type</em>}' enum.
@@ -1259,7 +1993,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getAssociationType()
 	 * @generated
 	 */
-	int ASSOCIATION_TYPE = 15;
+	int ASSOCIATION_TYPE = 20;
 
 	/**
 	 * The meta object id for the '{@link unified.AnalysisStatus <em>Analysis Status</em>}' enum.
@@ -1269,7 +2003,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getAnalysisStatus()
 	 * @generated
 	 */
-	int ANALYSIS_STATUS = 16;
+	int ANALYSIS_STATUS = 21;
 
 	/**
 	 * The meta object id for the '{@link unified.MitigationStatus <em>Mitigation Status</em>}' enum.
@@ -1279,7 +2013,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getMitigationStatus()
 	 * @generated
 	 */
-	int MITIGATION_STATUS = 17;
+	int MITIGATION_STATUS = 22;
 
 	/**
 	 * The meta object id for the '{@link unified.HazardCategory <em>Hazard Category</em>}' enum.
@@ -1289,7 +2023,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getHazardCategory()
 	 * @generated
 	 */
-	int HAZARD_CATEGORY = 18;
+	int HAZARD_CATEGORY = 23;
 
 	/**
 	 * The meta object id for the '{@link unified.RedundancyType <em>Redundancy Type</em>}' enum.
@@ -1299,7 +2033,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getRedundancyType()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE = 19;
+	int REDUNDANCY_TYPE = 24;
 
 	/**
 	 * The meta object id for the '{@link unified.ASILLevel <em>ASIL Level</em>}' enum.
@@ -1309,7 +2043,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getASILLevel()
 	 * @generated
 	 */
-	int ASIL_LEVEL = 20;
+	int ASIL_LEVEL = 25;
 
 	/**
 	 * The meta object id for the '{@link unified.BlockType <em>Block Type</em>}' enum.
@@ -1319,7 +2053,57 @@ public interface UnifiedPackage extends EPackage {
 	 * @see unified.impl.UnifiedPackageImpl#getBlockType()
 	 * @generated
 	 */
-	int BLOCK_TYPE = 21;
+	int BLOCK_TYPE = 26;
+
+	/**
+	 * The meta object id for the '{@link unified.RequirementStatus <em>Requirement Status</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.RequirementStatus
+	 * @see unified.impl.UnifiedPackageImpl#getRequirementStatus()
+	 * @generated
+	 */
+	int REQUIREMENT_STATUS = 27;
+
+	/**
+	 * The meta object id for the '{@link unified.VerificationMethod <em>Verification Method</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.VerificationMethod
+	 * @see unified.impl.UnifiedPackageImpl#getVerificationMethod()
+	 * @generated
+	 */
+	int VERIFICATION_METHOD = 28;
+
+	/**
+	 * The meta object id for the '{@link unified.FunctionalRequirementType <em>Functional Requirement Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.FunctionalRequirementType
+	 * @see unified.impl.UnifiedPackageImpl#getFunctionalRequirementType()
+	 * @generated
+	 */
+	int FUNCTIONAL_REQUIREMENT_TYPE = 29;
+
+	/**
+	 * The meta object id for the '{@link unified.TechnicalRequirementCategory <em>Technical Requirement Category</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.TechnicalRequirementCategory
+	 * @see unified.impl.UnifiedPackageImpl#getTechnicalRequirementCategory()
+	 * @generated
+	 */
+	int TECHNICAL_REQUIREMENT_CATEGORY = 30;
+
+	/**
+	 * The meta object id for the '{@link unified.SafetyMechanismType <em>Safety Mechanism Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see unified.SafetyMechanismType
+	 * @see unified.impl.UnifiedPackageImpl#getSafetyMechanismType()
+	 * @generated
+	 */
+	int SAFETY_MECHANISM_TYPE = 31;
 
 
 	/**
@@ -1473,6 +2257,50 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getUnifiedSystemModel_LastModified();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link unified.UnifiedSystemModel#getSafetyGoals <em>Safety Goals</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Safety Goals</em>'.
+	 * @see unified.UnifiedSystemModel#getSafetyGoals()
+	 * @see #getUnifiedSystemModel()
+	 * @generated
+	 */
+	EReference getUnifiedSystemModel_SafetyGoals();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link unified.UnifiedSystemModel#getFunctionalRequirements <em>Functional Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Functional Requirements</em>'.
+	 * @see unified.UnifiedSystemModel#getFunctionalRequirements()
+	 * @see #getUnifiedSystemModel()
+	 * @generated
+	 */
+	EReference getUnifiedSystemModel_FunctionalRequirements();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link unified.UnifiedSystemModel#getTechnicalRequirements <em>Technical Requirements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Technical Requirements</em>'.
+	 * @see unified.UnifiedSystemModel#getTechnicalRequirements()
+	 * @see #getUnifiedSystemModel()
+	 * @generated
+	 */
+	EReference getUnifiedSystemModel_TechnicalRequirements();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link unified.UnifiedSystemModel#getSafetyMechanisms <em>Safety Mechanisms</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Safety Mechanisms</em>'.
+	 * @see unified.UnifiedSystemModel#getSafetyMechanisms()
+	 * @see #getUnifiedSystemModel()
+	 * @generated
+	 */
+	EReference getUnifiedSystemModel_SafetyMechanisms();
 
 	/**
 	 * Returns the meta object for class '{@link unified.FMEAAnalysis <em>FMEA Analysis</em>}'.
@@ -1691,6 +2519,17 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getFMEAItem_DueDate();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.FMEAItem#getValidatesMechanisms <em>Validates Mechanisms</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Validates Mechanisms</em>'.
+	 * @see unified.FMEAItem#getValidatesMechanisms()
+	 * @see #getFMEAItem()
+	 * @generated
+	 */
+	EReference getFMEAItem_ValidatesMechanisms();
 
 	/**
 	 * Returns the meta object for class '{@link unified.IntegratedHazard <em>Integrated Hazard</em>}'.
@@ -2126,6 +2965,331 @@ public interface UnifiedPackage extends EPackage {
 	EAttribute getAnalysisMetadata_CyclomaticComplexity();
 
 	/**
+	 * Returns the meta object for class '{@link unified.Requirement <em>Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Requirement</em>'.
+	 * @see unified.Requirement
+	 * @generated
+	 */
+	EClass getRequirement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.Requirement#getRequirementId <em>Requirement Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Requirement Id</em>'.
+	 * @see unified.Requirement#getRequirementId()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_RequirementId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.Requirement#getRequirementText <em>Requirement Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Requirement Text</em>'.
+	 * @see unified.Requirement#getRequirementText()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_RequirementText();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.Requirement#getStatus <em>Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Status</em>'.
+	 * @see unified.Requirement#getStatus()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_Status();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.Requirement#getVerificationMethod <em>Verification Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Verification Method</em>'.
+	 * @see unified.Requirement#getVerificationMethod()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_VerificationMethod();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.Requirement#getRationale <em>Rationale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rationale</em>'.
+	 * @see unified.Requirement#getRationale()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EAttribute getRequirement_Rationale();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.Requirement#getDerivedFrom <em>Derived From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Derived From</em>'.
+	 * @see unified.Requirement#getDerivedFrom()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EReference getRequirement_DerivedFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.Requirement#getSatisfiedBy <em>Satisfied By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Satisfied By</em>'.
+	 * @see unified.Requirement#getSatisfiedBy()
+	 * @see #getRequirement()
+	 * @generated
+	 */
+	EReference getRequirement_SatisfiedBy();
+
+	/**
+	 * Returns the meta object for class '{@link unified.SafetyGoal <em>Safety Goal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Safety Goal</em>'.
+	 * @see unified.SafetyGoal
+	 * @generated
+	 */
+	EClass getSafetyGoal();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.SafetyGoal#getAsilLevel <em>Asil Level</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Asil Level</em>'.
+	 * @see unified.SafetyGoal#getAsilLevel()
+	 * @see #getSafetyGoal()
+	 * @generated
+	 */
+	EAttribute getSafetyGoal_AsilLevel();
+
+	/**
+	 * Returns the meta object for the reference '{@link unified.SafetyGoal#getRelatedHazard <em>Related Hazard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Related Hazard</em>'.
+	 * @see unified.SafetyGoal#getRelatedHazard()
+	 * @see #getSafetyGoal()
+	 * @generated
+	 */
+	EReference getSafetyGoal_RelatedHazard();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.SafetyGoal#getSafeState <em>Safe State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Safe State</em>'.
+	 * @see unified.SafetyGoal#getSafeState()
+	 * @see #getSafetyGoal()
+	 * @generated
+	 */
+	EAttribute getSafetyGoal_SafeState();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.SafetyGoal#getAllocatedTo <em>Allocated To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Allocated To</em>'.
+	 * @see unified.SafetyGoal#getAllocatedTo()
+	 * @see #getSafetyGoal()
+	 * @generated
+	 */
+	EReference getSafetyGoal_AllocatedTo();
+
+	/**
+	 * Returns the meta object for class '{@link unified.FunctionalSafetyRequirement <em>Functional Safety Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Functional Safety Requirement</em>'.
+	 * @see unified.FunctionalSafetyRequirement
+	 * @generated
+	 */
+	EClass getFunctionalSafetyRequirement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.FunctionalSafetyRequirement#getRequirementType <em>Requirement Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Requirement Type</em>'.
+	 * @see unified.FunctionalSafetyRequirement#getRequirementType()
+	 * @see #getFunctionalSafetyRequirement()
+	 * @generated
+	 */
+	EAttribute getFunctionalSafetyRequirement_RequirementType();
+
+	/**
+	 * Returns the meta object for the reference '{@link unified.FunctionalSafetyRequirement#getAllocatedFrom <em>Allocated From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Allocated From</em>'.
+	 * @see unified.FunctionalSafetyRequirement#getAllocatedFrom()
+	 * @see #getFunctionalSafetyRequirement()
+	 * @generated
+	 */
+	EReference getFunctionalSafetyRequirement_AllocatedFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.FunctionalSafetyRequirement#getRefinedTo <em>Refined To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Refined To</em>'.
+	 * @see unified.FunctionalSafetyRequirement#getRefinedTo()
+	 * @see #getFunctionalSafetyRequirement()
+	 * @generated
+	 */
+	EReference getFunctionalSafetyRequirement_RefinedTo();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.FunctionalSafetyRequirement#getImplementedBy <em>Implemented By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Implemented By</em>'.
+	 * @see unified.FunctionalSafetyRequirement#getImplementedBy()
+	 * @see #getFunctionalSafetyRequirement()
+	 * @generated
+	 */
+	EReference getFunctionalSafetyRequirement_ImplementedBy();
+
+	/**
+	 * Returns the meta object for class '{@link unified.TechnicalSafetyRequirement <em>Technical Safety Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Technical Safety Requirement</em>'.
+	 * @see unified.TechnicalSafetyRequirement
+	 * @generated
+	 */
+	EClass getTechnicalSafetyRequirement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.TechnicalSafetyRequirement#getTechnicalCategory <em>Technical Category</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Technical Category</em>'.
+	 * @see unified.TechnicalSafetyRequirement#getTechnicalCategory()
+	 * @see #getTechnicalSafetyRequirement()
+	 * @generated
+	 */
+	EAttribute getTechnicalSafetyRequirement_TechnicalCategory();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.TechnicalSafetyRequirement#getAllocatedASIL <em>Allocated ASIL</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Allocated ASIL</em>'.
+	 * @see unified.TechnicalSafetyRequirement#getAllocatedASIL()
+	 * @see #getTechnicalSafetyRequirement()
+	 * @generated
+	 */
+	EAttribute getTechnicalSafetyRequirement_AllocatedASIL();
+
+	/**
+	 * Returns the meta object for the reference '{@link unified.TechnicalSafetyRequirement#getRefinesFrom <em>Refines From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Refines From</em>'.
+	 * @see unified.TechnicalSafetyRequirement#getRefinesFrom()
+	 * @see #getTechnicalSafetyRequirement()
+	 * @generated
+	 */
+	EReference getTechnicalSafetyRequirement_RefinesFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.TechnicalSafetyRequirement#getRealizedBy <em>Realized By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Realized By</em>'.
+	 * @see unified.TechnicalSafetyRequirement#getRealizedBy()
+	 * @see #getTechnicalSafetyRequirement()
+	 * @generated
+	 */
+	EReference getTechnicalSafetyRequirement_RealizedBy();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.TechnicalSafetyRequirement#getVerifiedBy <em>Verified By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Verified By</em>'.
+	 * @see unified.TechnicalSafetyRequirement#getVerifiedBy()
+	 * @see #getTechnicalSafetyRequirement()
+	 * @generated
+	 */
+	EReference getTechnicalSafetyRequirement_VerifiedBy();
+
+	/**
+	 * Returns the meta object for class '{@link unified.SafetyMechanism <em>Safety Mechanism</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Safety Mechanism</em>'.
+	 * @see unified.SafetyMechanism
+	 * @generated
+	 */
+	EClass getSafetyMechanism();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.SafetyMechanism#getMechanismType <em>Mechanism Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mechanism Type</em>'.
+	 * @see unified.SafetyMechanism#getMechanismType()
+	 * @see #getSafetyMechanism()
+	 * @generated
+	 */
+	EAttribute getSafetyMechanism_MechanismType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.SafetyMechanism#getDiagnosticCoverage <em>Diagnostic Coverage</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Diagnostic Coverage</em>'.
+	 * @see unified.SafetyMechanism#getDiagnosticCoverage()
+	 * @see #getSafetyMechanism()
+	 * @generated
+	 */
+	EAttribute getSafetyMechanism_DiagnosticCoverage();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.SafetyMechanism#getImplements <em>Implements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Implements</em>'.
+	 * @see unified.SafetyMechanism#getImplements()
+	 * @see #getSafetyMechanism()
+	 * @generated
+	 */
+	EReference getSafetyMechanism_Implements();
+
+	/**
+	 * Returns the meta object for the reference '{@link unified.SafetyMechanism#getImplementedIn <em>Implemented In</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Implemented In</em>'.
+	 * @see unified.SafetyMechanism#getImplementedIn()
+	 * @see #getSafetyMechanism()
+	 * @generated
+	 */
+	EReference getSafetyMechanism_ImplementedIn();
+
+	/**
+	 * Returns the meta object for the reference list '{@link unified.SafetyMechanism#getValidatedBy <em>Validated By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Validated By</em>'.
+	 * @see unified.SafetyMechanism#getValidatedBy()
+	 * @see #getSafetyMechanism()
+	 * @generated
+	 */
+	EReference getSafetyMechanism_ValidatedBy();
+
+	/**
 	 * Returns the meta object for enum '{@link unified.SafetyCriticalityLevel <em>Safety Criticality Level</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2234,6 +3398,56 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getBlockType();
+
+	/**
+	 * Returns the meta object for enum '{@link unified.RequirementStatus <em>Requirement Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Requirement Status</em>'.
+	 * @see unified.RequirementStatus
+	 * @generated
+	 */
+	EEnum getRequirementStatus();
+
+	/**
+	 * Returns the meta object for enum '{@link unified.VerificationMethod <em>Verification Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Verification Method</em>'.
+	 * @see unified.VerificationMethod
+	 * @generated
+	 */
+	EEnum getVerificationMethod();
+
+	/**
+	 * Returns the meta object for enum '{@link unified.FunctionalRequirementType <em>Functional Requirement Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Functional Requirement Type</em>'.
+	 * @see unified.FunctionalRequirementType
+	 * @generated
+	 */
+	EEnum getFunctionalRequirementType();
+
+	/**
+	 * Returns the meta object for enum '{@link unified.TechnicalRequirementCategory <em>Technical Requirement Category</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Technical Requirement Category</em>'.
+	 * @see unified.TechnicalRequirementCategory
+	 * @generated
+	 */
+	EEnum getTechnicalRequirementCategory();
+
+	/**
+	 * Returns the meta object for enum '{@link unified.SafetyMechanismType <em>Safety Mechanism Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Safety Mechanism Type</em>'.
+	 * @see unified.SafetyMechanismType
+	 * @generated
+	 */
+	EEnum getSafetyMechanismType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2373,6 +3587,38 @@ public interface UnifiedPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute UNIFIED_SYSTEM_MODEL__LAST_MODIFIED = eINSTANCE.getUnifiedSystemModel_LastModified();
+
+		/**
+		 * The meta object literal for the '<em><b>Safety Goals</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIFIED_SYSTEM_MODEL__SAFETY_GOALS = eINSTANCE.getUnifiedSystemModel_SafetyGoals();
+
+		/**
+		 * The meta object literal for the '<em><b>Functional Requirements</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS = eINSTANCE.getUnifiedSystemModel_FunctionalRequirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Technical Requirements</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS = eINSTANCE.getUnifiedSystemModel_TechnicalRequirements();
+
+		/**
+		 * The meta object literal for the '<em><b>Safety Mechanisms</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS = eINSTANCE.getUnifiedSystemModel_SafetyMechanisms();
 
 		/**
 		 * The meta object literal for the '{@link unified.impl.FMEAAnalysisImpl <em>FMEA Analysis</em>}' class.
@@ -2537,6 +3783,14 @@ public interface UnifiedPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FMEA_ITEM__DUE_DATE = eINSTANCE.getFMEAItem_DueDate();
+
+		/**
+		 * The meta object literal for the '<em><b>Validates Mechanisms</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FMEA_ITEM__VALIDATES_MECHANISMS = eINSTANCE.getFMEAItem_ValidatesMechanisms();
 
 		/**
 		 * The meta object literal for the '{@link unified.impl.IntegratedHazardImpl <em>Integrated Hazard</em>}' class.
@@ -2873,6 +4127,256 @@ public interface UnifiedPackage extends EPackage {
 		EAttribute ANALYSIS_METADATA__CYCLOMATIC_COMPLEXITY = eINSTANCE.getAnalysisMetadata_CyclomaticComplexity();
 
 		/**
+		 * The meta object literal for the '{@link unified.impl.RequirementImpl <em>Requirement</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.impl.RequirementImpl
+		 * @see unified.impl.UnifiedPackageImpl#getRequirement()
+		 * @generated
+		 */
+		EClass REQUIREMENT = eINSTANCE.getRequirement();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirement Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__REQUIREMENT_ID = eINSTANCE.getRequirement_RequirementId();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirement Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__REQUIREMENT_TEXT = eINSTANCE.getRequirement_RequirementText();
+
+		/**
+		 * The meta object literal for the '<em><b>Status</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__STATUS = eINSTANCE.getRequirement_Status();
+
+		/**
+		 * The meta object literal for the '<em><b>Verification Method</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__VERIFICATION_METHOD = eINSTANCE.getRequirement_VerificationMethod();
+
+		/**
+		 * The meta object literal for the '<em><b>Rationale</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUIREMENT__RATIONALE = eINSTANCE.getRequirement_Rationale();
+
+		/**
+		 * The meta object literal for the '<em><b>Derived From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT__DERIVED_FROM = eINSTANCE.getRequirement_DerivedFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Satisfied By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REQUIREMENT__SATISFIED_BY = eINSTANCE.getRequirement_SatisfiedBy();
+
+		/**
+		 * The meta object literal for the '{@link unified.impl.SafetyGoalImpl <em>Safety Goal</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.impl.SafetyGoalImpl
+		 * @see unified.impl.UnifiedPackageImpl#getSafetyGoal()
+		 * @generated
+		 */
+		EClass SAFETY_GOAL = eINSTANCE.getSafetyGoal();
+
+		/**
+		 * The meta object literal for the '<em><b>Asil Level</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SAFETY_GOAL__ASIL_LEVEL = eINSTANCE.getSafetyGoal_AsilLevel();
+
+		/**
+		 * The meta object literal for the '<em><b>Related Hazard</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAFETY_GOAL__RELATED_HAZARD = eINSTANCE.getSafetyGoal_RelatedHazard();
+
+		/**
+		 * The meta object literal for the '<em><b>Safe State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SAFETY_GOAL__SAFE_STATE = eINSTANCE.getSafetyGoal_SafeState();
+
+		/**
+		 * The meta object literal for the '<em><b>Allocated To</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAFETY_GOAL__ALLOCATED_TO = eINSTANCE.getSafetyGoal_AllocatedTo();
+
+		/**
+		 * The meta object literal for the '{@link unified.impl.FunctionalSafetyRequirementImpl <em>Functional Safety Requirement</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.impl.FunctionalSafetyRequirementImpl
+		 * @see unified.impl.UnifiedPackageImpl#getFunctionalSafetyRequirement()
+		 * @generated
+		 */
+		EClass FUNCTIONAL_SAFETY_REQUIREMENT = eINSTANCE.getFunctionalSafetyRequirement();
+
+		/**
+		 * The meta object literal for the '<em><b>Requirement Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FUNCTIONAL_SAFETY_REQUIREMENT__REQUIREMENT_TYPE = eINSTANCE.getFunctionalSafetyRequirement_RequirementType();
+
+		/**
+		 * The meta object literal for the '<em><b>Allocated From</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTIONAL_SAFETY_REQUIREMENT__ALLOCATED_FROM = eINSTANCE.getFunctionalSafetyRequirement_AllocatedFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Refined To</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTIONAL_SAFETY_REQUIREMENT__REFINED_TO = eINSTANCE.getFunctionalSafetyRequirement_RefinedTo();
+
+		/**
+		 * The meta object literal for the '<em><b>Implemented By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTIONAL_SAFETY_REQUIREMENT__IMPLEMENTED_BY = eINSTANCE.getFunctionalSafetyRequirement_ImplementedBy();
+
+		/**
+		 * The meta object literal for the '{@link unified.impl.TechnicalSafetyRequirementImpl <em>Technical Safety Requirement</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.impl.TechnicalSafetyRequirementImpl
+		 * @see unified.impl.UnifiedPackageImpl#getTechnicalSafetyRequirement()
+		 * @generated
+		 */
+		EClass TECHNICAL_SAFETY_REQUIREMENT = eINSTANCE.getTechnicalSafetyRequirement();
+
+		/**
+		 * The meta object literal for the '<em><b>Technical Category</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TECHNICAL_SAFETY_REQUIREMENT__TECHNICAL_CATEGORY = eINSTANCE.getTechnicalSafetyRequirement_TechnicalCategory();
+
+		/**
+		 * The meta object literal for the '<em><b>Allocated ASIL</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TECHNICAL_SAFETY_REQUIREMENT__ALLOCATED_ASIL = eINSTANCE.getTechnicalSafetyRequirement_AllocatedASIL();
+
+		/**
+		 * The meta object literal for the '<em><b>Refines From</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TECHNICAL_SAFETY_REQUIREMENT__REFINES_FROM = eINSTANCE.getTechnicalSafetyRequirement_RefinesFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Realized By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TECHNICAL_SAFETY_REQUIREMENT__REALIZED_BY = eINSTANCE.getTechnicalSafetyRequirement_RealizedBy();
+
+		/**
+		 * The meta object literal for the '<em><b>Verified By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TECHNICAL_SAFETY_REQUIREMENT__VERIFIED_BY = eINSTANCE.getTechnicalSafetyRequirement_VerifiedBy();
+
+		/**
+		 * The meta object literal for the '{@link unified.impl.SafetyMechanismImpl <em>Safety Mechanism</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.impl.SafetyMechanismImpl
+		 * @see unified.impl.UnifiedPackageImpl#getSafetyMechanism()
+		 * @generated
+		 */
+		EClass SAFETY_MECHANISM = eINSTANCE.getSafetyMechanism();
+
+		/**
+		 * The meta object literal for the '<em><b>Mechanism Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SAFETY_MECHANISM__MECHANISM_TYPE = eINSTANCE.getSafetyMechanism_MechanismType();
+
+		/**
+		 * The meta object literal for the '<em><b>Diagnostic Coverage</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SAFETY_MECHANISM__DIAGNOSTIC_COVERAGE = eINSTANCE.getSafetyMechanism_DiagnosticCoverage();
+
+		/**
+		 * The meta object literal for the '<em><b>Implements</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAFETY_MECHANISM__IMPLEMENTS = eINSTANCE.getSafetyMechanism_Implements();
+
+		/**
+		 * The meta object literal for the '<em><b>Implemented In</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAFETY_MECHANISM__IMPLEMENTED_IN = eINSTANCE.getSafetyMechanism_ImplementedIn();
+
+		/**
+		 * The meta object literal for the '<em><b>Validated By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SAFETY_MECHANISM__VALIDATED_BY = eINSTANCE.getSafetyMechanism_ValidatedBy();
+
+		/**
 		 * The meta object literal for the '{@link unified.SafetyCriticalityLevel <em>Safety Criticality Level</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2981,6 +4485,56 @@ public interface UnifiedPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum BLOCK_TYPE = eINSTANCE.getBlockType();
+
+		/**
+		 * The meta object literal for the '{@link unified.RequirementStatus <em>Requirement Status</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.RequirementStatus
+		 * @see unified.impl.UnifiedPackageImpl#getRequirementStatus()
+		 * @generated
+		 */
+		EEnum REQUIREMENT_STATUS = eINSTANCE.getRequirementStatus();
+
+		/**
+		 * The meta object literal for the '{@link unified.VerificationMethod <em>Verification Method</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.VerificationMethod
+		 * @see unified.impl.UnifiedPackageImpl#getVerificationMethod()
+		 * @generated
+		 */
+		EEnum VERIFICATION_METHOD = eINSTANCE.getVerificationMethod();
+
+		/**
+		 * The meta object literal for the '{@link unified.FunctionalRequirementType <em>Functional Requirement Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.FunctionalRequirementType
+		 * @see unified.impl.UnifiedPackageImpl#getFunctionalRequirementType()
+		 * @generated
+		 */
+		EEnum FUNCTIONAL_REQUIREMENT_TYPE = eINSTANCE.getFunctionalRequirementType();
+
+		/**
+		 * The meta object literal for the '{@link unified.TechnicalRequirementCategory <em>Technical Requirement Category</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.TechnicalRequirementCategory
+		 * @see unified.impl.UnifiedPackageImpl#getTechnicalRequirementCategory()
+		 * @generated
+		 */
+		EEnum TECHNICAL_REQUIREMENT_CATEGORY = eINSTANCE.getTechnicalRequirementCategory();
+
+		/**
+		 * The meta object literal for the '{@link unified.SafetyMechanismType <em>Safety Mechanism Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see unified.SafetyMechanismType
+		 * @see unified.impl.UnifiedPackageImpl#getSafetyMechanismType()
+		 * @generated
+		 */
+		EEnum SAFETY_MECHANISM_TYPE = eINSTANCE.getSafetyMechanismType();
 
 	}
 

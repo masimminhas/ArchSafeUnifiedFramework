@@ -22,18 +22,28 @@ import unified.BlockType;
 import unified.ConnectionType;
 import unified.FMEAAnalysis;
 import unified.FMEAItem;
+import unified.FunctionalRequirementType;
+import unified.FunctionalSafetyRequirement;
 import unified.HazardCategory;
 import unified.IntegratedHazard;
 import unified.MitigationStatus;
 import unified.RedundancyType;
+import unified.Requirement;
+import unified.RequirementStatus;
 import unified.RiskLevel;
 import unified.SafetyCriticalBlock;
 import unified.SafetyCriticalityLevel;
+import unified.SafetyGoal;
+import unified.SafetyMechanism;
+import unified.SafetyMechanismType;
 import unified.SystemBlock;
+import unified.TechnicalRequirementCategory;
+import unified.TechnicalSafetyRequirement;
 import unified.UnifiedElement;
 import unified.UnifiedFactory;
 import unified.UnifiedPackage;
 import unified.UnifiedSystemModel;
+import unified.VerificationMethod;
 
 /**
  * <!-- begin-user-doc -->
@@ -124,6 +134,41 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass requirementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass safetyGoalEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass functionalSafetyRequirementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass technicalSafetyRequirementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass safetyMechanismEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum safetyCriticalityLevelEEnum = null;
 
 	/**
@@ -195,6 +240,41 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * @generated
 	 */
 	private EEnum blockTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum requirementStatusEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum verificationMethodEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum functionalRequirementTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum technicalRequirementCategoryEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum safetyMechanismTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -387,6 +467,42 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getUnifiedSystemModel_SafetyGoals() {
+		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnifiedSystemModel_FunctionalRequirements() {
+		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnifiedSystemModel_TechnicalRequirements() {
+		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnifiedSystemModel_SafetyMechanisms() {
+		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFMEAAnalysis() {
 		return fmeaAnalysisEClass;
 	}
@@ -560,6 +676,15 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 */
 	public EAttribute getFMEAItem_DueDate() {
 		return (EAttribute)fmeaItemEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFMEAItem_ValidatesMechanisms() {
+		return (EReference)fmeaItemEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -927,6 +1052,276 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRequirement() {
+		return requirementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRequirement_RequirementId() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRequirement_RequirementText() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRequirement_Status() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRequirement_VerificationMethod() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRequirement_Rationale() {
+		return (EAttribute)requirementEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRequirement_DerivedFrom() {
+		return (EReference)requirementEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRequirement_SatisfiedBy() {
+		return (EReference)requirementEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSafetyGoal() {
+		return safetyGoalEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSafetyGoal_AsilLevel() {
+		return (EAttribute)safetyGoalEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSafetyGoal_RelatedHazard() {
+		return (EReference)safetyGoalEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSafetyGoal_SafeState() {
+		return (EAttribute)safetyGoalEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSafetyGoal_AllocatedTo() {
+		return (EReference)safetyGoalEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFunctionalSafetyRequirement() {
+		return functionalSafetyRequirementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFunctionalSafetyRequirement_RequirementType() {
+		return (EAttribute)functionalSafetyRequirementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFunctionalSafetyRequirement_AllocatedFrom() {
+		return (EReference)functionalSafetyRequirementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFunctionalSafetyRequirement_RefinedTo() {
+		return (EReference)functionalSafetyRequirementEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFunctionalSafetyRequirement_ImplementedBy() {
+		return (EReference)functionalSafetyRequirementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTechnicalSafetyRequirement() {
+		return technicalSafetyRequirementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTechnicalSafetyRequirement_TechnicalCategory() {
+		return (EAttribute)technicalSafetyRequirementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTechnicalSafetyRequirement_AllocatedASIL() {
+		return (EAttribute)technicalSafetyRequirementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTechnicalSafetyRequirement_RefinesFrom() {
+		return (EReference)technicalSafetyRequirementEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTechnicalSafetyRequirement_RealizedBy() {
+		return (EReference)technicalSafetyRequirementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTechnicalSafetyRequirement_VerifiedBy() {
+		return (EReference)technicalSafetyRequirementEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSafetyMechanism() {
+		return safetyMechanismEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSafetyMechanism_MechanismType() {
+		return (EAttribute)safetyMechanismEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSafetyMechanism_DiagnosticCoverage() {
+		return (EAttribute)safetyMechanismEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSafetyMechanism_Implements() {
+		return (EReference)safetyMechanismEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSafetyMechanism_ImplementedIn() {
+		return (EReference)safetyMechanismEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSafetyMechanism_ValidatedBy() {
+		return (EReference)safetyMechanismEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSafetyCriticalityLevel() {
 		return safetyCriticalityLevelEEnum;
 	}
@@ -1026,6 +1421,51 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getRequirementStatus() {
+		return requirementStatusEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getVerificationMethod() {
+		return verificationMethodEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getFunctionalRequirementType() {
+		return functionalRequirementTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getTechnicalRequirementCategory() {
+		return technicalRequirementCategoryEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSafetyMechanismType() {
+		return safetyMechanismTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UnifiedFactory getUnifiedFactory() {
 		return (UnifiedFactory)getEFactoryInstance();
 	}
@@ -1064,6 +1504,10 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA);
 		createEAttribute(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__MODEL_VERSION);
 		createEAttribute(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__LAST_MODIFIED);
+		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__SAFETY_GOALS);
+		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS);
+		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS);
+		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS);
 
 		fmeaAnalysisEClass = createEClass(FMEA_ANALYSIS);
 		createEAttribute(fmeaAnalysisEClass, FMEA_ANALYSIS__RPN_THRESHOLD);
@@ -1086,6 +1530,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		createEReference(fmeaItemEClass, FMEA_ITEM__RELATED_HAZARDS);
 		createEAttribute(fmeaItemEClass, FMEA_ITEM__RESPONSIBLE_PERSON);
 		createEAttribute(fmeaItemEClass, FMEA_ITEM__DUE_DATE);
+		createEReference(fmeaItemEClass, FMEA_ITEM__VALIDATES_MECHANISMS);
 
 		integratedHazardEClass = createEClass(INTEGRATED_HAZARD);
 		createEAttribute(integratedHazardEClass, INTEGRATED_HAZARD__RISK_LEVEL);
@@ -1134,6 +1579,41 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__TRACEABILITY_DENSITY);
 		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__CYCLOMATIC_COMPLEXITY);
 
+		requirementEClass = createEClass(REQUIREMENT);
+		createEAttribute(requirementEClass, REQUIREMENT__REQUIREMENT_ID);
+		createEAttribute(requirementEClass, REQUIREMENT__REQUIREMENT_TEXT);
+		createEAttribute(requirementEClass, REQUIREMENT__STATUS);
+		createEAttribute(requirementEClass, REQUIREMENT__VERIFICATION_METHOD);
+		createEAttribute(requirementEClass, REQUIREMENT__RATIONALE);
+		createEReference(requirementEClass, REQUIREMENT__DERIVED_FROM);
+		createEReference(requirementEClass, REQUIREMENT__SATISFIED_BY);
+
+		safetyGoalEClass = createEClass(SAFETY_GOAL);
+		createEAttribute(safetyGoalEClass, SAFETY_GOAL__ASIL_LEVEL);
+		createEReference(safetyGoalEClass, SAFETY_GOAL__RELATED_HAZARD);
+		createEAttribute(safetyGoalEClass, SAFETY_GOAL__SAFE_STATE);
+		createEReference(safetyGoalEClass, SAFETY_GOAL__ALLOCATED_TO);
+
+		functionalSafetyRequirementEClass = createEClass(FUNCTIONAL_SAFETY_REQUIREMENT);
+		createEAttribute(functionalSafetyRequirementEClass, FUNCTIONAL_SAFETY_REQUIREMENT__REQUIREMENT_TYPE);
+		createEReference(functionalSafetyRequirementEClass, FUNCTIONAL_SAFETY_REQUIREMENT__ALLOCATED_FROM);
+		createEReference(functionalSafetyRequirementEClass, FUNCTIONAL_SAFETY_REQUIREMENT__REFINED_TO);
+		createEReference(functionalSafetyRequirementEClass, FUNCTIONAL_SAFETY_REQUIREMENT__IMPLEMENTED_BY);
+
+		technicalSafetyRequirementEClass = createEClass(TECHNICAL_SAFETY_REQUIREMENT);
+		createEAttribute(technicalSafetyRequirementEClass, TECHNICAL_SAFETY_REQUIREMENT__TECHNICAL_CATEGORY);
+		createEAttribute(technicalSafetyRequirementEClass, TECHNICAL_SAFETY_REQUIREMENT__ALLOCATED_ASIL);
+		createEReference(technicalSafetyRequirementEClass, TECHNICAL_SAFETY_REQUIREMENT__REFINES_FROM);
+		createEReference(technicalSafetyRequirementEClass, TECHNICAL_SAFETY_REQUIREMENT__REALIZED_BY);
+		createEReference(technicalSafetyRequirementEClass, TECHNICAL_SAFETY_REQUIREMENT__VERIFIED_BY);
+
+		safetyMechanismEClass = createEClass(SAFETY_MECHANISM);
+		createEAttribute(safetyMechanismEClass, SAFETY_MECHANISM__MECHANISM_TYPE);
+		createEAttribute(safetyMechanismEClass, SAFETY_MECHANISM__DIAGNOSTIC_COVERAGE);
+		createEReference(safetyMechanismEClass, SAFETY_MECHANISM__IMPLEMENTS);
+		createEReference(safetyMechanismEClass, SAFETY_MECHANISM__IMPLEMENTED_IN);
+		createEReference(safetyMechanismEClass, SAFETY_MECHANISM__VALIDATED_BY);
+
 		// Create enums
 		safetyCriticalityLevelEEnum = createEEnum(SAFETY_CRITICALITY_LEVEL);
 		actionStatusEEnum = createEEnum(ACTION_STATUS);
@@ -1146,6 +1626,11 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		redundancyTypeEEnum = createEEnum(REDUNDANCY_TYPE);
 		asilLevelEEnum = createEEnum(ASIL_LEVEL);
 		blockTypeEEnum = createEEnum(BLOCK_TYPE);
+		requirementStatusEEnum = createEEnum(REQUIREMENT_STATUS);
+		verificationMethodEEnum = createEEnum(VERIFICATION_METHOD);
+		functionalRequirementTypeEEnum = createEEnum(FUNCTIONAL_REQUIREMENT_TYPE);
+		technicalRequirementCategoryEEnum = createEEnum(TECHNICAL_REQUIREMENT_CATEGORY);
+		safetyMechanismTypeEEnum = createEEnum(SAFETY_MECHANISM_TYPE);
 	}
 
 	/**
@@ -1184,6 +1669,11 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		blockAssociationEClass.getESuperTypes().add(this.getUnifiedElement());
 		blockConnectionEClass.getESuperTypes().add(this.getUnifiedElement());
 		blockFailureModeEClass.getESuperTypes().add(this.getUnifiedElement());
+		requirementEClass.getESuperTypes().add(this.getUnifiedElement());
+		safetyGoalEClass.getESuperTypes().add(this.getRequirement());
+		functionalSafetyRequirementEClass.getESuperTypes().add(this.getRequirement());
+		technicalSafetyRequirementEClass.getESuperTypes().add(this.getRequirement());
+		safetyMechanismEClass.getESuperTypes().add(this.getUnifiedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(unifiedElementEClass, UnifiedElement.class, "UnifiedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1201,6 +1691,10 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		initEReference(getUnifiedSystemModel_AnalysisMetadata(), this.getAnalysisMetadata(), null, "analysisMetadata", null, 0, 1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUnifiedSystemModel_ModelVersion(), ecorePackage.getEString(), "modelVersion", "1.0", 0, 1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUnifiedSystemModel_LastModified(), ecorePackage.getEDate(), "lastModified", null, 0, 1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnifiedSystemModel_SafetyGoals(), this.getSafetyGoal(), null, "safetyGoals", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnifiedSystemModel_FunctionalRequirements(), this.getFunctionalSafetyRequirement(), null, "functionalRequirements", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnifiedSystemModel_TechnicalRequirements(), this.getTechnicalSafetyRequirement(), null, "technicalRequirements", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnifiedSystemModel_SafetyMechanisms(), this.getSafetyMechanism(), null, "safetyMechanisms", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fmeaAnalysisEClass, FMEAAnalysis.class, "FMEAAnalysis", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFMEAAnalysis_RpnThreshold(), ecorePackage.getEInt(), "rpnThreshold", null, 0, 1, FMEAAnalysis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1223,6 +1717,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		initEReference(getFMEAItem_RelatedHazards(), this.getIntegratedHazard(), null, "relatedHazards", null, 0, -1, FMEAItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFMEAItem_ResponsiblePerson(), ecorePackage.getEString(), "responsiblePerson", null, 0, 1, FMEAItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFMEAItem_DueDate(), ecorePackage.getEDate(), "dueDate", null, 0, 1, FMEAItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFMEAItem_ValidatesMechanisms(), this.getSafetyMechanism(), this.getSafetyMechanism_ValidatedBy(), "validatesMechanisms", null, 0, -1, FMEAItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(integratedHazardEClass, IntegratedHazard.class, "IntegratedHazard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIntegratedHazard_RiskLevel(), this.getRiskLevel(), "riskLevel", null, 0, 1, IntegratedHazard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1270,6 +1765,41 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		initEAttribute(getAnalysisMetadata_FmeaCoverage(), ecorePackage.getEDouble(), "fmeaCoverage", "0.0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnalysisMetadata_TraceabilityDensity(), ecorePackage.getEDouble(), "traceabilityDensity", "0.0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnalysisMetadata_CyclomaticComplexity(), ecorePackage.getEInt(), "cyclomaticComplexity", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(requirementEClass, Requirement.class, "Requirement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRequirement_RequirementId(), ecorePackage.getEString(), "requirementId", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_RequirementText(), ecorePackage.getEString(), "requirementText", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_Status(), this.getRequirementStatus(), "status", "DRAFT", 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_VerificationMethod(), this.getVerificationMethod(), "verificationMethod", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRequirement_Rationale(), ecorePackage.getEString(), "rationale", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirement_DerivedFrom(), this.getRequirement(), null, "derivedFrom", null, 0, -1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequirement_SatisfiedBy(), this.getSystemBlock(), null, "satisfiedBy", null, 0, -1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(safetyGoalEClass, SafetyGoal.class, "SafetyGoal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSafetyGoal_AsilLevel(), this.getASILLevel(), "asilLevel", null, 0, 1, SafetyGoal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSafetyGoal_RelatedHazard(), this.getIntegratedHazard(), null, "relatedHazard", null, 0, 1, SafetyGoal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSafetyGoal_SafeState(), ecorePackage.getEString(), "safeState", null, 0, 1, SafetyGoal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSafetyGoal_AllocatedTo(), this.getFunctionalSafetyRequirement(), this.getFunctionalSafetyRequirement_AllocatedFrom(), "allocatedTo", null, 0, -1, SafetyGoal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(functionalSafetyRequirementEClass, FunctionalSafetyRequirement.class, "FunctionalSafetyRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFunctionalSafetyRequirement_RequirementType(), this.getFunctionalRequirementType(), "requirementType", null, 0, 1, FunctionalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunctionalSafetyRequirement_AllocatedFrom(), this.getSafetyGoal(), this.getSafetyGoal_AllocatedTo(), "allocatedFrom", null, 0, 1, FunctionalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunctionalSafetyRequirement_RefinedTo(), this.getTechnicalSafetyRequirement(), this.getTechnicalSafetyRequirement_RefinesFrom(), "refinedTo", null, 0, -1, FunctionalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunctionalSafetyRequirement_ImplementedBy(), this.getSafetyCriticalBlock(), null, "implementedBy", null, 0, -1, FunctionalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(technicalSafetyRequirementEClass, TechnicalSafetyRequirement.class, "TechnicalSafetyRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTechnicalSafetyRequirement_TechnicalCategory(), this.getTechnicalRequirementCategory(), "technicalCategory", null, 0, 1, TechnicalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTechnicalSafetyRequirement_AllocatedASIL(), this.getASILLevel(), "allocatedASIL", null, 0, 1, TechnicalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnicalSafetyRequirement_RefinesFrom(), this.getFunctionalSafetyRequirement(), this.getFunctionalSafetyRequirement_RefinedTo(), "refinesFrom", null, 0, 1, TechnicalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnicalSafetyRequirement_RealizedBy(), this.getSafetyCriticalBlock(), null, "realizedBy", null, 0, -1, TechnicalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTechnicalSafetyRequirement_VerifiedBy(), this.getFMEAItem(), null, "verifiedBy", null, 0, -1, TechnicalSafetyRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(safetyMechanismEClass, SafetyMechanism.class, "SafetyMechanism", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSafetyMechanism_MechanismType(), this.getSafetyMechanismType(), "mechanismType", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSafetyMechanism_DiagnosticCoverage(), ecorePackage.getEDouble(), "diagnosticCoverage", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSafetyMechanism_Implements(), this.getTechnicalSafetyRequirement(), null, "implements", null, 0, -1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSafetyMechanism_ImplementedIn(), this.getSafetyCriticalBlock(), null, "implementedIn", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSafetyMechanism_ValidatedBy(), this.getFMEAItem(), this.getFMEAItem_ValidatesMechanisms(), "validatedBy", null, 0, -1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(safetyCriticalityLevelEEnum, SafetyCriticalityLevel.class, "SafetyCriticalityLevel");
@@ -1346,6 +1876,43 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		addEEnumLiteral(blockTypeEEnum, BlockType.PROCESSING_UNIT);
 		addEEnumLiteral(blockTypeEEnum, BlockType.STORAGE);
 		addEEnumLiteral(blockTypeEEnum, BlockType.USER_INTERFACE);
+
+		initEEnum(requirementStatusEEnum, RequirementStatus.class, "RequirementStatus");
+		addEEnumLiteral(requirementStatusEEnum, RequirementStatus.DRAFT);
+		addEEnumLiteral(requirementStatusEEnum, RequirementStatus.UNDER_REVIEW);
+		addEEnumLiteral(requirementStatusEEnum, RequirementStatus.APPROVED);
+		addEEnumLiteral(requirementStatusEEnum, RequirementStatus.IMPLEMENTED);
+		addEEnumLiteral(requirementStatusEEnum, RequirementStatus.VERIFIED);
+		addEEnumLiteral(requirementStatusEEnum, RequirementStatus.DEPRECATED);
+
+		initEEnum(verificationMethodEEnum, VerificationMethod.class, "VerificationMethod");
+		addEEnumLiteral(verificationMethodEEnum, VerificationMethod.INSPECTION);
+		addEEnumLiteral(verificationMethodEEnum, VerificationMethod.ANALYSIS);
+		addEEnumLiteral(verificationMethodEEnum, VerificationMethod.SIMULATION);
+		addEEnumLiteral(verificationMethodEEnum, VerificationMethod.TEST);
+		addEEnumLiteral(verificationMethodEEnum, VerificationMethod.FORMAL_PROOF);
+
+		initEEnum(functionalRequirementTypeEEnum, FunctionalRequirementType.class, "FunctionalRequirementType");
+		addEEnumLiteral(functionalRequirementTypeEEnum, FunctionalRequirementType.FAULT_DETECTION);
+		addEEnumLiteral(functionalRequirementTypeEEnum, FunctionalRequirementType.FAULT_HANDLING);
+		addEEnumLiteral(functionalRequirementTypeEEnum, FunctionalRequirementType.ARBITRATION);
+		addEEnumLiteral(functionalRequirementTypeEEnum, FunctionalRequirementType.WARNING_INDICATION);
+		addEEnumLiteral(functionalRequirementTypeEEnum, FunctionalRequirementType.SAFE_STATE_TRANSITION);
+
+		initEEnum(technicalRequirementCategoryEEnum, TechnicalRequirementCategory.class, "TechnicalRequirementCategory");
+		addEEnumLiteral(technicalRequirementCategoryEEnum, TechnicalRequirementCategory.HARDWARE_REQUIREMENT);
+		addEEnumLiteral(technicalRequirementCategoryEEnum, TechnicalRequirementCategory.SOFTWARE_REQUIREMENT);
+		addEEnumLiteral(technicalRequirementCategoryEEnum, TechnicalRequirementCategory.SYSTEM_REQUIREMENT);
+		addEEnumLiteral(technicalRequirementCategoryEEnum, TechnicalRequirementCategory.INTERFACE_REQUIREMENT);
+
+		initEEnum(safetyMechanismTypeEEnum, SafetyMechanismType.class, "SafetyMechanismType");
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.REDUNDANCY);
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.PLAUSIBILITY_CHECK);
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.WATCHDOG);
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.SELF_TEST);
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.GRACEFUL_DEGRADATION);
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.ERROR_DETECTION_CODE);
+		addEEnumLiteral(safetyMechanismTypeEEnum, SafetyMechanismType.LOCKSTEP);
 
 		// Create resource
 		createResource(eNS_URI);

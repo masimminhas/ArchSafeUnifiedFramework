@@ -302,6 +302,98 @@ public class UnifiedItemProviderAdapterFactory extends UnifiedAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link unified.SafetyGoal} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SafetyGoalItemProvider safetyGoalItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link unified.SafetyGoal}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSafetyGoalAdapter() {
+		if (safetyGoalItemProvider == null) {
+			safetyGoalItemProvider = new SafetyGoalItemProvider(this);
+		}
+
+		return safetyGoalItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link unified.FunctionalSafetyRequirement} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected FunctionalSafetyRequirementItemProvider functionalSafetyRequirementItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link unified.FunctionalSafetyRequirement}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createFunctionalSafetyRequirementAdapter() {
+		if (functionalSafetyRequirementItemProvider == null) {
+			functionalSafetyRequirementItemProvider = new FunctionalSafetyRequirementItemProvider(this);
+		}
+
+		return functionalSafetyRequirementItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link unified.TechnicalSafetyRequirement} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TechnicalSafetyRequirementItemProvider technicalSafetyRequirementItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link unified.TechnicalSafetyRequirement}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createTechnicalSafetyRequirementAdapter() {
+		if (technicalSafetyRequirementItemProvider == null) {
+			technicalSafetyRequirementItemProvider = new TechnicalSafetyRequirementItemProvider(this);
+		}
+
+		return technicalSafetyRequirementItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link unified.SafetyMechanism} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SafetyMechanismItemProvider safetyMechanismItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link unified.SafetyMechanism}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSafetyMechanismAdapter() {
+		if (safetyMechanismItemProvider == null) {
+			safetyMechanismItemProvider = new SafetyMechanismItemProvider(this);
+		}
+
+		return safetyMechanismItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -410,6 +502,10 @@ public class UnifiedItemProviderAdapterFactory extends UnifiedAdapterFactory imp
 		if (blockConnectionItemProvider != null) blockConnectionItemProvider.dispose();
 		if (blockFailureModeItemProvider != null) blockFailureModeItemProvider.dispose();
 		if (analysisMetadataItemProvider != null) analysisMetadataItemProvider.dispose();
+		if (safetyGoalItemProvider != null) safetyGoalItemProvider.dispose();
+		if (functionalSafetyRequirementItemProvider != null) functionalSafetyRequirementItemProvider.dispose();
+		if (technicalSafetyRequirementItemProvider != null) technicalSafetyRequirementItemProvider.dispose();
+		if (safetyMechanismItemProvider != null) safetyMechanismItemProvider.dispose();
 	}
 
 }

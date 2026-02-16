@@ -141,6 +141,44 @@ public class UnifiedSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UnifiedPackage.REQUIREMENT: {
+				Requirement requirement = (Requirement)theEObject;
+				T result = caseRequirement(requirement);
+				if (result == null) result = caseUnifiedElement(requirement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UnifiedPackage.SAFETY_GOAL: {
+				SafetyGoal safetyGoal = (SafetyGoal)theEObject;
+				T result = caseSafetyGoal(safetyGoal);
+				if (result == null) result = caseRequirement(safetyGoal);
+				if (result == null) result = caseUnifiedElement(safetyGoal);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UnifiedPackage.FUNCTIONAL_SAFETY_REQUIREMENT: {
+				FunctionalSafetyRequirement functionalSafetyRequirement = (FunctionalSafetyRequirement)theEObject;
+				T result = caseFunctionalSafetyRequirement(functionalSafetyRequirement);
+				if (result == null) result = caseRequirement(functionalSafetyRequirement);
+				if (result == null) result = caseUnifiedElement(functionalSafetyRequirement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UnifiedPackage.TECHNICAL_SAFETY_REQUIREMENT: {
+				TechnicalSafetyRequirement technicalSafetyRequirement = (TechnicalSafetyRequirement)theEObject;
+				T result = caseTechnicalSafetyRequirement(technicalSafetyRequirement);
+				if (result == null) result = caseRequirement(technicalSafetyRequirement);
+				if (result == null) result = caseUnifiedElement(technicalSafetyRequirement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UnifiedPackage.SAFETY_MECHANISM: {
+				SafetyMechanism safetyMechanism = (SafetyMechanism)theEObject;
+				T result = caseSafetyMechanism(safetyMechanism);
+				if (result == null) result = caseUnifiedElement(safetyMechanism);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -307,6 +345,81 @@ public class UnifiedSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseAnalysisMetadata(AnalysisMetadata object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Requirement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRequirement(Requirement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Safety Goal</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Safety Goal</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSafetyGoal(SafetyGoal object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Functional Safety Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Functional Safety Requirement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFunctionalSafetyRequirement(FunctionalSafetyRequirement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Technical Safety Requirement</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Technical Safety Requirement</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTechnicalSafetyRequirement(TechnicalSafetyRequirement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Safety Mechanism</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Safety Mechanism</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSafetyMechanism(SafetyMechanism object) {
 		return null;
 	}
 

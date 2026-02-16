@@ -58,6 +58,7 @@ public class FMEAItemItemProvider extends UnifiedElementItemProvider {
 			addRelatedHazardsPropertyDescriptor(object);
 			addResponsiblePersonPropertyDescriptor(object);
 			addDueDatePropertyDescriptor(object);
+			addValidatesMechanismsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -344,6 +345,28 @@ public class FMEAItemItemProvider extends UnifiedElementItemProvider {
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Validates Mechanisms feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addValidatesMechanismsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_FMEAItem_validatesMechanisms_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FMEAItem_validatesMechanisms_feature", "_UI_FMEAItem_type"),
+				 UnifiedPackage.Literals.FMEA_ITEM__VALIDATES_MECHANISMS,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

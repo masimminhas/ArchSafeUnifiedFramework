@@ -24,6 +24,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastModified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="safetyGoals" 
+    upperBound="-1" eType="#//SafetyGoal" containment="true"/>
+<eStructuralFeatures xsi:type="ecore:EReference" name="functionalRequirements" 
+    upperBound="-1" eType="#//FunctionalSafetyRequirement" containment="true"/>
+<eStructuralFeatures xsi:type="ecore:EReference" name="technicalRequirements" 
+    upperBound="-1" eType="#//TechnicalSafetyRequirement" containment="true"/>
+<eStructuralFeatures xsi:type="ecore:EReference" name="safetyMechanisms" 
+    upperBound="-1" eType="#//SafetyMechanism" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FMEAAnalysis" eSuperTypes="#//UnifiedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rpnThreshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -51,6 +59,7 @@
         eType="#//IntegratedHazard"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsiblePerson" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dueDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="validatesMechanisms" upperBound="-1" eType="#//SafetyMechanism" eOpposite="#//SafetyMechanism/validatedBy"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntegratedHazard" eSuperTypes="#//UnifiedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -211,4 +220,138 @@
     <eLiterals name="STORAGE" value="6"/>
     <eLiterals name="USER_INTERFACE" value="7"/>
   </eClassifiers>
+  
+<eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//UnifiedElement" abstract="true">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Base class for all requirements in the safety lifecycle"/>
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="requirementId" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="requirementText" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" 
+      eType="#//RequirementStatus" defaultValueLiteral="DRAFT"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="verificationMethod" 
+      eType="#//VerificationMethod"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="rationale" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="derivedFrom" 
+      upperBound="-1" eType="#//Requirement"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="satisfiedBy" 
+      upperBound="-1" eType="#//SystemBlock"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EClass" name="SafetyGoal" eSuperTypes="#//Requirement">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Top-level safety requirement from HARA (ISO 26262-3)"/>
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="asilLevel" 
+      eType="#//ASILLevel"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="relatedHazard" 
+      eType="#//IntegratedHazard"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="safeState" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedTo" 
+      upperBound="-1" eType="#//FunctionalSafetyRequirement" 
+      eOpposite="#//FunctionalSafetyRequirement/allocatedFrom"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EClass" name="FunctionalSafetyRequirement" 
+    eSuperTypes="#//Requirement">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Functional safety requirement (ISO 26262-4)"/>
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="requirementType" 
+      eType="#//FunctionalRequirementType"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedFrom" 
+      eType="#//SafetyGoal" eOpposite="#//SafetyGoal/allocatedTo"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="refinedTo" 
+      upperBound="-1" eType="#//TechnicalSafetyRequirement" 
+      eOpposite="#//TechnicalSafetyRequirement/refinesFrom"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="implementedBy" 
+      upperBound="-1" eType="#//SafetyCriticalBlock"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EClass" name="TechnicalSafetyRequirement" 
+    eSuperTypes="#//Requirement">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Technical safety requirement at system level (ISO 26262-4)"/>
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="technicalCategory" 
+      eType="#//TechnicalRequirementCategory"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="allocatedASIL" 
+      eType="#//ASILLevel"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="refinesFrom" 
+      eType="#//FunctionalSafetyRequirement" 
+      eOpposite="#//FunctionalSafetyRequirement/refinedTo"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="realizedBy" 
+      upperBound="-1" eType="#//SafetyCriticalBlock"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="verifiedBy" 
+      upperBound="-1" eType="#//FMEAItem"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EClass" name="SafetyMechanism" 
+    eSuperTypes="#//UnifiedElement">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Safety mechanism implementing safety requirements"/>
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="mechanismType" 
+      eType="#//SafetyMechanismType"/>
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="diagnosticCoverage" 
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="implements" 
+      upperBound="-1" eType="#//TechnicalSafetyRequirement"/>
+  <eStructuralFeatures xsi:type="ecore:EReference" name="implementedIn" 
+      eType="#//SafetyCriticalBlock"/>
+	  <!-- Add to SafetyMechanism class: -->
+<eStructuralFeatures xsi:type="ecore:EReference" name="validatedBy" upperBound="-1" eType="#//FMEAItem" eOpposite="#//FMEAItem/validatesMechanisms"/>
+</eClassifiers>
+
+<!-- ============================================ -->
+<!-- ENUMERATIONS -->
+<!-- ============================================ -->
+
+<eClassifiers xsi:type="ecore:EEnum" name="RequirementStatus">
+  <eLiterals name="DRAFT"/>
+  <eLiterals name="UNDER_REVIEW" value="1"/>
+  <eLiterals name="APPROVED" value="2"/>
+  <eLiterals name="IMPLEMENTED" value="3"/>
+  <eLiterals name="VERIFIED" value="4"/>
+  <eLiterals name="DEPRECATED" value="5"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EEnum" name="VerificationMethod">
+  <eLiterals name="INSPECTION"/>
+  <eLiterals name="ANALYSIS" value="1"/>
+  <eLiterals name="SIMULATION" value="2"/>
+  <eLiterals name="TEST" value="3"/>
+  <eLiterals name="FORMAL_PROOF" value="4"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EEnum" name="FunctionalRequirementType">
+  <eLiterals name="FAULT_DETECTION"/>
+  <eLiterals name="FAULT_HANDLING" value="1"/>
+  <eLiterals name="ARBITRATION" value="2"/>
+  <eLiterals name="WARNING_INDICATION" value="3"/>
+  <eLiterals name="SAFE_STATE_TRANSITION" value="4"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EEnum" name="TechnicalRequirementCategory">
+  <eLiterals name="HARDWARE_REQUIREMENT"/>
+  <eLiterals name="SOFTWARE_REQUIREMENT" value="1"/>
+  <eLiterals name="SYSTEM_REQUIREMENT" value="2"/>
+  <eLiterals name="INTERFACE_REQUIREMENT" value="3"/>
+</eClassifiers>
+
+<eClassifiers xsi:type="ecore:EEnum" name="SafetyMechanismType">
+  <eLiterals name="REDUNDANCY"/>
+  <eLiterals name="PLAUSIBILITY_CHECK" value="1"/>
+  <eLiterals name="WATCHDOG" value="2"/>
+  <eLiterals name="SELF_TEST" value="3"/>
+  <eLiterals name="GRACEFUL_DEGRADATION" value="4"/>
+  <eLiterals name="ERROR_DETECTION_CODE" value="5"/>
+  <eLiterals name="LOCKSTEP" value="6"/>
+</eClassifiers>
+
+  
 </ecore:EPackage>

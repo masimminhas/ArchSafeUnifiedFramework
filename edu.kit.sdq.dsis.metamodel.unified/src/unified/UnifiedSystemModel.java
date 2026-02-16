@@ -26,6 +26,10 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link unified.UnifiedSystemModel#getAnalysisMetadata <em>Analysis Metadata</em>}</li>
  *   <li>{@link unified.UnifiedSystemModel#getModelVersion <em>Model Version</em>}</li>
  *   <li>{@link unified.UnifiedSystemModel#getLastModified <em>Last Modified</em>}</li>
+ *   <li>{@link unified.UnifiedSystemModel#getSafetyGoals <em>Safety Goals</em>}</li>
+ *   <li>{@link unified.UnifiedSystemModel#getFunctionalRequirements <em>Functional Requirements</em>}</li>
+ *   <li>{@link unified.UnifiedSystemModel#getTechnicalRequirements <em>Technical Requirements</em>}</li>
+ *   <li>{@link unified.UnifiedSystemModel#getSafetyMechanisms <em>Safety Mechanisms</em>}</li>
  * </ul>
  *
  * @see unified.UnifiedPackage#getUnifiedSystemModel()
@@ -171,5 +175,53 @@ public interface UnifiedSystemModel extends EObject {
 	 * @generated
 	 */
 	void setLastModified(Date value);
+
+	/**
+	 * Returns the value of the '<em><b>Safety Goals</b></em>' containment reference list.
+	 * The list contents are of type {@link unified.SafetyGoal}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Safety Goals</em>' containment reference list.
+	 * @see unified.UnifiedPackage#getUnifiedSystemModel_SafetyGoals()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<SafetyGoal> getSafetyGoals();
+
+	/**
+	 * Returns the value of the '<em><b>Functional Requirements</b></em>' containment reference list.
+	 * The list contents are of type {@link unified.FunctionalSafetyRequirement}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Functional Requirements</em>' containment reference list.
+	 * @see unified.UnifiedPackage#getUnifiedSystemModel_FunctionalRequirements()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<FunctionalSafetyRequirement> getFunctionalRequirements();
+
+	/**
+	 * Returns the value of the '<em><b>Technical Requirements</b></em>' containment reference list.
+	 * The list contents are of type {@link unified.TechnicalSafetyRequirement}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Technical Requirements</em>' containment reference list.
+	 * @see unified.UnifiedPackage#getUnifiedSystemModel_TechnicalRequirements()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<TechnicalSafetyRequirement> getTechnicalRequirements();
+
+	/**
+	 * Returns the value of the '<em><b>Safety Mechanisms</b></em>' containment reference list.
+	 * The list contents are of type {@link unified.SafetyMechanism}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Safety Mechanisms</em>' containment reference list.
+	 * @see unified.UnifiedPackage#getUnifiedSystemModel_SafetyMechanisms()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<SafetyMechanism> getSafetyMechanisms();
 
 } // UnifiedSystemModel

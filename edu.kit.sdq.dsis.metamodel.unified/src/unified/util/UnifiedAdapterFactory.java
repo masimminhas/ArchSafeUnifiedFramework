@@ -112,6 +112,26 @@ public class UnifiedAdapterFactory extends AdapterFactoryImpl {
 				return createAnalysisMetadataAdapter();
 			}
 			@Override
+			public Adapter caseRequirement(Requirement object) {
+				return createRequirementAdapter();
+			}
+			@Override
+			public Adapter caseSafetyGoal(SafetyGoal object) {
+				return createSafetyGoalAdapter();
+			}
+			@Override
+			public Adapter caseFunctionalSafetyRequirement(FunctionalSafetyRequirement object) {
+				return createFunctionalSafetyRequirementAdapter();
+			}
+			@Override
+			public Adapter caseTechnicalSafetyRequirement(TechnicalSafetyRequirement object) {
+				return createTechnicalSafetyRequirementAdapter();
+			}
+			@Override
+			public Adapter caseSafetyMechanism(SafetyMechanism object) {
+				return createSafetyMechanismAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -282,6 +302,76 @@ public class UnifiedAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAnalysisMetadataAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link unified.Requirement <em>Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see unified.Requirement
+	 * @generated
+	 */
+	public Adapter createRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link unified.SafetyGoal <em>Safety Goal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see unified.SafetyGoal
+	 * @generated
+	 */
+	public Adapter createSafetyGoalAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link unified.FunctionalSafetyRequirement <em>Functional Safety Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see unified.FunctionalSafetyRequirement
+	 * @generated
+	 */
+	public Adapter createFunctionalSafetyRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link unified.TechnicalSafetyRequirement <em>Technical Safety Requirement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see unified.TechnicalSafetyRequirement
+	 * @generated
+	 */
+	public Adapter createTechnicalSafetyRequirementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link unified.SafetyMechanism <em>Safety Mechanism</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see unified.SafetyMechanism
+	 * @generated
+	 */
+	public Adapter createSafetyMechanismAdapter() {
 		return null;
 	}
 

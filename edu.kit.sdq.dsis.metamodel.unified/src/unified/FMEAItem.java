@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link unified.FMEAItem#getRelatedHazards <em>Related Hazards</em>}</li>
  *   <li>{@link unified.FMEAItem#getResponsiblePerson <em>Responsible Person</em>}</li>
  *   <li>{@link unified.FMEAItem#getDueDate <em>Due Date</em>}</li>
+ *   <li>{@link unified.FMEAItem#getValidatesMechanisms <em>Validates Mechanisms</em>}</li>
  * </ul>
  *
  * @see unified.UnifiedPackage#getFMEAItem()
@@ -314,5 +315,19 @@ public interface FMEAItem extends UnifiedElement {
 	 * @generated
 	 */
 	void setDueDate(Date value);
+
+	/**
+	 * Returns the value of the '<em><b>Validates Mechanisms</b></em>' reference list.
+	 * The list contents are of type {@link unified.SafetyMechanism}.
+	 * It is bidirectional and its opposite is '{@link unified.SafetyMechanism#getValidatedBy <em>Validated By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Validates Mechanisms</em>' reference list.
+	 * @see unified.UnifiedPackage#getFMEAItem_ValidatesMechanisms()
+	 * @see unified.SafetyMechanism#getValidatedBy
+	 * @model opposite="validatedBy"
+	 * @generated
+	 */
+	EList<SafetyMechanism> getValidatesMechanisms();
 
 } // FMEAItem

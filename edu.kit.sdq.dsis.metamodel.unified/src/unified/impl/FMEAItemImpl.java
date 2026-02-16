@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -16,11 +17,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import unified.ActionStatus;
 import unified.BlockFailureMode;
 import unified.FMEAItem;
 import unified.IntegratedHazard;
 import unified.SafetyCriticalBlock;
+import unified.SafetyMechanism;
 import unified.UnifiedPackage;
 
 /**
@@ -44,6 +48,7 @@ import unified.UnifiedPackage;
  *   <li>{@link unified.impl.FMEAItemImpl#getRelatedHazards <em>Related Hazards</em>}</li>
  *   <li>{@link unified.impl.FMEAItemImpl#getResponsiblePerson <em>Responsible Person</em>}</li>
  *   <li>{@link unified.impl.FMEAItemImpl#getDueDate <em>Due Date</em>}</li>
+ *   <li>{@link unified.impl.FMEAItemImpl#getValidatesMechanisms <em>Validates Mechanisms</em>}</li>
  * </ul>
  *
  * @generated
@@ -278,6 +283,16 @@ public class FMEAItemImpl extends UnifiedElementImpl implements FMEAItem {
 	 * @ordered
 	 */
 	protected Date dueDate = DUE_DATE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getValidatesMechanisms() <em>Validates Mechanisms</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getValidatesMechanisms()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SafetyMechanism> validatesMechanisms;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -601,6 +616,47 @@ public class FMEAItemImpl extends UnifiedElementImpl implements FMEAItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<SafetyMechanism> getValidatesMechanisms() {
+		if (validatesMechanisms == null) {
+			validatesMechanisms = new EObjectWithInverseResolvingEList.ManyInverse<SafetyMechanism>(SafetyMechanism.class, this, UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS, UnifiedPackage.SAFETY_MECHANISM__VALIDATED_BY);
+		}
+		return validatesMechanisms;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getValidatesMechanisms()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS:
+				return ((InternalEList<?>)getValidatesMechanisms()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -632,6 +688,8 @@ public class FMEAItemImpl extends UnifiedElementImpl implements FMEAItem {
 				return getResponsiblePerson();
 			case UnifiedPackage.FMEA_ITEM__DUE_DATE:
 				return getDueDate();
+			case UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS:
+				return getValidatesMechanisms();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -685,6 +743,10 @@ public class FMEAItemImpl extends UnifiedElementImpl implements FMEAItem {
 			case UnifiedPackage.FMEA_ITEM__DUE_DATE:
 				setDueDate((Date)newValue);
 				return;
+			case UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS:
+				getValidatesMechanisms().clear();
+				getValidatesMechanisms().addAll((Collection<? extends SafetyMechanism>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -736,6 +798,9 @@ public class FMEAItemImpl extends UnifiedElementImpl implements FMEAItem {
 			case UnifiedPackage.FMEA_ITEM__DUE_DATE:
 				setDueDate(DUE_DATE_EDEFAULT);
 				return;
+			case UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS:
+				getValidatesMechanisms().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -774,6 +839,8 @@ public class FMEAItemImpl extends UnifiedElementImpl implements FMEAItem {
 				return RESPONSIBLE_PERSON_EDEFAULT == null ? responsiblePerson != null : !RESPONSIBLE_PERSON_EDEFAULT.equals(responsiblePerson);
 			case UnifiedPackage.FMEA_ITEM__DUE_DATE:
 				return DUE_DATE_EDEFAULT == null ? dueDate != null : !DUE_DATE_EDEFAULT.equals(dueDate);
+			case UnifiedPackage.FMEA_ITEM__VALIDATES_MECHANISMS:
+				return validatesMechanisms != null && !validatesMechanisms.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

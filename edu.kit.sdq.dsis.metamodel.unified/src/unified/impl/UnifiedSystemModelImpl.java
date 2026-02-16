@@ -23,9 +23,13 @@ import unified.AnalysisMetadata;
 import unified.BlockAssociation;
 import unified.BlockConnection;
 import unified.FMEAAnalysis;
+import unified.FunctionalSafetyRequirement;
 import unified.IntegratedHazard;
 import unified.SafetyCriticalBlock;
+import unified.SafetyGoal;
+import unified.SafetyMechanism;
 import unified.SystemBlock;
+import unified.TechnicalSafetyRequirement;
 import unified.UnifiedPackage;
 import unified.UnifiedSystemModel;
 
@@ -46,6 +50,10 @@ import unified.UnifiedSystemModel;
  *   <li>{@link unified.impl.UnifiedSystemModelImpl#getAnalysisMetadata <em>Analysis Metadata</em>}</li>
  *   <li>{@link unified.impl.UnifiedSystemModelImpl#getModelVersion <em>Model Version</em>}</li>
  *   <li>{@link unified.impl.UnifiedSystemModelImpl#getLastModified <em>Last Modified</em>}</li>
+ *   <li>{@link unified.impl.UnifiedSystemModelImpl#getSafetyGoals <em>Safety Goals</em>}</li>
+ *   <li>{@link unified.impl.UnifiedSystemModelImpl#getFunctionalRequirements <em>Functional Requirements</em>}</li>
+ *   <li>{@link unified.impl.UnifiedSystemModelImpl#getTechnicalRequirements <em>Technical Requirements</em>}</li>
+ *   <li>{@link unified.impl.UnifiedSystemModelImpl#getSafetyMechanisms <em>Safety Mechanisms</em>}</li>
  * </ul>
  *
  * @generated
@@ -160,6 +168,46 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	 * @ordered
 	 */
 	protected Date lastModified = LAST_MODIFIED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getSafetyGoals() <em>Safety Goals</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSafetyGoals()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SafetyGoal> safetyGoals;
+
+	/**
+	 * The cached value of the '{@link #getFunctionalRequirements() <em>Functional Requirements</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFunctionalRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<FunctionalSafetyRequirement> functionalRequirements;
+
+	/**
+	 * The cached value of the '{@link #getTechnicalRequirements() <em>Technical Requirements</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTechnicalRequirements()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<TechnicalSafetyRequirement> technicalRequirements;
+
+	/**
+	 * The cached value of the '{@link #getSafetyMechanisms() <em>Safety Mechanisms</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSafetyMechanisms()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SafetyMechanism> safetyMechanisms;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -342,6 +390,54 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<SafetyGoal> getSafetyGoals() {
+		if (safetyGoals == null) {
+			safetyGoals = new EObjectContainmentEList<SafetyGoal>(SafetyGoal.class, this, UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS);
+		}
+		return safetyGoals;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<FunctionalSafetyRequirement> getFunctionalRequirements() {
+		if (functionalRequirements == null) {
+			functionalRequirements = new EObjectContainmentEList<FunctionalSafetyRequirement>(FunctionalSafetyRequirement.class, this, UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS);
+		}
+		return functionalRequirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<TechnicalSafetyRequirement> getTechnicalRequirements() {
+		if (technicalRequirements == null) {
+			technicalRequirements = new EObjectContainmentEList<TechnicalSafetyRequirement>(TechnicalSafetyRequirement.class, this, UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS);
+		}
+		return technicalRequirements;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<SafetyMechanism> getSafetyMechanisms() {
+		if (safetyMechanisms == null) {
+			safetyMechanisms = new EObjectContainmentEList<SafetyMechanism>(SafetyMechanism.class, this, UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS);
+		}
+		return safetyMechanisms;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -359,6 +455,14 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 				return ((InternalEList<?>)getBlockConnections()).basicRemove(otherEnd, msgs);
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA:
 				return basicSetAnalysisMetadata(null, msgs);
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS:
+				return ((InternalEList<?>)getSafetyGoals()).basicRemove(otherEnd, msgs);
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS:
+				return ((InternalEList<?>)getFunctionalRequirements()).basicRemove(otherEnd, msgs);
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS:
+				return ((InternalEList<?>)getTechnicalRequirements()).basicRemove(otherEnd, msgs);
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS:
+				return ((InternalEList<?>)getSafetyMechanisms()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -389,6 +493,14 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 				return getModelVersion();
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__LAST_MODIFIED:
 				return getLastModified();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS:
+				return getSafetyGoals();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS:
+				return getFunctionalRequirements();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS:
+				return getTechnicalRequirements();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS:
+				return getSafetyMechanisms();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -435,6 +547,22 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__LAST_MODIFIED:
 				setLastModified((Date)newValue);
 				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS:
+				getSafetyGoals().clear();
+				getSafetyGoals().addAll((Collection<? extends SafetyGoal>)newValue);
+				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS:
+				getFunctionalRequirements().clear();
+				getFunctionalRequirements().addAll((Collection<? extends FunctionalSafetyRequirement>)newValue);
+				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS:
+				getTechnicalRequirements().clear();
+				getTechnicalRequirements().addAll((Collection<? extends TechnicalSafetyRequirement>)newValue);
+				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS:
+				getSafetyMechanisms().clear();
+				getSafetyMechanisms().addAll((Collection<? extends SafetyMechanism>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -474,6 +602,18 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__LAST_MODIFIED:
 				setLastModified(LAST_MODIFIED_EDEFAULT);
 				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS:
+				getSafetyGoals().clear();
+				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS:
+				getFunctionalRequirements().clear();
+				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS:
+				getTechnicalRequirements().clear();
+				return;
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS:
+				getSafetyMechanisms().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -504,6 +644,14 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 				return MODEL_VERSION_EDEFAULT == null ? modelVersion != null : !MODEL_VERSION_EDEFAULT.equals(modelVersion);
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__LAST_MODIFIED:
 				return LAST_MODIFIED_EDEFAULT == null ? lastModified != null : !LAST_MODIFIED_EDEFAULT.equals(lastModified);
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_GOALS:
+				return safetyGoals != null && !safetyGoals.isEmpty();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS:
+				return functionalRequirements != null && !functionalRequirements.isEmpty();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS:
+				return technicalRequirements != null && !technicalRequirements.isEmpty();
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS:
+				return safetyMechanisms != null && !safetyMechanisms.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
