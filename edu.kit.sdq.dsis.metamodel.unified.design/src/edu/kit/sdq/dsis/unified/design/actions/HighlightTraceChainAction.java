@@ -10,18 +10,14 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.swt.widgets.Display;
 
-import unified.SafetyCriticalBlock;
-import unified.UnifiedSystemModel;
-import unified.BlockConnection;
-import unified.BlockFailureMode;
-import unified.FMEAAnalysis;
-import unified.IntegratedHazard;
-import unified.FMEAItem;
-import unified.SystemBlock;
-import unified.UnifiedElement;
+import unified.*;
 
+/**
+ * Highlight Trace Chain Action - UPDATED for Requirements Support
+ * Highlights trace chains including requirement elements.
+ */
 public class HighlightTraceChainAction extends AbstractExternalJavaAction {
-    
+
     @Override
     public void execute(Collection<? extends EObject> selections, Map<String, Object> parameters) {
         if (selections == null || selections.isEmpty()) {
@@ -31,7 +27,7 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
 
         EObject firstSelection = selections.iterator().next();
         EObject semanticElement = getSemanticElement(firstSelection);
-        
+
         if (semanticElement == null) {
             showError("Invalid Selection", "Could not determine semantic element.");
             return;
@@ -43,21 +39,16 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
             return;
         }
 
-        // Prompt user for trace direction
         int traceDirection = promptTraceDirection();
-        if (traceDirection == -1) {
-            return; // User cancelled
-        }
+        if (traceDirection == -1) return; // User cancelled
 
-        // Compute trace chain
         Set<EObject> traceChain = computeTraceChain(semanticElement, model, traceDirection);
-        
+
         if (traceChain.isEmpty()) {
             showInfo("No Traces", "No trace links found for the selected element.");
             return;
         }
 
-        // Show summary
         showTraceChainSummary(semanticElement, traceChain, traceDirection);
     }
 
@@ -66,55 +57,68 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
         Display.getDefault().syncExec(() -> {
             MessageDialog dialog = new MessageDialog(
                 Display.getDefault().getActiveShell(),
-                "Select Trace Direction",
-                null,
+                "Select Trace Direction", null,
                 "Choose which trace links to highlight:",
                 MessageDialog.QUESTION,
-                new String[] { 
-                    "Forward (Dependencies)", 
-                    "Backward (Dependents)", 
+                new String[] {
+                    "Forward (Dependencies)",
+                    "Backward (Dependents)",
                     "Both (Complete Chain)",
-                    "Cancel" 
-                },
-                0
+                    "Cancel"
+                }, 0
             );
             result[0] = dialog.open();
         });
-        
         if (result[0] == 3) return -1; // Cancel
-        return result[0]; // 0=forward, 1=backward, 2=both
+        return result[0];              // 0=forward, 1=backward, 2=both
     }
 
     private Set<EObject> computeTraceChain(EObject element, UnifiedSystemModel model, int direction) {
-        Set<EObject> chain = new HashSet<>();
+        Set<EObject> chain   = new HashSet<>();
         Set<EObject> visited = new HashSet<>();
-        
-        if (direction == 0 || direction == 2) {
-            // Forward traces
+
+        if (direction == 0 || direction == 2)
             computeForwardTraces(element, model, chain, visited);
-        }
-        
+
         if (direction == 1 || direction == 2) {
-            // Backward traces
-            visited.clear(); // Reset visited for backward pass
+            visited.clear();
             computeBackwardTraces(element, model, chain, visited);
         }
-        
+
         return chain;
     }
 
-    private void computeForwardTraces(EObject element, UnifiedSystemModel model, 
-                                     Set<EObject> chain, Set<EObject> visited) {
+    private void computeForwardTraces(EObject element, UnifiedSystemModel model,
+                                      Set<EObject> chain, Set<EObject> visited) {
         if (visited.contains(element)) return;
         visited.add(element);
-        
-        if (element instanceof IntegratedHazard) {
+
+        if (element instanceof Requirement) {
+            Requirement req = (Requirement) element;
+            for (SafetyCriticalBlock block : RequirementTraceHelper.getRelatedBlocks(req)) {
+                chain.add(block);
+                computeForwardTraces(block, model, chain, visited);
+            }
+            for (IntegratedHazard hazard : RequirementTraceHelper.getRelatedHazards(req)) {
+                chain.add(hazard);
+                computeForwardTraces(hazard, model, chain, visited);
+            }
+            for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
+                for (FMEAItem item : analysis.getFmeaItems()) {
+                    if (RequirementTraceHelper.getRelatedRequirements(item).contains(req)) {
+                        chain.add(item);
+                        computeForwardTraces(item, model, chain, visited);
+                    }
+                }
+            }
+
+        } else if (element instanceof IntegratedHazard) {
             IntegratedHazard hazard = (IntegratedHazard) element;
             for (SafetyCriticalBlock block : hazard.getRelatedBlocks()) {
                 chain.add(block);
                 computeForwardTraces(block, model, chain, visited);
             }
-            
+
         } else if (element instanceof SafetyCriticalBlock) {
             SafetyCriticalBlock block = (SafetyCriticalBlock) element;
             for (BlockFailureMode fm : block.getFailureModes()) {
@@ -135,7 +139,7 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
                     chain.add(conn);
                 }
             }
-            
+
         } else if (element instanceof BlockFailureMode) {
             BlockFailureMode fm = (BlockFailureMode) element;
             for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
@@ -146,28 +150,40 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
                     }
                 }
             }
-            
+
         } else if (element instanceof FMEAItem) {
             FMEAItem item = (FMEAItem) element;
-            if (item.getAnalyzedComponent() != null) {
-                chain.add(item.getAnalyzedComponent());
-            }
-            if (item.getFailureMode() != null) {
-                chain.add(item.getFailureMode());
-            }
-            for (IntegratedHazard hazard : item.getRelatedHazards()) {
-                chain.add(hazard);
-            }
+            if (item.getAnalyzedComponent() != null) chain.add(item.getAnalyzedComponent());
+            if (item.getFailureMode() != null)       chain.add(item.getFailureMode());
+            for (IntegratedHazard hazard : item.getRelatedHazards()) chain.add(hazard);
+            for (Requirement req : RequirementTraceHelper.getRelatedRequirements(item)) chain.add(req);
         }
     }
 
-    private void computeBackwardTraces(EObject element, UnifiedSystemModel model, 
-                                      Set<EObject> chain, Set<EObject> visited) {
+    private void computeBackwardTraces(EObject element, UnifiedSystemModel model,
+                                       Set<EObject> chain, Set<EObject> visited) {
         if (visited.contains(element)) return;
         visited.add(element);
-        
-        if (element instanceof SafetyCriticalBlock) {
+
+        if (element instanceof Requirement) {
+            Requirement req = (Requirement) element;
+            for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
+                for (FMEAItem item : analysis.getFmeaItems()) {
+                    if (RequirementTraceHelper.getRelatedRequirements(item).contains(req)) {
+                        chain.add(item);
+                        computeBackwardTraces(item, model, chain, visited);
+                    }
+                }
+            }
+
+        } else if (element instanceof SafetyCriticalBlock) {
             SafetyCriticalBlock block = (SafetyCriticalBlock) element;
+            for (Requirement req : RequirementTraceHelper.getRequirements(model)) {
+                if (RequirementTraceHelper.getRelatedBlocks(req).contains(block)) {
+                    chain.add(req);
+                    computeBackwardTraces(req, model, chain, visited);
+                }
+            }
             for (IntegratedHazard hazard : model.getGlobalHazards()) {
                 if (hazard.getRelatedBlocks().contains(block)) {
                     chain.add(hazard);
@@ -188,7 +204,24 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
                     chain.add(conn);
                 }
             }
-            
+
+        } else if (element instanceof IntegratedHazard) {
+            IntegratedHazard hazard = (IntegratedHazard) element;
+            for (Requirement req : RequirementTraceHelper.getRequirements(model)) {
+                if (RequirementTraceHelper.getRelatedHazards(req).contains(hazard)) {
+                    chain.add(req);
+                    computeBackwardTraces(req, model, chain, visited);
+                }
+            }
+            for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
+                for (FMEAItem item : analysis.getFmeaItems()) {
+                    if (item.getRelatedHazards().contains(hazard)) {
+                        chain.add(item);
+                        computeBackwardTraces(item, model, chain, visited);
+                    }
+                }
+            }
+
         } else if (element instanceof BlockFailureMode) {
             BlockFailureMode fm = (BlockFailureMode) element;
             if (fm.getAffectedBlock() != null) {
@@ -203,7 +236,7 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
                     }
                 }
             }
-            
+
         } else if (element instanceof FMEAItem) {
             FMEAItem item = (FMEAItem) element;
             if (item.getAnalyzedComponent() != null) {
@@ -218,120 +251,105 @@ public class HighlightTraceChainAction extends AbstractExternalJavaAction {
                 chain.add(hazard);
                 computeBackwardTraces(hazard, model, chain, visited);
             }
-            
-        } else if (element instanceof IntegratedHazard) {
-            IntegratedHazard hazard = (IntegratedHazard) element;
-            for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
-                for (FMEAItem item : analysis.getFmeaItems()) {
-                    if (item.getRelatedHazards().contains(hazard)) {
-                        chain.add(item);
-                        computeBackwardTraces(item, model, chain, visited);
-                    }
-                }
+            for (Requirement req : RequirementTraceHelper.getRelatedRequirements(item)) {
+                chain.add(req);
+                computeBackwardTraces(req, model, chain, visited);
             }
         }
     }
 
     private void showTraceChainSummary(EObject source, Set<EObject> chain, int direction) {
         StringBuilder summary = new StringBuilder();
-        summary.append("═══════════════════════════════════════════════════\n");
-        summary.append("           TRACE CHAIN ANALYSIS\n");
-        summary.append("═══════════════════════════════════════════════════\n\n");
-        
+        summary.append("=================================================\n");
+        summary.append("          TRACE CHAIN ANALYSIS\n");
+        summary.append("=================================================\n\n");
+
         String sourceName = getElementName(source);
         String sourceType = source.eClass().getName();
-        summary.append("📍 Source Element:\n");
-        summary.append("   " + sourceName + "[" + sourceType + "]\n\n");
+        summary.append("Source Element:\n");
+        summary.append("   " + sourceName + " [" + sourceType + "]\n\n");
+
         String directionStr = direction == 0 ? "Forward (Dependencies)" :
             direction == 1 ? "Backward (Dependents)" : "Complete Chain";
-summary.append("🔗 Trace Direction: " + directionStr + "\n");
-summary.append("📊 Total Elements in Chain: " + chain.size() + "\n\n");
+        summary.append("Trace Direction: " + directionStr + "\n");
+        summary.append("Total Elements in Chain: " + chain.size() + "\n\n");
 
-// Group by type
-Map<String, List<EObject>> byType = chain.stream()
-.collect(Collectors.groupingBy(e -> e.eClass().getName()));
+        // Group by type
+        Map<String, List<EObject>> byType = chain.stream()
+            .collect(Collectors.groupingBy(e -> e.eClass().getName()));
 
-summary.append("📦 Elements by Type:\n");
-summary.append("───────────────────────────────────────────────────\n");
+        summary.append("Elements by Type:\n");
+        summary.append("-------------------------------------------------\n");
 
-List<String> sortedTypes = new ArrayList<>(byType.keySet());
-Collections.sort(sortedTypes);
+        List<String> sortedTypes = new ArrayList<>(byType.keySet());
+        Collections.sort(sortedTypes);
 
-for (String type : sortedTypes) {
-List<EObject> elements = byType.get(type);
-summary.append(String.format("\n▶ %s (%d):\n", type, elements.size()));
-for (EObject elem : elements) {
-summary.append("  • " + getElementName(elem));
+        for (String type : sortedTypes) {
+            List<EObject> elements = byType.get(type);
+            summary.append(String.format("\n%s (%d):\n", type, elements.size()));
+            for (EObject elem : elements) {
+                summary.append("  - " + getElementName(elem));
+                if (elem instanceof Requirement) {
+                    Requirement req = (Requirement) elem;
+                    Object reqType  = RequirementTraceHelper.getRequirementType(req);
+                    Object priority = RequirementTraceHelper.getPriority(req);
+                    summary.append(" [" + (reqType  != null ? reqType  : "N/A") +
+                        ", Priority: " + (priority != null ? priority : "N/A") + "]");
+                } else if (elem instanceof SafetyCriticalBlock) {
+                    summary.append(" [" + ((SafetyCriticalBlock) elem).getAsilLevel() + "]");
+                } else if (elem instanceof IntegratedHazard) {
+                    summary.append(" [" + ((IntegratedHazard) elem).getRiskLevel() + "]");
+                } else if (elem instanceof FMEAItem) {
+                    FMEAItem item = (FMEAItem) elem;
+                    int rpn = item.getSeverity() * item.getOccurrence() * item.getDetection();
+                    summary.append(" [RPN: " + rpn + "]");
+                }
+                summary.append("\n");
+            }
+        }
 
-// Add context info
-if (elem instanceof SafetyCriticalBlock) {
-   SafetyCriticalBlock block = (SafetyCriticalBlock) elem;
-   summary.append(" [" + block.getAsilLevel() + "]");
-} else if (elem instanceof IntegratedHazard) {
-   IntegratedHazard hazard = (IntegratedHazard) elem;
-   summary.append(" [" + hazard.getRiskLevel() + "]");
-} else if (elem instanceof FMEAItem) {
-   FMEAItem item = (FMEAItem) elem;
-   int rpn = item.getSeverity() * item.getOccurrence() * item.getDetection();
-   summary.append(" [RPN: " + rpn + "]");
-}
-summary.append("\n");
-}
-}
+        summary.append("\n=================================================\n");
+        showInfo("Trace Chain Summary", summary.toString());
+    }
 
-summary.append("\n═══════════════════════════════════════════════════\n");
+    private String getElementName(EObject element) {
+        if (element instanceof UnifiedElement) {
+            String name = ((UnifiedElement) element).getName();
+            return name != null ? name : "<unnamed>";
+        }
+        return element.eClass().getName();
+    }
 
-showInfo("Trace Chain Summary", summary.toString());
-}
+    private EObject getSemanticElement(EObject obj) {
+        if (obj instanceof DDiagramElement) {
+            EObject target = ((DDiagramElement) obj).getTarget();
+            if (target != null) return target;
+        }
+        if (obj instanceof DSemanticDecorator)
+            return ((DSemanticDecorator) obj).getTarget();
+        return obj;
+    }
 
-private String getElementName(EObject element) {
-if (element instanceof UnifiedElement) {
-String name = ((UnifiedElement) element).getName();
-return name != null ? name : "<unnamed>";
-}
-return element.eClass().getName();
-}
+    private UnifiedSystemModel getUnifiedSystemModel(EObject obj) {
+        if (obj instanceof UnifiedSystemModel) return (UnifiedSystemModel) obj;
+        if (obj.eContainer() != null) return getUnifiedSystemModel(obj.eContainer());
+        return null;
+    }
 
-private EObject getSemanticElement(EObject obj) {
-if (obj instanceof DDiagramElement) {
-DDiagramElement diagramElement = (DDiagramElement) obj;
-EObject target = diagramElement.getTarget();
-if (target != null) {
-return target;
-}
-}
+    private void showError(String title, String message) {
+        Display.getDefault().syncExec(() ->
+            MessageDialog.openError(Display.getDefault().getActiveShell(), title, message)
+        );
+    }
 
-if (obj instanceof DSemanticDecorator) {
-return ((DSemanticDecorator) obj).getTarget();
-}
+    private void showInfo(String title, String message) {
+        Display.getDefault().syncExec(() ->
+            MessageDialog.openInformation(Display.getDefault().getActiveShell(), title, message)
+        );
+    }
 
-return obj;
-}
-
-private UnifiedSystemModel getUnifiedSystemModel(EObject obj) {
-if (obj instanceof UnifiedSystemModel) {
-return (UnifiedSystemModel) obj;
-}
-if (obj.eContainer() != null) {
-return getUnifiedSystemModel(obj.eContainer());
-}
-return null;
-}
-
-private void showError(String title, String message) {
-Display.getDefault().syncExec(() -> 
-MessageDialog.openError(Display.getDefault().getActiveShell(), title, message)
-);
-}
-
-private void showInfo(String title, String message) {
-Display.getDefault().syncExec(() -> 
-MessageDialog.openInformation(Display.getDefault().getActiveShell(), title, message)
-);
-}
-
-@Override
-public boolean canExecute(Collection<? extends EObject> selections) {
-return selections != null && !selections.isEmpty();
-}
+    @Override
+    public boolean canExecute(Collection<? extends EObject> selections) {
+        return selections != null && !selections.isEmpty();
+    }
 }

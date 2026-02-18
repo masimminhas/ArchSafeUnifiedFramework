@@ -127,4 +127,6 @@ public interface TechnicalSafetyRequirement extends Requirement {
 	 */
 	EList<FMEAItem> getVerifiedBy();
 
+	
+
 } // TechnicalSafetyRequirement

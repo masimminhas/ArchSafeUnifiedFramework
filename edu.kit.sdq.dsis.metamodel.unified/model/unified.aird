@@ -4,7 +4,7 @@
     <semanticResources>unified.ecore</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_qVXDkONZEfCxmN6x_wau_Q">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_rCdaIONZEfCxmN6x_wau_Q" name="unified class diagram" repPath="#_rB3kQONZEfCxmN6x_wau_Q" changeId="1771245377400">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_rCdaIONZEfCxmN6x_wau_Q" name="unified class diagram" repPath="#_rB3kQONZEfCxmN6x_wau_Q" changeId="1771246199241">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="unified.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -4108,11 +4108,11 @@
       <semanticElements xmi:type="ecore:EReference" href="unified.ecore#//FMEAItem/validatesMechanisms"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_GOuBQAnUEfGLZfMP5bbjFQ" sourceArrow="InputArrow" routingStyle="manhattan" strokeColor="0,0,0">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='Bi-directional%20EC_EReference%20']/@style"/>
-        <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_GOuBQQnUEfGLZfMP5bbjFQ" labelSize="9" showIcon="false">
+        <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_GOuBQQnUEfGLZfMP5bbjFQ" showIcon="false">
           <customFeatures>labelFormat</customFeatures>
           <labelFormat>bold</labelFormat>
         </beginLabelStyle>
-        <endLabelStyle xmi:type="diagram:EndLabelStyle" uid="_GOuBQgnUEfGLZfMP5bbjFQ" labelSize="9" showIcon="false">
+        <endLabelStyle xmi:type="diagram:EndLabelStyle" uid="_GOuBQgnUEfGLZfMP5bbjFQ" showIcon="false">
           <customFeatures>labelFormat</customFeatures>
           <labelFormat>bold</labelFormat>
         </endLabelStyle>

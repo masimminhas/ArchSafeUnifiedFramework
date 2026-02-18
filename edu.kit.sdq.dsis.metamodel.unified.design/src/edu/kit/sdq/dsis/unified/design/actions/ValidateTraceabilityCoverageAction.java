@@ -1,439 +1,250 @@
 package edu.kit.sdq.dsis.unified.design.actions;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.sirius.business.api.action.AbstractExternalJavaAction;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
 
-import unified.UnifiedSystemModel;
-import unified.FMEAAnalysis;
-import unified.FMEAItem;
-import unified.SafetyCriticalBlock;
-import unified.BlockFailureMode;
-import unified.IntegratedHazard;
-import unified.ASILLevel;
-import unified.MitigationStatus;
-import unified.RiskLevel;
+import unified.*;
 
+/**
+ * Validate Traceability Coverage Action - UPDATED for Requirements Support
+ * Validates the completeness of traceability coverage including requirements.
+ */
 public class ValidateTraceabilityCoverageAction extends AbstractExternalJavaAction {
 
     @Override
     public void execute(Collection<? extends EObject> selections, Map<String, Object> parameters) {
         if (selections == null || selections.isEmpty()) {
-            showError("No model selected", "Please select a UnifiedSystemModel.");
+            showError("No Selection", "Please select an element to validate traceability coverage.");
             return;
         }
 
         EObject firstSelection = selections.iterator().next();
-        UnifiedSystemModel model = getUnifiedSystemModel(firstSelection);
+        EObject semanticElement = getSemanticElement(firstSelection);
 
-        if (model == null) {
-            showError("Invalid Selection", "Please select a valid UnifiedSystemModel.");
+        if (semanticElement == null) {
+            showError("Invalid Selection", "Could not determine semantic element.");
             return;
         }
 
-        StringBuilder report = new StringBuilder();
-        report.append("═══════════════════════════════════════════════════\n");
-        report.append("    TRACEABILITY COVERAGE VALIDATION REPORT\n");
-        report.append("═══════════════════════════════════════════════════\n\n");
-        
-        // Compute metrics
-        Map<String, Double> metrics = computeTraceabilityMetrics(model);
-        
-        report.append("📊 COVERAGE METRICS:\n");
-        report.append("───────────────────────────────────────────────────\n");
-        
-        // 1. Hazard Coverage
-        double hazardCoverage = metrics.get("hazardCoverage");
-        String hazardStatus = getStatus(hazardCoverage, 0.8, 0.6);
-        report.append(String.format("Hazard → Block Coverage:        %5.1f%% %s\n", 
-            hazardCoverage * 100, hazardStatus));
-        
-        // 2. FMEA Coverage
-        double fmeaCoverage = metrics.get("fmeaCoverage");
-        String fmeaStatus = getStatus(fmeaCoverage, 0.8, 0.6);
-        report.append(String.format("Block → FMEA Coverage:          %5.1f%% %s\n", 
-            fmeaCoverage * 100, fmeaStatus));
-        
-        // 3. Failure Mode Coverage
-        double fmCoverage = metrics.get("failureModeCoverage");
-        String fmStatus = getStatus(fmCoverage, 0.7, 0.5);
-        report.append(String.format("Failure Mode → FMEA Coverage:   %5.1f%% %s\n", 
-            fmCoverage * 100, fmStatus));
-        
-        // 4. Bidirectional Traceability
-        double biDirCoverage = metrics.get("bidirectionalCoverage");
-        String biDirStatus = getStatus(biDirCoverage, 0.9, 0.7);
-        report.append(String.format("Bidirectional Trace Coverage:   %5.1f%% %s\n", 
-            biDirCoverage * 100, biDirStatus));
-        
-        // 5. Overall Traceability Density
-        double density = metrics.get("traceabilityDensity");
-        String densityStatus = getStatus(density, 0.6, 0.4);
-        report.append(String.format("Overall Traceability Density:   %5.1f%% %s\n", 
-            density * 100, densityStatus));
-        
-        report.append("\n");
-        
-        // Detailed Counts
-        report.append("📈 ELEMENT COUNTS:\n");
-        report.append("───────────────────────────────────────────────────\n");
-        report.append(String.format("Total Hazards:                  %d\n", 
-            model.getGlobalHazards().size()));
-        report.append(String.format("  - With Block Links:           %d\n", 
-            metrics.get("hazardsWithBlocks").intValue()));
-        report.append(String.format("Total Safety-Critical Blocks:   %d\n", 
-            model.getRootBlocks().size()));
-        report.append(String.format("  - With FMEA Items:            %d\n", 
-            metrics.get("blocksWithFMEA").intValue()));
-        report.append(String.format("  - With Failure Modes:         %d\n", 
-            metrics.get("blocksWithFM").intValue()));
-        
-        int totalFMEAItems = 0;
-        for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
-            totalFMEAItems += analysis.getFmeaItems().size();
+        UnifiedSystemModel model = getUnifiedSystemModel(semanticElement);
+        if (model == null) {
+            showError("Invalid Model", "Could not find UnifiedSystemModel.");
+            return;
         }
-        report.append(String.format("Total FMEA Items:               %d\n", totalFMEAItems));
-        report.append(String.format("  - With Components:            %d\n", 
-            metrics.get("fmeaWithComponents").intValue()));
-        report.append(String.format("  - With Failure Modes:         %d\n", 
-            metrics.get("fmeaWithFM").intValue()));
-        report.append(String.format("  - With Hazards:               %d\n", 
-            metrics.get("fmeaWithHazards").intValue()));
-        
-        int totalFMs = 0;
-        for (SafetyCriticalBlock block : model.getRootBlocks()) {
-            totalFMs += block.getFailureModes().size();
-        }
-        report.append(String.format("Total Failure Modes:            %d\n", totalFMs));
-        report.append(String.format("  - With FMEA Items:            %d\n", 
-            metrics.get("fmWithFMEA").intValue()));
-        
-        report.append("\n");
-        
-        // ISO 26262 Compliance Check
-        report.append("✓ ISO 26262 COMPLIANCE:\n");
-        report.append("───────────────────────────────────────────────────\n");
-        
-        boolean asilDCompliance = checkASILDCompliance(model);
-        report.append(String.format("ASIL D Traceability:            %s\n", 
-            asilDCompliance ? "✅ PASS" : "❌ FAIL"));
-        
-        boolean criticalHazards = checkCriticalHazardCoverage(model);
-        report.append(String.format("Critical Hazard Coverage:       %s\n", 
-            criticalHazards ? "✅ PASS" : "❌ FAIL"));
-        
-        boolean fmeaCompleteness = fmeaCoverage >= 0.8;
-        report.append(String.format("FMEA Completeness (≥80%%):       %s\n", 
-            fmeaCompleteness ? "✅ PASS" : "❌ FAIL"));
-        
-        report.append("\n");
-        
-        // Overall Assessment
-        report.append("═══════════════════════════════════════════════════\n");
-        double overallScore = (hazardCoverage + fmeaCoverage + biDirCoverage + density) / 4.0;
-        String grade = getGrade(overallScore);
-        String emoji = getGradeEmoji(overallScore);
-        
-        report.append(String.format("OVERALL TRACEABILITY SCORE:     %.1f%% %s\n", 
-            overallScore * 100, emoji));
-        report.append(String.format("GRADE:                          %s\n", grade));
-        
-        if (overallScore >= 0.8) {
-            report.append("\n✅ EXCELLENT: Model has comprehensive traceability.\n");
-        } else if (overallScore >= 0.6) {
-            report.append("\n⚠️  GOOD: Model has adequate traceability but could be improved.\n");
-        } else {
-            report.append("\n❌ NEEDS IMPROVEMENT: Significant traceability gaps exist.\n");
-        }
-        
-        report.append("═══════════════════════════════════════════════════\n");
-        
-        // Show report
-        showInfo("Traceability Coverage Validation", report.toString());
-        
-        // Update metadata
-        if (model.getAnalysisMetadata() != null) {
-            model.getAnalysisMetadata().setTraceabilityDensity(density);
-            model.getAnalysisMetadata().setHazardCoverage(hazardCoverage);
-            model.getAnalysisMetadata().setFmeaCoverage(fmeaCoverage);
-            model.getAnalysisMetadata().setLastAnalysisDate(new Date());
-        }
+
+        validateCoverage(model);
     }
 
-    private Map<String, Double> computeTraceabilityMetrics(UnifiedSystemModel model) {
-        Map<String, Double> metrics = new HashMap<>();
-        
-        // 1. Hazard Coverage
-        int hazardsWithBlocks = 0;
-        for (IntegratedHazard hazard : model.getGlobalHazards()) {
-            if (!hazard.getRelatedBlocks().isEmpty()) {
-                hazardsWithBlocks++;
-            }
-        }
-        double hazardCoverage = model.getGlobalHazards().isEmpty() ? 1.0 :
-            (double) hazardsWithBlocks / model.getGlobalHazards().size();
-        metrics.put("hazardCoverage", hazardCoverage);
-        metrics.put("hazardsWithBlocks", (double) hazardsWithBlocks);
-        
-        // 2. FMEA Coverage
-        int blocksWithFMEA = 0;
-        for (SafetyCriticalBlock block : model.getRootBlocks()) {
-            for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
-                boolean found = false;
-                for (FMEAItem item : analysis.getFmeaItems()) {
-                    if (item.getAnalyzedComponent() == block) {
-                        blocksWithFMEA++;
-                        found = true;
-                        break;
-                    }
+    private void validateCoverage(UnifiedSystemModel model) {
+        StringBuilder report = new StringBuilder();
+        report.append("=== TRACEABILITY COVERAGE VALIDATION ===\n\n");
+
+        List<String> issues   = new ArrayList<>();
+        List<String> warnings = new ArrayList<>();
+        List<String> passed   = new ArrayList<>();
+
+        // ---- Requirement checks ----
+        List<Requirement> allRequirements = RequirementTraceHelper.getRequirements(model);
+        int totalReqs = allRequirements.size();
+
+        if (totalReqs == 0) {
+            warnings.add("No requirements found in model.");
+        } else {
+            int tracedReqs = 0;
+            List<String> untracedReqNames = new ArrayList<>();
+
+            for (Requirement req : allRequirements) {
+                int traces = RequirementTraceHelper.getRelatedBlocks(req).size()
+                           + RequirementTraceHelper.getRelatedHazards(req).size()
+                           + RequirementTraceHelper.countFMEALinksForRequirement(model, req);
+                if (traces > 0) {
+                    tracedReqs++;
+                } else {
+                    untracedReqNames.add(req.getId() + ": " + req.getName());
                 }
-                if (found) break;
+            }
+
+            double reqCoverage = (tracedReqs * 100.0) / totalReqs;
+            if (reqCoverage >= 80) {
+                passed.add(String.format("Requirement traceability coverage: %.1f%% (%d/%d)",
+                    reqCoverage, tracedReqs, totalReqs));
+            } else if (reqCoverage >= 50) {
+                warnings.add(String.format("Requirement coverage below 80%%: %.1f%% (%d/%d traced)",
+                    reqCoverage, tracedReqs, totalReqs));
+            } else {
+                issues.add(String.format("CRITICAL: Requirement coverage below 50%%: %.1f%% (%d/%d traced)",
+                    reqCoverage, tracedReqs, totalReqs));
+            }
+
+            if (!untracedReqNames.isEmpty() && untracedReqNames.size() <= 5) {
+                for (String name : untracedReqNames) {
+                    warnings.add("  Untraced requirement: " + name);
+                }
+            } else if (untracedReqNames.size() > 5) {
+                warnings.add("  " + untracedReqNames.size() + " untraced requirements (see gap analysis for details)");
+            }
+
+            // Check high-priority requirements
+            int highPriorityCount   = 0;
+            int highPriorityTraced  = 0;
+            for (Requirement req : allRequirements) {
+                Object priority = RequirementTraceHelper.getPriority(req);
+                if (priority != null && priority.toString().equals("HIGH")) {
+                    highPriorityCount++;
+                    int traces = RequirementTraceHelper.getRelatedBlocks(req).size()
+                               + RequirementTraceHelper.getRelatedHazards(req).size()
+                               + RequirementTraceHelper.countFMEALinksForRequirement(model, req);
+                    if (traces >= 2) highPriorityTraced++;
+                }
+            }
+
+            if (highPriorityCount > 0) {
+                if (highPriorityTraced == highPriorityCount) {
+                    passed.add("All " + highPriorityCount + " high-priority requirement(s) adequately traced (>= 2 links)");
+                } else {
+                    issues.add("ISSUE: " + (highPriorityCount - highPriorityTraced) + "/" + highPriorityCount
+                        + " high-priority requirement(s) have insufficient traces (< 2 links)");
+                }
             }
         }
-        double fmeaCoverage = model.getRootBlocks().isEmpty() ? 1.0 :
-            (double) blocksWithFMEA / model.getRootBlocks().size();
-        metrics.put("fmeaCoverage", fmeaCoverage);
-        metrics.put("blocksWithFMEA", (double) blocksWithFMEA);
-        
-        // 3. Failure Mode Coverage
-        int blocksWithFM = 0;
-        for (SafetyCriticalBlock block : model.getRootBlocks()) {
-            if (!block.getFailureModes().isEmpty()) {
-                blocksWithFM++;
+
+        // ---- Hazard coverage checks ----
+        List<IntegratedHazard> allHazards = model.getGlobalHazards();
+        if (allHazards.isEmpty()) {
+            warnings.add("No hazards defined in model.");
+        } else {
+            int tracedHazards = 0;
+            for (IntegratedHazard hazard : allHazards) {
+                if (!hazard.getRelatedBlocks().isEmpty()) tracedHazards++;
+            }
+            double hazardCoverage = (tracedHazards * 100.0) / allHazards.size();
+            if (hazardCoverage >= 80) {
+                passed.add(String.format("Hazard-to-block coverage: %.1f%% (%d/%d)",
+                    hazardCoverage, tracedHazards, allHazards.size()));
+            } else {
+                issues.add(String.format("Hazard-to-block coverage below 80%%: %.1f%% (%d/%d)",
+                    hazardCoverage, tracedHazards, allHazards.size()));
             }
         }
-        metrics.put("blocksWithFM", (double) blocksWithFM);
-        
-        int fmWithFMEA = 0;
-        int totalFMs = 0;
-        for (SafetyCriticalBlock block : model.getRootBlocks()) {
-            for (BlockFailureMode fm : block.getFailureModes()) {
-                totalFMs++;
+
+        // ---- FMEA coverage checks ----
+        List<SafetyCriticalBlock> rootBlocks = model.getRootBlocks();
+        if (!rootBlocks.isEmpty()) {
+            int blocksWithFMEA = 0;
+            for (SafetyCriticalBlock block : rootBlocks) {
+                boolean hasFMEA = false;
+                outer:
                 for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
-                    boolean found = false;
                     for (FMEAItem item : analysis.getFmeaItems()) {
-                        if (item.getFailureMode() == fm) {
-                            fmWithFMEA++;
-                            found = true;
-                            break;
-                        }
+                        if (item.getAnalyzedComponent() == block) { hasFMEA = true; break outer; }
                     }
-                    if (found) break;
+                }
+                if (hasFMEA) blocksWithFMEA++;
+            }
+            double fmeaCoverage = (blocksWithFMEA * 100.0) / rootBlocks.size();
+            if (fmeaCoverage >= 80) {
+                passed.add(String.format("FMEA coverage of safety-critical blocks: %.1f%% (%d/%d)",
+                    fmeaCoverage, blocksWithFMEA, rootBlocks.size()));
+            } else {
+                warnings.add(String.format("FMEA coverage below 80%%: %.1f%% (%d/%d blocks analysed)",
+                    fmeaCoverage, blocksWithFMEA, rootBlocks.size()));
+            }
+        }
+
+        // ---- Safety requirement to hazard check ----
+        for (Requirement req : allRequirements) {
+            Object reqType = RequirementTraceHelper.getRequirementType(req);
+            if (reqType != null && reqType.toString().equals("SAFETY")) {
+                if (RequirementTraceHelper.getRelatedHazards(req).isEmpty() &&
+                    !RequirementTraceHelper.hasRelatedFMEAItems(model, req)) {
+                    issues.add("Safety requirement not linked to any hazard or FMEA: "
+                        + req.getId() + ": " + req.getName());
                 }
             }
         }
-        double fmCoverage = totalFMs == 0 ? 1.0 : (double) fmWithFMEA / totalFMs;
-        metrics.put("failureModeCoverage", fmCoverage);
-        metrics.put("fmWithFMEA", (double) fmWithFMEA);
-        
-        // 4. FMEA Item Completeness
-        int fmeaWithComponents = 0;
-        int fmeaWithFM = 0;
-        int fmeaWithHazards = 0;
-        int totalFMEAItems = 0;
-        
+
+        // ---- FMEA items and requirements check ----
+        int fmeaItemsWithReqs = 0;
+        int totalFmeaItems    = 0;
         for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
             for (FMEAItem item : analysis.getFmeaItems()) {
-                totalFMEAItems++;
-                if (item.getAnalyzedComponent() != null) fmeaWithComponents++;
-                if (item.getFailureMode() != null) fmeaWithFM++;
-                if (!item.getRelatedHazards().isEmpty()) fmeaWithHazards++;
+                totalFmeaItems++;
+                if (!RequirementTraceHelper.getRelatedRequirements(item).isEmpty()) fmeaItemsWithReqs++;
             }
         }
-        
-        metrics.put("fmeaWithComponents", (double) fmeaWithComponents);
-        metrics.put("fmeaWithFM", (double) fmeaWithFM);
-        metrics.put("fmeaWithHazards", (double) fmeaWithHazards);
-        
-        // 5. Bidirectional Coverage
-        int bidirectionalLinks = 0;
-        int totalExpectedBidirectional = 0;
-        
-        for (IntegratedHazard hazard : model.getGlobalHazards()) {
-            for (SafetyCriticalBlock block : hazard.getRelatedBlocks()) {
-                totalExpectedBidirectional++;
-                boolean hasBackLink = !block.getFailureModes().isEmpty();
-                if (hasBackLink) bidirectionalLinks++;
+        if (totalFmeaItems > 0) {
+            double fmeaReqCoverage = (fmeaItemsWithReqs * 100.0) / totalFmeaItems;
+            if (fmeaReqCoverage >= 50) {
+                passed.add(String.format("FMEA items linked to requirements: %.1f%% (%d/%d)",
+                    fmeaReqCoverage, fmeaItemsWithReqs, totalFmeaItems));
+            } else {
+                warnings.add(String.format("Only %.1f%% of FMEA items (%d/%d) are linked to requirements",
+                    fmeaReqCoverage, fmeaItemsWithReqs, totalFmeaItems));
             }
         }
-        
-        double biDirCoverage = totalExpectedBidirectional == 0 ? 1.0 :
-            (double) bidirectionalLinks / totalExpectedBidirectional;
-        metrics.put("bidirectionalCoverage", biDirCoverage);
-        
-        // 6. Overall Traceability Density
-        int totalTraceLinks = 0;
-        
-        for (IntegratedHazard h : model.getGlobalHazards()) {
-            totalTraceLinks += h.getRelatedBlocks().size();
+
+        // ---- Build output ----
+        if (!passed.isEmpty()) {
+            report.append("PASSED (" + passed.size() + "):\n");
+            for (String p : passed) report.append("  [OK] " + p + "\n");
+            report.append("\n");
         }
-        for (FMEAAnalysis a : model.getFmeaAnalysis()) {
-            for (FMEAItem item : a.getFmeaItems()) {
-                if (item.getAnalyzedComponent() != null) totalTraceLinks++;
-                if (item.getFailureMode() != null) totalTraceLinks++;
-                totalTraceLinks += item.getRelatedHazards().size();
-            }
+
+        if (!warnings.isEmpty()) {
+            report.append("WARNINGS (" + warnings.size() + "):\n");
+            for (String w : warnings) report.append("  [WARN] " + w + "\n");
+            report.append("\n");
         }
-        for (SafetyCriticalBlock b : model.getRootBlocks()) {
-            totalTraceLinks += b.getFailureModes().size();
+
+        if (!issues.isEmpty()) {
+            report.append("ISSUES (" + issues.size() + "):\n");
+            for (String issue : issues) report.append("  [FAIL] " + issue + "\n");
+            report.append("\n");
         }
-        
-        int totalElements = model.getGlobalHazards().size() + 
-                           model.getRootBlocks().size() + 
-                           totalFMEAItems + 
-                           totalFMs;
-        
-        double density = totalElements == 0 ? 0.0 : 
-            (double) totalTraceLinks / (totalElements * 2);
-        metrics.put("traceabilityDensity", Math.min(1.0, density));
-        
-        return metrics;
+
+        report.append("=======================================\n");
+        if (issues.isEmpty() && warnings.isEmpty()) {
+            report.append("RESULT: FULLY COMPLIANT - All traceability checks passed.\n");
+        } else if (issues.isEmpty()) {
+            report.append("RESULT: COMPLIANT WITH WARNINGS - " + warnings.size() + " warning(s) to address.\n");
+        } else {
+            report.append("RESULT: NON-COMPLIANT - " + issues.size() + " issue(s) must be resolved.\n");
+        }
+
+        showInfo("Traceability Coverage Validation", report.toString());
     }
 
-    private boolean checkASILDCompliance(UnifiedSystemModel model) {
-        for (SafetyCriticalBlock block : model.getRootBlocks()) {
-            if (block.getAsilLevel() == ASILLevel.ASIL_D) {
-                boolean hasHazard = false;
-                for (IntegratedHazard h : model.getGlobalHazards()) {
-                    if (h.getRelatedBlocks().contains(block)) {
-                        hasHazard = true;
-                        break;
-                    }
-                }
-                
-                boolean hasFM = !block.getFailureModes().isEmpty();
-                
-                boolean hasFMEA = false;
-                for (FMEAAnalysis a : model.getFmeaAnalysis()) {
-                    for (FMEAItem item : a.getFmeaItems()) {
-                        if (item.getAnalyzedComponent() == block) {
-                            hasFMEA = true;
-                            break;
-                        }
-                    }
-                    if (hasFMEA) break;
-                }
-                
-                if (!hasHazard || !hasFM || !hasFMEA) {
-                    return false;
-                }
-            }
+    private EObject getSemanticElement(EObject obj) {
+        if (obj instanceof DDiagramElement) {
+            EObject target = ((DDiagramElement) obj).getTarget();
+            if (target != null) return target;
         }
-        return true;
-    }
-
-    private boolean checkCriticalHazardCoverage(UnifiedSystemModel model) {
-        for (IntegratedHazard hazard : model.getGlobalHazards()) {
-            if (hazard.getRiskLevel() == RiskLevel.CATASTROPHIC || 
-                hazard.getRiskLevel() == RiskLevel.CRITICAL_RISK) {
-                
-                if (hazard.getRelatedBlocks().isEmpty()) {
-                    return false;
-                }
-                
-                if (hazard.getMitigationStatus() == MitigationStatus.NOT_MITIGATED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private String getStatus(double value, double goodThreshold, double okThreshold) {
-        if (value >= goodThreshold) return "✅";
-        if (value >= okThreshold) return "⚠️ ";
-        return "❌";
-    }
-
-    private String getGrade(double score) {
-        if (score >= 0.9) return "A (Excellent)";
-        if (score >= 0.8) return "B (Very Good)";
-        if (score >= 0.7) return "C (Good)";
-        if (score >= 0.6) return "D (Adequate)";
-        return "F (Needs Improvement)";
-    }
-
-    private String getGradeEmoji(double score) {
-        if (score >= 0.9) return "🌟";
-        if (score >= 0.8) return "✅";
-        if (score >= 0.7) return "👍";
-        if (score >= 0.6) return "⚠️ ";
-        return "❌";
+        if (obj instanceof DSemanticDecorator)
+            return ((DSemanticDecorator) obj).getTarget();
+        return obj;
     }
 
     private UnifiedSystemModel getUnifiedSystemModel(EObject obj) {
-        if (obj instanceof UnifiedSystemModel) {
-            return (UnifiedSystemModel) obj;
-        }
-        if (obj instanceof DDiagramElement) {
-            EObject target = ((DDiagramElement) obj).getTarget();
-            if (target != null) {
-                return getUnifiedSystemModel(target);
-            }
-        }
-        if (obj instanceof DSemanticDecorator) {
-            return getUnifiedSystemModel(((DSemanticDecorator) obj).getTarget());
-        }
-        if (obj.eContainer() != null) {
-            return getUnifiedSystemModel(obj.eContainer());
-        }
+        if (obj instanceof UnifiedSystemModel) return (UnifiedSystemModel) obj;
+        if (obj.eContainer() != null) return getUnifiedSystemModel(obj.eContainer());
         return null;
     }
 
     private void showError(String title, String message) {
-        Display.getDefault().syncExec(() -> 
+        Display.getDefault().syncExec(() ->
             MessageDialog.openError(Display.getDefault().getActiveShell(), title, message)
         );
     }
 
     private void showInfo(String title, String message) {
-        Display.getDefault().syncExec(() -> {
-            MessageDialog dialog = new MessageDialog(
-                Display.getDefault().getActiveShell(),
-                title,
-                null,
-                message,
-                MessageDialog.INFORMATION,
-                new String[] { "OK", "Export Report" },
-                0
-            );
-            int result = dialog.open();
-            
-            if (result == 1) {
-                exportReport(message);
-            }
-        });
-    }
-
-    private void exportReport(String report) {
-        Shell shell = Display.getDefault().getActiveShell();
-        FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-        dialog.setFilterNames(new String[] { "Text Files (*.txt)", "All Files (*.*)" });
-        dialog.setFilterExtensions(new String[] { "*.txt", "*.*" });
-        dialog.setFileName("TraceabilityCoverageReport_" + 
-            new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".txt");
-        
-        String filePath = dialog.open();
-        if (filePath != null) {
-            try (FileWriter writer = new FileWriter(filePath)) {
-                writer.write(report);
-                MessageDialog.openInformation(shell, "Export Successful",
-                    "Coverage report exported to:\n" + filePath);
-            } catch (IOException e) {
-                MessageDialog.openError(shell, "Export Failed",
-                    "Failed to export report: " + e.getMessage());
-            }
-        }
+        Display.getDefault().syncExec(() ->
+            MessageDialog.openInformation(Display.getDefault().getActiveShell(), title, message)
+        );
     }
 
     @Override

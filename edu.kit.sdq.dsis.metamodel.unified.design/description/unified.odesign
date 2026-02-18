@@ -1999,6 +1999,158 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
             </initialOperation>
           </ownedTools>
         </toolSections>
+		      <!-- ── ISO 26262 Compliance Validation ──────────────────── -->
+        <toolSections name="ISO26262_Validation" label="ISO 26262 Validation">
+
+          <!-- 1. Validate Full Requirement Derivation Chain -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_ValidateDerivationChain"
+              label="Validate Requirement Chain [ISO 26262-4 §6.4.5]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="ValidateRequirementDerivationChain"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateRequirementDerivationChainAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 2. Validate HARA Completeness -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_ValidateHARACompleteness"
+              label="Validate HARA Completeness [ISO 26262-3 §7]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="ValidateHARACompleteness"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateHARACompletenessAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 3. Propagate and Validate ASIL Levels -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_PropagateASIL"
+              label="Validate ASIL Propagation [ISO 26262-9 §5]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="PropagateASIL"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.PropagateASILAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 4. Check TSR Verification Coverage -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_ValidateTSRVerification"
+              label="Validate TSR Verification Coverage [ISO 26262-4 §7.4]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="ValidateTSRVerification"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateTSRVerificationAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 5. Check Approval Status -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_CheckApprovalStatus"
+              label="Check Approval Status [ISO 26262-2 §6.4]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="CheckApprovalStatus"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.CheckApprovalStatusAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 6. Check Architecture Consistency -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_CheckArchitectureConsistency"
+              label="Check Architecture Consistency [ISO 26262-4 §6.4.5]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="CheckArchitectureConsistency"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.CheckArchitectureConsistencyAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+        </toolSections>
+
+        <!-- ── ISO 26262 Reports & Evidence ─────────────────────── -->
+        <toolSections name="ISO26262_Reports" label="ISO 26262 Reports">
+
+          <!-- 7. Export Safety Requirement Review Report -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_ExportSafetyRequirementReport"
+              label="Export Safety Requirement Review Report [ISO 26262-4 WP-04-06]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="ExportSafetyRequirementReport"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyRequirementReportAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 8. Export Safety Case Fragment -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_ExportSafetyCase"
+              label="Export Safety Case Fragment [ISO 26262-2 §6.4]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="ExportSafetyCase"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyCaseAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+
+          <!-- 9. Promote Requirement Status -->
+          <ownedTools xsi:type="tool_1:OperationAction"
+              name="REQ_PromoteRequirementStatus"
+              label="Promote Requirement Status [ISO 26262-2 §6.4]"
+              precondition="aql:true"
+              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/metrics.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
+                    name="PromoteRequirementStatus"
+                    id="edu.kit.sdq.dsis.unified.design.actions.req.PromoteRequirementStatusAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
       </defaultLayer>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.metamodel.unified.design.Services"/>
@@ -2017,5 +2169,15 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.ValidateTraceabilityQueryAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.HighlightTraceChainAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.GenerateTraceabilityReportAction"/>
+	 <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateRequirementDerivationChainAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateHARACompletenessAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.PropagateASILAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateTSRVerificationAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.CheckApprovalStatusAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.CheckArchitectureConsistencyAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyRequirementReportAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyCaseAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.PromoteRequirementStatusAction"/>
+
   </ownedViewpoints>
 </description:Group>

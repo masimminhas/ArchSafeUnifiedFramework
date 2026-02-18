@@ -13,19 +13,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import unified.UnifiedSystemModel;
-import unified.FMEAAnalysis;
-import unified.FMEAItem;
-import unified.SafetyCriticalBlock;
-import unified.BlockConnection;
-import unified.BlockFailureMode;
-import unified.IntegratedHazard;
-import unified.SystemBlock;
+import unified.*;
 
 /**
- * Export Traceability Matrix Action
- * Generates a comprehensive traceability matrix in CSV or Excel format
- * showing all trace links between Architecture, Safety, and FMEA elements.
+ * Export Traceability Matrix Action - UPDATED for Requirements Support
+ * Generates a comprehensive traceability matrix in CSV format
+ * showing all trace links between Requirements, Architecture, Safety, and FMEA elements.
  */
 public class ExportTraceabilityAction extends AbstractExternalJavaAction {
 
@@ -44,21 +37,18 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
             return;
         }
 
-        // Prompt user for file location
         Shell shell = Display.getDefault().getActiveShell();
         FileDialog dialog = new FileDialog(shell, SWT.SAVE);
         dialog.setFilterNames(new String[] { "CSV Files (*.csv)", "All Files (*.*)" });
         dialog.setFilterExtensions(new String[] { "*.csv", "*.*" });
         dialog.setFileName("TraceabilityMatrix_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".csv");
-        
+
         String filePath = dialog.open();
-        if (filePath == null) {
-            return; // User cancelled
-        }
+        if (filePath == null) return;
 
         try {
             exportTraceabilityMatrix(model, filePath);
-            showInfo("Export Successful", 
+            showInfo("Export Successful",
                 "Traceability matrix exported successfully to:\n" + filePath);
         } catch (IOException e) {
             showError("Export Failed", "Failed to export traceability matrix: " + e.getMessage());
@@ -68,11 +58,68 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
 
     private void exportTraceabilityMatrix(UnifiedSystemModel model, String filePath) throws IOException {
         FileWriter writer = new FileWriter(filePath);
-        
-        // Write header
+
         writer.append("Source Type,Source ID,Source Name,Relationship,Target Type,Target ID,Target Name,Additional Info\n");
-        
-        // 1. Hazard → Block traces
+
+        // 1. Requirement -> Block traces
+        for (Requirement req : RequirementTraceHelper.getRequirements(model)) {
+            for (SafetyCriticalBlock block : RequirementTraceHelper.getRelatedBlocks(req)) {
+                Object reqType = RequirementTraceHelper.getRequirementType(req);
+                Object priority = RequirementTraceHelper.getPriority(req);
+                writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
+                    "Requirement",
+                    escapeCsv(req.getId()),
+                    escapeCsv(req.getName()),
+                    "traces to",
+                    "SafetyCriticalBlock",
+                    escapeCsv(block.getId()),
+                    escapeCsv(block.getName()),
+                    "Type: " + (reqType != null ? reqType : "N/A") +
+                    ", Priority: " + (priority != null ? priority : "N/A")
+                ));
+            }
+        }
+
+        // 2. Requirement -> Hazard traces
+        for (Requirement req : RequirementTraceHelper.getRequirements(model)) {
+            for (IntegratedHazard hazard : RequirementTraceHelper.getRelatedHazards(req)) {
+                Object priority = RequirementTraceHelper.getPriority(req);
+                writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
+                    "Requirement",
+                    escapeCsv(req.getId()),
+                    escapeCsv(req.getName()),
+                    "addresses",
+                    "Hazard",
+                    escapeCsv(hazard.getId()),
+                    escapeCsv(hazard.getName()),
+                    "Risk: " + hazard.getRiskLevel() + ", Req Priority: " +
+                    (priority != null ? priority : "N/A")
+                ));
+            }
+        }
+
+        // 3. FMEA Item -> Requirement traces
+        for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
+            for (FMEAItem item : analysis.getFmeaItems()) {
+                for (Requirement req : RequirementTraceHelper.getRelatedRequirements(item)) {
+                    int rpn = item.getSeverity() * item.getOccurrence() * item.getDetection();
+                    Object reqType = RequirementTraceHelper.getRequirementType(req);
+                    writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
+                        "FMEAItem",
+                        escapeCsv(item.getId()),
+                        escapeCsv(item.getName()),
+                        "satisfies",
+                        "Requirement",
+                        escapeCsv(req.getId()),
+                        escapeCsv(req.getName()),
+                        "RPN: " + rpn + ", Req Type: " +
+                        (reqType != null ? reqType : "N/A")
+                    ));
+                }
+            }
+        }
+
+        // 4. Hazard -> Block traces
         for (IntegratedHazard hazard : model.getGlobalHazards()) {
             for (SafetyCriticalBlock block : hazard.getRelatedBlocks()) {
                 writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
@@ -87,14 +134,13 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
                 ));
             }
         }
-        
-        // 2. FMEA Item → Component traces
+
+        // 5. FMEA Item -> Component traces
         for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
             for (FMEAItem item : analysis.getFmeaItems()) {
                 if (item.getAnalyzedComponent() != null) {
                     SafetyCriticalBlock component = item.getAnalyzedComponent();
                     int rpn = item.getSeverity() * item.getOccurrence() * item.getDetection();
-                    
                     writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
                         "FMEAItem",
                         escapeCsv(item.getId()),
@@ -108,13 +154,12 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
                 }
             }
         }
-        
-        // 3. FMEA Item → Failure Mode traces
+
+        // 6. FMEA Item -> Failure Mode traces
         for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
             for (FMEAItem item : analysis.getFmeaItems()) {
                 if (item.getFailureMode() != null) {
                     BlockFailureMode fm = item.getFailureMode();
-                    
                     writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
                         "FMEAItem",
                         escapeCsv(item.getId()),
@@ -128,8 +173,8 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
                 }
             }
         }
-        
-        // 4. FMEA Item → Hazard traces
+
+        // 7. FMEA Item -> Hazard traces
         for (FMEAAnalysis analysis : model.getFmeaAnalysis()) {
             for (FMEAItem item : analysis.getFmeaItems()) {
                 for (IntegratedHazard hazard : item.getRelatedHazards()) {
@@ -146,8 +191,8 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
                 }
             }
         }
-        
-        // 5. Failure Mode → Block traces
+
+        // 8. Failure Mode -> Block traces
         for (SafetyCriticalBlock block : model.getRootBlocks()) {
             for (BlockFailureMode fm : block.getFailureModes()) {
                 writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
@@ -162,8 +207,8 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
                 ));
             }
         }
-        
-        // 6. Block Connections (Architecture traces)
+
+        // 9. Block Connections (Architecture traces)
         for (BlockConnection conn : model.getBlockConnections()) {
             for (SystemBlock from : conn.getFromBlock()) {
                 for (SystemBlock to : conn.getToBlock()) {
@@ -180,7 +225,7 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
                 }
             }
         }
-        
+
         writer.flush();
         writer.close();
     }
@@ -207,13 +252,13 @@ public class ExportTraceabilityAction extends AbstractExternalJavaAction {
     }
 
     private void showError(String title, String message) {
-        Display.getDefault().syncExec(() -> 
+        Display.getDefault().syncExec(() ->
             MessageDialog.openError(Display.getDefault().getActiveShell(), title, message)
         );
     }
 
     private void showInfo(String title, String message) {
-        Display.getDefault().syncExec(() -> 
+        Display.getDefault().syncExec(() ->
             MessageDialog.openInformation(Display.getDefault().getActiveShell(), title, message)
         );
     }
