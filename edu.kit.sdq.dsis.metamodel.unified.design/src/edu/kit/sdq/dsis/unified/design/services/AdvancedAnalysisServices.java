@@ -509,4 +509,394 @@ public class AdvancedAnalysisServices {
         }
         return null;
     }
+    // =========================================================================
+    // Methods called directly by MetricsDashboard odesign column expressions
+    // These five were missing — every summary cell was blank because AQL could
+    // not resolve them and silently returned null.
+    // =========================================================================
+
+    /**
+     * HTI — Hazard Traceability Index.
+     * Fraction of globalHazards that have at least one SafetyGoal referencing them.
+     * odesign call: aql:self.computeHazardCoverage()
+     * Threshold: = 1.00 (100%)
+     */
+    public Double computeHazardCoverage(UnifiedSystemModel model) {
+        List<IntegratedHazard> hazards = model.getGlobalHazards();
+        if (hazards == null || hazards.isEmpty()) return 1.0;
+        java.util.Set<IntegratedHazard> covered = new java.util.HashSet<>();
+        if (model.getSafetyGoals() != null) {
+            for (SafetyGoal sg : model.getSafetyGoals()) {
+                if (sg.getRelatedHazard() != null) covered.add(sg.getRelatedHazard());
+            }
+        }
+        return (double) covered.size() / hazards.size();
+    }
+
+    /**
+     * FLC — Failure Linkage Completeness.
+     * Fraction of FMEAItems that have a failureMode linked.
+     * odesign call: aql:self.computeFMEACoverage()
+     * Threshold: = 1.00 (100%)
+     */
+    public Double computeFMEACoverage(UnifiedSystemModel model) {
+        List<FMEAAnalysis> analyses = model.getFmeaAnalysis();
+        if (analyses == null || analyses.isEmpty()) return 1.0;
+        int total = 0, linked = 0;
+        for (FMEAAnalysis fa : analyses) {
+            if (fa.getFmeaItems() == null) continue;
+            for (FMEAItem item : fa.getFmeaItems()) {
+                total++;
+                if (item.getFailureMode() != null) linked++;
+            }
+        }
+        return total == 0 ? 1.0 : (double) linked / total;
+    }
+
+    /**
+     * TDS — Traceability Density Score.
+     * Ratio of actual cross-layer traceability links to maximum possible links
+     * across the SG→FSR→TSR→Block→FMEA→Mechanism chain.
+     * odesign call: aql:self.computeTraceabilityDensity()
+     * Threshold: >= 0.80 (80%)
+     */
+    public Double computeTraceabilityDensity(UnifiedSystemModel model) {
+        int actual = 0, maximum = 0;
+
+        // SafetyGoal → Hazard + FSR allocations
+        if (model.getSafetyGoals() != null) {
+            for (SafetyGoal sg : model.getSafetyGoals()) {
+                maximum += 2;
+                if (sg.getRelatedHazard() != null) actual++;
+                if (sg.getAllocatedTo()   != null) actual += sg.getAllocatedTo().size();
+            }
+        }
+        // FSR → TSR refinements + Block implementations
+        if (model.getFunctionalRequirements() != null) {
+            for (FunctionalSafetyRequirement fsr : model.getFunctionalRequirements()) {
+                maximum += 2;
+                if (fsr.getRefinedTo()     != null) actual += fsr.getRefinedTo().size();
+                if (fsr.getImplementedBy() != null) actual += fsr.getImplementedBy().size();
+            }
+        }
+        // TSR → Block realizations + FMEA verifications
+        if (model.getTechnicalRequirements() != null) {
+            for (TechnicalSafetyRequirement tsr : model.getTechnicalRequirements()) {
+                maximum += 2;
+                if (tsr.getRealizedBy() != null) actual += tsr.getRealizedBy().size();
+                if (tsr.getVerifiedBy() != null) actual += tsr.getVerifiedBy().size();
+            }
+        }
+        // FMEA → Mechanism validations
+        if (model.getFmeaAnalysis() != null) {
+            for (FMEAAnalysis fa : model.getFmeaAnalysis()) {
+                if (fa.getFmeaItems() == null) continue;
+                for (FMEAItem item : fa.getFmeaItems()) {
+                    maximum++;
+                    if (item.getValidatesMechanisms() != null)
+                        actual += item.getValidatesMechanisms().size();
+                }
+            }
+        }
+        return maximum == 0 ? 1.0 : Math.min(1.0, (double) actual / maximum);
+    }
+
+    /**
+     * Completeness Score (0–100).
+     * Weighted average of hazard coverage, FMEA coverage, TSR allocation, and
+     * mechanism verification — all of which the odesign already reads individually.
+     * odesign call: aql:self.computeCompletenessScore()
+     */
+    public Integer computeCompletenessScore(UnifiedSystemModel model) {
+        double hti = computeHazardCoverage(model);
+        double flc = computeFMEACoverage(model);
+        double rar = computeRequirementAllocationRatio(model);
+        double mvr = computeMechanismVerificationRate(model);
+        return (int) Math.round((hti + flc + rar + mvr) / 4.0 * 100);
+    }
+
+    /**
+     * Consistency Score (0–100).
+     * Penalises each safety-critical block without a hazard association or FMEA item.
+     * odesign call: aql:self.computeConsistencyScore()
+     */
+    public Integer computeConsistencyScore(UnifiedSystemModel model) {
+        int issues = 0;
+        for (SafetyCriticalBlock block : model.getRootBlocks()) {
+            if (!hasAssociatedHazards(block, model))                   issues++;
+            if (requiresFMEAValidation(block) && !hasFMEAAnalysis(block, model)) issues++;
+        }
+        int maxIssues = Math.max(1, model.getRootBlocks().size() * 2);
+        return Math.max(0, 100 - (issues * 100 / maxIssues));
+    }
+
+    // =========================================================================
+    // Additional helpers used by MetricsDashboard (count methods)
+    // =========================================================================
+
+    /** Total FMEA items across all FMEAAnalysis instances. */
+    public Integer countTotalFMEAItems(UnifiedSystemModel model) {
+        int count = 0;
+        if (model.getFmeaAnalysis() != null)
+            for (FMEAAnalysis fa : model.getFmeaAnalysis())
+                if (fa.getFmeaItems() != null) count += fa.getFmeaItems().size();
+        return count;
+    }
+
+    /** Count FMEA items whose RPN exceeds 100. */
+    public Integer countHighRiskItems(UnifiedSystemModel model) {
+        int count = 0;
+        if (model.getFmeaAnalysis() != null)
+            for (FMEAAnalysis fa : model.getFmeaAnalysis())
+                if (fa.getFmeaItems() != null)
+                    for (FMEAItem item : fa.getFmeaItems())
+                        if (item.getSeverity() * item.getOccurrence() * item.getDetection() > 100)
+                            count++;
+        return count;
+    }
+
+    /** Average RPN across all FMEA items; returns 0.0 if no items. */
+    public Double computeAverageRPN(UnifiedSystemModel model) {
+        int total = 0; double sum = 0;
+        if (model.getFmeaAnalysis() != null)
+            for (FMEAAnalysis fa : model.getFmeaAnalysis())
+                if (fa.getFmeaItems() != null)
+                    for (FMEAItem item : fa.getFmeaItems()) {
+                        sum += item.getSeverity() * item.getOccurrence() * item.getDetection();
+                        total++;
+                    }
+        return total == 0 ? 0.0 : sum / total;
+    }
+
+    /** Cyclomatic complexity: edges - nodes + 2. */
+    public Integer computeCyclomaticComplexity(UnifiedSystemModel model) {
+        int nodes = model.getSystemBlocks().size() + model.getRootBlocks().size();
+        int edges = model.getBlockConnections().size();
+        return edges - nodes + 2;
+    }
+
+    /** Average block degree: 2*edges / nodes. */
+    public Double computeAverageBlockDegree(UnifiedSystemModel model) {
+        int nodes = model.getSystemBlocks().size() + model.getRootBlocks().size();
+        int edges = model.getBlockConnections().size();
+        return nodes == 0 ? 0.0 : (2.0 * edges) / nodes;
+    }
+
+    // =========================================================================
+
+    public Double computeMetamodelCoverageRatio1(UnifiedSystemModel model) {
+        int populated = 0;
+        if (model.getGlobalHazards()         != null && !model.getGlobalHazards().isEmpty())          populated++;
+        if (model.getSafetyGoals()            != null && !model.getSafetyGoals().isEmpty())            populated++;
+        if (model.getFunctionalRequirements() != null && !model.getFunctionalRequirements().isEmpty()) populated++;
+        if (model.getTechnicalRequirements()  != null && !model.getTechnicalRequirements().isEmpty())  populated++;
+        if (model.getSafetyMechanisms()       != null && !model.getSafetyMechanisms().isEmpty())       populated++;
+        if (model.getFmeaAnalysis()           != null && !model.getFmeaAnalysis().isEmpty())           populated++;
+        if (model.getRootBlocks()             != null && !model.getRootBlocks().isEmpty())             populated++;
+        if (model.getSystemBlocks()           != null && !model.getSystemBlocks().isEmpty())           populated++;
+        if (model.getAnalysisMetadata()       != null)                                                 populated++;
+        return populated / 9.0;
+    }
+
+    /**
+     * RAR — Requirement Allocation Ratio.
+     * Fraction of TechnicalSafetyRequirements that have at least one
+     * realizedBy block assigned.
+     *
+     * Called by odesign: aql:self.computeRequirementAllocationRatio()
+     * where self : UnifiedSystemModel
+     *
+     * Threshold (GQM plan): >= 0.95
+     */
+    public Double computeRequirementAllocationRatio1(UnifiedSystemModel model) {
+        List<TechnicalSafetyRequirement> tsrs = model.getTechnicalRequirements();
+        if (tsrs == null || tsrs.isEmpty()) return 1.0;
+        long allocated = tsrs.stream()
+            .filter(tsr -> tsr.getRealizedBy() != null && !tsr.getRealizedBy().isEmpty())
+            .count();
+        return (double) allocated / tsrs.size();
+    }
+
+    /**
+     * MVR — Mechanism Verification Rate.
+     * Fraction of SafetyMechanisms that have at least one validatedBy
+     * FMEA item linked.
+     *
+     * Called by odesign: aql:self.computeMechanismVerificationRate()
+     * where self : UnifiedSystemModel
+     *
+     * Threshold (GQM plan): >= 0.85
+     */
+    public Double computeMechanismVerificationRate(UnifiedSystemModel model) {
+        List<SafetyMechanism> mechanisms = model.getSafetyMechanisms();
+        if (mechanisms == null || mechanisms.isEmpty()) return 1.0;
+        long verified = mechanisms.stream()
+            .filter(sm -> sm.getValidatedBy() != null && !sm.getValidatedBy().isEmpty())
+            .count();
+        return (double) verified / mechanisms.size();
+    }
+
+    /**
+     * Overall Status — aggregates all six metrics against their GQM thresholds
+     * and returns either "ALL PASS" or a string listing the failing metric codes.
+     *
+     * Called by odesign: aql:self.computeOverallStatus()
+     * where self : UnifiedSystemModel
+     *
+     * Thresholds:
+     *   MCR >= 0.90  (9/9 concept categories)
+     *   HTI  = 1.00  (all hazards covered by a safety goal)
+     *   RAR >= 0.95  (95% of TSRs allocated to blocks)
+     *   FLC  = 1.00  (all FMEA items have a failure mode)
+     *   TDS >= 0.80  (traceability density across layers)
+     *   MVR >= 0.85  (85% of mechanisms validated by FMEA)
+     */
+        public Double computeMetamodelCoverageRatio(UnifiedSystemModel model) {
+        int populated = 0;
+        if (model.getGlobalHazards()         != null && !model.getGlobalHazards().isEmpty())          populated++;
+        if (model.getSafetyGoals()            != null && !model.getSafetyGoals().isEmpty())            populated++;
+        if (model.getFunctionalRequirements() != null && !model.getFunctionalRequirements().isEmpty()) populated++;
+        if (model.getTechnicalRequirements()  != null && !model.getTechnicalRequirements().isEmpty())  populated++;
+        if (model.getSafetyMechanisms()       != null && !model.getSafetyMechanisms().isEmpty())       populated++;
+        if (model.getFmeaAnalysis()           != null && !model.getFmeaAnalysis().isEmpty())           populated++;
+        if (model.getRootBlocks()             != null && !model.getRootBlocks().isEmpty())             populated++;
+        if (model.getSystemBlocks()           != null && !model.getSystemBlocks().isEmpty())           populated++;
+        if (model.getAnalysisMetadata()       != null)                                                 populated++;
+        return populated / 9.0;
+    }
+
+    /**
+     * RAR — Requirement Allocation Ratio.
+     * Fraction of TSRs that have at least one realizedBy block assigned.
+     * Called by odesign: aql:self.computeRequirementAllocationRatio()
+     * Threshold: >= 0.95
+     */
+    public Double computeRequirementAllocationRatio(UnifiedSystemModel model) {
+        List<TechnicalSafetyRequirement> tsrs = model.getTechnicalRequirements();
+        if (tsrs == null || tsrs.isEmpty()) return 1.0;
+        int allocated = 0;
+        for (TechnicalSafetyRequirement tsr : tsrs) {
+            if (tsr.getRealizedBy() != null && !tsr.getRealizedBy().isEmpty()) allocated++;
+        }
+        return (double) allocated / tsrs.size();
+    }
+
+    /**
+     * MVR — Mechanism Verification Rate.
+     * Fraction of SafetyMechanisms with at least one validatedBy FMEA item.
+     * Called by odesign: aql:self.computeMechanismVerificationRate()
+     * Threshold: >= 0.85
+     */
+    public Double computeMechanismVerificationRate1(UnifiedSystemModel model) {
+        List<SafetyMechanism> mechanisms = model.getSafetyMechanisms();
+        if (mechanisms == null || mechanisms.isEmpty()) return 1.0;
+        int verified = 0;
+        for (SafetyMechanism sm : mechanisms) {
+            if (sm.getValidatedBy() != null && !sm.getValidatedBy().isEmpty()) verified++;
+        }
+        return (double) verified / mechanisms.size();
+    }
+
+    /**
+     * Overall Status — evaluates all six GQM metrics and returns either
+     * "ALL PASS" or "GAPS: HTI FLC ..." listing failing metric codes.
+     *
+     * Called by odesign: aql:self.computeOverallStatus()
+     *
+     * All metric logic is inlined (NOT delegated to computeHazardCoverage() etc.)
+     * because those methods are in Services.java, not in this class.
+     *
+     * Thresholds: MCR>=0.90, HTI=1.00, RAR>=0.95, FLC=1.00, TDS>=0.80, MVR>=0.85
+     */
+    public String computeOverallStatus(UnifiedSystemModel model) {
+
+        // MCR
+        double mcr = computeMetamodelCoverageRatio1(model);
+
+        // HTI — fraction of hazards covered by a SafetyGoal
+        double hti;
+        List<IntegratedHazard> hazards = model.getGlobalHazards();
+        if (hazards == null || hazards.isEmpty()) {
+            hti = 1.0;
+        } else {
+            java.util.Set<IntegratedHazard> covered = new java.util.HashSet<>();
+            if (model.getSafetyGoals() != null) {
+                for (SafetyGoal sg : model.getSafetyGoals()) {
+                    if (sg.getRelatedHazard() != null) covered.add(sg.getRelatedHazard());
+                }
+            }
+            hti = (double) covered.size() / hazards.size();
+        }
+
+        // RAR
+        double rar = computeRequirementAllocationRatio1(model);
+
+        // FLC — fraction of FMEA items with a failureMode linked
+        double flc;
+        List<FMEAAnalysis> analyses = model.getFmeaAnalysis();
+        if (analyses == null || analyses.isEmpty()) {
+            flc = 1.0;
+        } else {
+            int totalItems = 0, linkedItems = 0;
+            for (FMEAAnalysis fa : analyses) {
+                if (fa.getFmeaItems() == null) continue;
+                for (FMEAItem item : fa.getFmeaItems()) {
+                    totalItems++;
+                    if (item.getFailureMode() != null) linkedItems++;
+                }
+            }
+            flc = totalItems == 0 ? 1.0 : (double) linkedItems / totalItems;
+        }
+
+        // TDS — actual cross-layer links / maximum possible links
+        double tds;
+        {
+            int actual = 0, maximum = 0;
+            if (model.getSafetyGoals() != null) {
+                maximum += model.getSafetyGoals().size() * 2;
+                for (SafetyGoal sg : model.getSafetyGoals()) {
+                    if (sg.getRelatedHazard() != null) actual++;
+                    if (sg.getAllocatedTo()   != null) actual += sg.getAllocatedTo().size();
+                }
+            }
+            if (model.getFunctionalRequirements() != null) {
+                maximum += model.getFunctionalRequirements().size() * 2;
+                for (FunctionalSafetyRequirement fsr : model.getFunctionalRequirements()) {
+                    if (fsr.getRefinedTo()     != null) actual += fsr.getRefinedTo().size();
+                    if (fsr.getImplementedBy() != null) actual += fsr.getImplementedBy().size();
+                }
+            }
+            if (model.getTechnicalRequirements() != null) {
+                maximum += model.getTechnicalRequirements().size() * 2;
+                for (TechnicalSafetyRequirement tsr : model.getTechnicalRequirements()) {
+                    if (tsr.getRealizedBy() != null) actual += tsr.getRealizedBy().size();
+                    if (tsr.getVerifiedBy() != null) actual += tsr.getVerifiedBy().size();
+                }
+            }
+            if (analyses != null) {
+                for (FMEAAnalysis fa : analyses) {
+                    if (fa.getFmeaItems() == null) continue;
+                    for (FMEAItem item : fa.getFmeaItems()) {
+                        maximum++;
+                        if (item.getValidatesMechanisms() != null) actual += item.getValidatesMechanisms().size();
+                    }
+                }
+            }
+            tds = maximum == 0 ? 1.0 : (double) actual / maximum;
+        }
+
+        // MVR
+        double mvr = computeMechanismVerificationRate(model);
+
+        // Aggregate
+        StringBuilder gaps = new StringBuilder();
+        if (mcr < 0.90) gaps.append(" MCR");
+        if (hti < 1.00) gaps.append(" HTI");
+        if (rar < 0.95) gaps.append(" RAR");
+        if (flc < 1.00) gaps.append(" FLC");
+        if (tds < 0.80) gaps.append(" TDS");
+        if (mvr < 0.85) gaps.append(" MVR");
+
+        return gaps.length() == 0 ? "ALL PASS" : "GAPS:" + gaps.toString();
+    }
 }

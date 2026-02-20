@@ -386,8 +386,8 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_FmeaAnalysis() {
-		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(0);
+	public EAttribute getUnifiedSystemModel_Name() {
+		return (EAttribute)unifiedSystemModelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -395,7 +395,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_GlobalHazards() {
+	public EReference getUnifiedSystemModel_FmeaAnalysis() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -404,7 +404,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_RootBlocks() {
+	public EReference getUnifiedSystemModel_GlobalHazards() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -413,7 +413,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_SystemBlocks() {
+	public EReference getUnifiedSystemModel_RootBlocks() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -422,7 +422,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_BlockAssociations() {
+	public EReference getUnifiedSystemModel_SystemBlocks() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -431,7 +431,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_BlockConnections() {
+	public EReference getUnifiedSystemModel_BlockAssociations() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -440,7 +440,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_AnalysisMetadata() {
+	public EReference getUnifiedSystemModel_BlockConnections() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -449,8 +449,8 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUnifiedSystemModel_ModelVersion() {
-		return (EAttribute)unifiedSystemModelEClass.getEStructuralFeatures().get(7);
+	public EReference getUnifiedSystemModel_AnalysisMetadata() {
+		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -458,7 +458,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUnifiedSystemModel_LastModified() {
+	public EAttribute getUnifiedSystemModel_ModelVersion() {
 		return (EAttribute)unifiedSystemModelEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -467,8 +467,8 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_SafetyGoals() {
-		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(9);
+	public EAttribute getUnifiedSystemModel_LastModified() {
+		return (EAttribute)unifiedSystemModelEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -476,7 +476,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_FunctionalRequirements() {
+	public EReference getUnifiedSystemModel_SafetyGoals() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(10);
 	}
 
@@ -485,7 +485,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_TechnicalRequirements() {
+	public EReference getUnifiedSystemModel_FunctionalRequirements() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(11);
 	}
 
@@ -494,8 +494,17 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnifiedSystemModel_SafetyMechanisms() {
+	public EReference getUnifiedSystemModel_TechnicalRequirements() {
 		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnifiedSystemModel_SafetyMechanisms() {
+		return (EReference)unifiedSystemModelEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -1052,6 +1061,60 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAnalysisMetadata_Mcr() {
+		return (EAttribute)analysisMetadataEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalysisMetadata_Hti() {
+		return (EAttribute)analysisMetadataEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalysisMetadata_Rar() {
+		return (EAttribute)analysisMetadataEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalysisMetadata_Flc() {
+		return (EAttribute)analysisMetadataEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalysisMetadata_Tds() {
+		return (EAttribute)analysisMetadataEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalysisMetadata_Mvr() {
+		return (EAttribute)analysisMetadataEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRequirement() {
 		return requirementEClass;
 	}
@@ -1495,6 +1558,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		createEAttribute(unifiedElementEClass, UNIFIED_ELEMENT__DESCRIPTION);
 
 		unifiedSystemModelEClass = createEClass(UNIFIED_SYSTEM_MODEL);
+		createEAttribute(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__NAME);
 		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS);
 		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__GLOBAL_HAZARDS);
 		createEReference(unifiedSystemModelEClass, UNIFIED_SYSTEM_MODEL__ROOT_BLOCKS);
@@ -1578,6 +1642,12 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__FMEA_COVERAGE);
 		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__TRACEABILITY_DENSITY);
 		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__CYCLOMATIC_COMPLEXITY);
+		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__MCR);
+		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__HTI);
+		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__RAR);
+		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__FLC);
+		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__TDS);
+		createEAttribute(analysisMetadataEClass, ANALYSIS_METADATA__MVR);
 
 		requirementEClass = createEClass(REQUIREMENT);
 		createEAttribute(requirementEClass, REQUIREMENT__REQUIREMENT_ID);
@@ -1682,6 +1752,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		initEAttribute(getUnifiedElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, UnifiedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unifiedSystemModelEClass, UnifiedSystemModel.class, "UnifiedSystemModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUnifiedSystemModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUnifiedSystemModel_FmeaAnalysis(), this.getFMEAAnalysis(), null, "fmeaAnalysis", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUnifiedSystemModel_GlobalHazards(), this.getIntegratedHazard(), null, "globalHazards", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUnifiedSystemModel_RootBlocks(), this.getSafetyCriticalBlock(), null, "rootBlocks", null, 0, -1, UnifiedSystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1765,6 +1836,12 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 		initEAttribute(getAnalysisMetadata_FmeaCoverage(), ecorePackage.getEDouble(), "fmeaCoverage", "0.0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnalysisMetadata_TraceabilityDensity(), ecorePackage.getEDouble(), "traceabilityDensity", "0.0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnalysisMetadata_CyclomaticComplexity(), ecorePackage.getEInt(), "cyclomaticComplexity", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisMetadata_Mcr(), ecorePackage.getEInt(), "mcr", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisMetadata_Hti(), ecorePackage.getEInt(), "hti", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisMetadata_Rar(), ecorePackage.getEInt(), "rar", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisMetadata_Flc(), ecorePackage.getEInt(), "flc", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisMetadata_Tds(), ecorePackage.getEInt(), "tds", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisMetadata_Mvr(), ecorePackage.getEInt(), "mvr", "0", 0, 1, AnalysisMetadata.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRequirement_RequirementId(), ecorePackage.getEString(), "requirementId", null, 0, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1796,7 +1873,7 @@ public class UnifiedPackageImpl extends EPackageImpl implements UnifiedPackage {
 
 		initEClass(safetyMechanismEClass, SafetyMechanism.class, "SafetyMechanism", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSafetyMechanism_MechanismType(), this.getSafetyMechanismType(), "mechanismType", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSafetyMechanism_DiagnosticCoverage(), ecorePackage.getEDouble(), "diagnosticCoverage", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSafetyMechanism_DiagnosticCoverage(), ecorePackage.getEInt(), "diagnosticCoverage", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSafetyMechanism_Implements(), this.getTechnicalSafetyRequirement(), null, "implements", null, 0, -1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSafetyMechanism_ImplementedIn(), this.getSafetyCriticalBlock(), null, "implementedIn", null, 0, 1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSafetyMechanism_ValidatedBy(), this.getFMEAItem(), this.getFMEAItem_ValidatesMechanisms(), "validatedBy", null, 0, -1, SafetyMechanism.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

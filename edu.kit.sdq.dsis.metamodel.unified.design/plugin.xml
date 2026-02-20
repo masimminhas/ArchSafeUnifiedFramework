@@ -131,8 +131,13 @@
       <!--QUANTITATIVE METRICS ACTIONS-->
       
       <javaActions
-            id="edu.kit.sdq.dsis.unified.services.MetricsService"
-            actionClass="edu.kit.sdq.dsis.unified.services.MetricsService">
+            id="edu.kit.sdq.dsis.unified.design.services.MetricsService"
+            actionClass="edu.kit.sdq.dsis.unified.design.services.MetricsService">
+      </javaActions>
+      
+            <javaActions
+            id="edu.kit.sdq.dsis.unified.design.actions.metrics.RefreshMetricsAction"
+            actionClass="edu.kit.sdq.dsis.unified.design.actions.metrics.RefreshMetricsAction">
       </javaActions>
    </extension>
 </plugin>

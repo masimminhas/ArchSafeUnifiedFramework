@@ -124,6 +124,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//UnifiedElement/description"/>
     </genClasses>
     <genClasses ecoreClass="unified.ecore#//UnifiedSystemModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//UnifiedSystemModel/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/fmeaAnalysis"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/globalHazards"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference unified.ecore#//UnifiedSystemModel/rootBlocks"/>
@@ -207,6 +208,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/fmeaCoverage"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/traceabilityDensity"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/cyclomaticComplexity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/mcr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/hti"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/rar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/flc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/tds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//AnalysisMetadata/mvr"/>
     </genClasses>
     <genClasses image="false" ecoreClass="unified.ecore#//Requirement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute unified.ecore#//Requirement/requirementId"/>

@@ -41,6 +41,7 @@ import unified.UnifiedSystemModel;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link unified.impl.UnifiedSystemModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link unified.impl.UnifiedSystemModelImpl#getFmeaAnalysis <em>Fmea Analysis</em>}</li>
  *   <li>{@link unified.impl.UnifiedSystemModelImpl#getGlobalHazards <em>Global Hazards</em>}</li>
  *   <li>{@link unified.impl.UnifiedSystemModelImpl#getRootBlocks <em>Root Blocks</em>}</li>
@@ -59,6 +60,26 @@ import unified.UnifiedSystemModel;
  * @generated
  */
 public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container implements UnifiedSystemModel {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getFmeaAnalysis() <em>Fmea Analysis</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -226,6 +247,27 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	protected EClass eStaticClass() {
 		return UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UnifiedPackage.UNIFIED_SYSTEM_MODEL__NAME, oldName, name));
 	}
 
 	/**
@@ -475,6 +517,8 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__NAME:
+				return getName();
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS:
 				return getFmeaAnalysis();
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__GLOBAL_HAZARDS:
@@ -514,6 +558,9 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__NAME:
+				setName((String)newValue);
+				return;
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS:
 				getFmeaAnalysis().clear();
 				getFmeaAnalysis().addAll((Collection<? extends FMEAAnalysis>)newValue);
@@ -575,6 +622,9 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS:
 				getFmeaAnalysis().clear();
 				return;
@@ -626,6 +676,8 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS:
 				return fmeaAnalysis != null && !fmeaAnalysis.isEmpty();
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__GLOBAL_HAZARDS:
@@ -666,7 +718,9 @@ public class UnifiedSystemModelImpl extends MinimalEObjectImpl.Container impleme
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (modelVersion: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", modelVersion: ");
 		result.append(modelVersion);
 		result.append(", lastModified: ");
 		result.append(lastModified);

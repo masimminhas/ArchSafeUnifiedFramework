@@ -123,13 +123,22 @@ public interface UnifiedPackage extends EPackage {
 	int UNIFIED_SYSTEM_MODEL = 1;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFIED_SYSTEM_MODEL__NAME = 0;
+
+	/**
 	 * The feature id for the '<em><b>Fmea Analysis</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS = 0;
+	int UNIFIED_SYSTEM_MODEL__FMEA_ANALYSIS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Global Hazards</b></em>' containment reference list.
@@ -138,7 +147,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__GLOBAL_HAZARDS = 1;
+	int UNIFIED_SYSTEM_MODEL__GLOBAL_HAZARDS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Root Blocks</b></em>' containment reference list.
@@ -147,7 +156,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__ROOT_BLOCKS = 2;
+	int UNIFIED_SYSTEM_MODEL__ROOT_BLOCKS = 3;
 
 	/**
 	 * The feature id for the '<em><b>System Blocks</b></em>' containment reference list.
@@ -156,7 +165,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__SYSTEM_BLOCKS = 3;
+	int UNIFIED_SYSTEM_MODEL__SYSTEM_BLOCKS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Block Associations</b></em>' containment reference list.
@@ -165,7 +174,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__BLOCK_ASSOCIATIONS = 4;
+	int UNIFIED_SYSTEM_MODEL__BLOCK_ASSOCIATIONS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Block Connections</b></em>' containment reference list.
@@ -174,7 +183,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__BLOCK_CONNECTIONS = 5;
+	int UNIFIED_SYSTEM_MODEL__BLOCK_CONNECTIONS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Analysis Metadata</b></em>' containment reference.
@@ -183,7 +192,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA = 6;
+	int UNIFIED_SYSTEM_MODEL__ANALYSIS_METADATA = 7;
 
 	/**
 	 * The feature id for the '<em><b>Model Version</b></em>' attribute.
@@ -192,7 +201,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__MODEL_VERSION = 7;
+	int UNIFIED_SYSTEM_MODEL__MODEL_VERSION = 8;
 
 	/**
 	 * The feature id for the '<em><b>Last Modified</b></em>' attribute.
@@ -201,7 +210,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__LAST_MODIFIED = 8;
+	int UNIFIED_SYSTEM_MODEL__LAST_MODIFIED = 9;
 
 	/**
 	 * The feature id for the '<em><b>Safety Goals</b></em>' containment reference list.
@@ -210,7 +219,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__SAFETY_GOALS = 9;
+	int UNIFIED_SYSTEM_MODEL__SAFETY_GOALS = 10;
 
 	/**
 	 * The feature id for the '<em><b>Functional Requirements</b></em>' containment reference list.
@@ -219,7 +228,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS = 10;
+	int UNIFIED_SYSTEM_MODEL__FUNCTIONAL_REQUIREMENTS = 11;
 
 	/**
 	 * The feature id for the '<em><b>Technical Requirements</b></em>' containment reference list.
@@ -228,7 +237,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS = 11;
+	int UNIFIED_SYSTEM_MODEL__TECHNICAL_REQUIREMENTS = 12;
 
 	/**
 	 * The feature id for the '<em><b>Safety Mechanisms</b></em>' containment reference list.
@@ -237,7 +246,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS = 12;
+	int UNIFIED_SYSTEM_MODEL__SAFETY_MECHANISMS = 13;
 
 	/**
 	 * The number of structural features of the '<em>System Model</em>' class.
@@ -246,7 +255,7 @@ public interface UnifiedPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNIFIED_SYSTEM_MODEL_FEATURE_COUNT = 13;
+	int UNIFIED_SYSTEM_MODEL_FEATURE_COUNT = 14;
 
 	/**
 	 * The number of operations of the '<em>System Model</em>' class.
@@ -1239,13 +1248,67 @@ public interface UnifiedPackage extends EPackage {
 	int ANALYSIS_METADATA__CYCLOMATIC_COMPLEXITY = 6;
 
 	/**
+	 * The feature id for the '<em><b>Mcr</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METADATA__MCR = 7;
+
+	/**
+	 * The feature id for the '<em><b>Hti</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METADATA__HTI = 8;
+
+	/**
+	 * The feature id for the '<em><b>Rar</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METADATA__RAR = 9;
+
+	/**
+	 * The feature id for the '<em><b>Flc</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METADATA__FLC = 10;
+
+	/**
+	 * The feature id for the '<em><b>Tds</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METADATA__TDS = 11;
+
+	/**
+	 * The feature id for the '<em><b>Mvr</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METADATA__MVR = 12;
+
+	/**
 	 * The number of structural features of the '<em>Analysis Metadata</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYSIS_METADATA_FEATURE_COUNT = 7;
+	int ANALYSIS_METADATA_FEATURE_COUNT = 13;
 
 	/**
 	 * The number of operations of the '<em>Analysis Metadata</em>' class.
@@ -2160,6 +2223,17 @@ public interface UnifiedPackage extends EPackage {
 	EClass getUnifiedSystemModel();
 
 	/**
+	 * Returns the meta object for the attribute '{@link unified.UnifiedSystemModel#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see unified.UnifiedSystemModel#getName()
+	 * @see #getUnifiedSystemModel()
+	 * @generated
+	 */
+	EAttribute getUnifiedSystemModel_Name();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link unified.UnifiedSystemModel#getFmeaAnalysis <em>Fmea Analysis</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2965,6 +3039,72 @@ public interface UnifiedPackage extends EPackage {
 	EAttribute getAnalysisMetadata_CyclomaticComplexity();
 
 	/**
+	 * Returns the meta object for the attribute '{@link unified.AnalysisMetadata#getMcr <em>Mcr</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mcr</em>'.
+	 * @see unified.AnalysisMetadata#getMcr()
+	 * @see #getAnalysisMetadata()
+	 * @generated
+	 */
+	EAttribute getAnalysisMetadata_Mcr();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.AnalysisMetadata#getHti <em>Hti</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Hti</em>'.
+	 * @see unified.AnalysisMetadata#getHti()
+	 * @see #getAnalysisMetadata()
+	 * @generated
+	 */
+	EAttribute getAnalysisMetadata_Hti();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.AnalysisMetadata#getRar <em>Rar</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rar</em>'.
+	 * @see unified.AnalysisMetadata#getRar()
+	 * @see #getAnalysisMetadata()
+	 * @generated
+	 */
+	EAttribute getAnalysisMetadata_Rar();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.AnalysisMetadata#getFlc <em>Flc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Flc</em>'.
+	 * @see unified.AnalysisMetadata#getFlc()
+	 * @see #getAnalysisMetadata()
+	 * @generated
+	 */
+	EAttribute getAnalysisMetadata_Flc();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.AnalysisMetadata#getTds <em>Tds</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Tds</em>'.
+	 * @see unified.AnalysisMetadata#getTds()
+	 * @see #getAnalysisMetadata()
+	 * @generated
+	 */
+	EAttribute getAnalysisMetadata_Tds();
+
+	/**
+	 * Returns the meta object for the attribute '{@link unified.AnalysisMetadata#getMvr <em>Mvr</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mvr</em>'.
+	 * @see unified.AnalysisMetadata#getMvr()
+	 * @see #getAnalysisMetadata()
+	 * @generated
+	 */
+	EAttribute getAnalysisMetadata_Mvr();
+
+	/**
 	 * Returns the meta object for class '{@link unified.Requirement <em>Requirement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3515,6 +3655,14 @@ public interface UnifiedPackage extends EPackage {
 		 * @generated
 		 */
 		EClass UNIFIED_SYSTEM_MODEL = eINSTANCE.getUnifiedSystemModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNIFIED_SYSTEM_MODEL__NAME = eINSTANCE.getUnifiedSystemModel_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Fmea Analysis</b></em>' containment reference list feature.
@@ -4125,6 +4273,54 @@ public interface UnifiedPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ANALYSIS_METADATA__CYCLOMATIC_COMPLEXITY = eINSTANCE.getAnalysisMetadata_CyclomaticComplexity();
+
+		/**
+		 * The meta object literal for the '<em><b>Mcr</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_METADATA__MCR = eINSTANCE.getAnalysisMetadata_Mcr();
+
+		/**
+		 * The meta object literal for the '<em><b>Hti</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_METADATA__HTI = eINSTANCE.getAnalysisMetadata_Hti();
+
+		/**
+		 * The meta object literal for the '<em><b>Rar</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_METADATA__RAR = eINSTANCE.getAnalysisMetadata_Rar();
+
+		/**
+		 * The meta object literal for the '<em><b>Flc</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_METADATA__FLC = eINSTANCE.getAnalysisMetadata_Flc();
+
+		/**
+		 * The meta object literal for the '<em><b>Tds</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_METADATA__TDS = eINSTANCE.getAnalysisMetadata_Tds();
+
+		/**
+		 * The meta object literal for the '<em><b>Mvr</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_METADATA__MVR = eINSTANCE.getAnalysisMetadata_Mvr();
 
 		/**
 		 * The meta object literal for the '{@link unified.impl.RequirementImpl <em>Requirement</em>}' class.

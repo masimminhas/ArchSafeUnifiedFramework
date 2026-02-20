@@ -59,12 +59,12 @@ public interface SafetyMechanism extends UnifiedElement {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Diagnostic Coverage</em>' attribute.
-	 * @see #setDiagnosticCoverage(double)
+	 * @see #setDiagnosticCoverage(int)
 	 * @see unified.UnifiedPackage#getSafetyMechanism_DiagnosticCoverage()
 	 * @model
 	 * @generated
 	 */
-	double getDiagnosticCoverage();
+	int getDiagnosticCoverage();
 
 	/**
 	 * Sets the value of the '{@link unified.SafetyMechanism#getDiagnosticCoverage <em>Diagnostic Coverage</em>}' attribute.
@@ -74,7 +74,7 @@ public interface SafetyMechanism extends UnifiedElement {
 	 * @see #getDiagnosticCoverage()
 	 * @generated
 	 */
-	void setDiagnosticCoverage(double value);
+	void setDiagnosticCoverage(int value);
 
 	/**
 	 * Returns the value of the '<em><b>Implements</b></em>' reference list.

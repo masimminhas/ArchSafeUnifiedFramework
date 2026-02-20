@@ -220,1029 +220,487 @@
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
           </style>
         </nodeMappings>
-<!-- PASTE THIS TO REPLACE LINE 223 in unified.odesign -->
-
-<!-- PASTE THIS TO REPLACE LINE 223 in unified.odesign -->
-
-<edgeMappings name="SD_HazardToBlock_Edge" 
-    semanticCandidatesExpression="aql:self.globalHazards"
-    sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@nodeMappings[name='SD_IntegratedHazard_Node']" 
-    targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']" 
-    targetFinderExpression="aql:self.relatedBlocks"
-    sourceFinderExpression="aql:self"
-    domainClass="unified::IntegratedHazard"
-    useDomainElement="true">
-  <style lineStyle="dash_dot" targetArrow="InputClosedArrow" sizeComputationExpression="2">
-    <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-    <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="threatens">
-      <labelFormat>bold</labelFormat>
-      <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-    </centerLabelStyleDescription>
-  </style>
-</edgeMappings>
-<!-- CORRECTED Safety Diagram Section -->
-<!-- Replace lines 232-342 in your odesign -->
-
-<containerMappings name="SD_SafetyCriticalBlock_Container" semanticCandidatesExpression="feature:rootBlocks" domainClass="unified::SafetyCriticalBlock" childrenPresentation="List">
-  <subNodeMappings name="SD_BlockFailureMode_ListItem" semanticCandidatesExpression="feature:failureModes" domainClass="unified::BlockFailureMode">
-    <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:'  ► ' + self.name + ' [λ=' + self.failureRate.toString() + ']'" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" height="2">
-      <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
-      <labelFormat>italic</labelFormat>
-      <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-      <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-    </style>
-  </subNodeMappings>
-  <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="2" labelSize="10" showIcon="false" roundedCorner="true" arcWidth="8" arcHeight="8" labelExpression="aql:self.name + ' [' + self.asilLevel.toString() + '] [' + self.failureModes->size().toString() + ' FMs]'" labelAlignment="CENTER" widthComputationExpression="20" heightComputationExpression="aql:4 + self.failureModes->size() * 2">
-    <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-    <labelFormat>bold</labelFormat>
-    <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-    <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-    <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
-  </style>
-</containerMappings>
-
-<toolSections name="SafetyTools" label="Safety Analysis Tools">
-  <ownedTools xsi:type="tool:ContainerCreationDescription" name="SD_Create_SafetyCriticalBlock" label="Safety Critical Block" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/safety-mechanism.gif" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']">
-    <variable name="container"/>
-    <viewVariable name="containerView"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-        <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyCriticalBlock" referenceName="rootBlocks" variableName="newBlock">
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyBlock_' + (container.rootBlocks->size() + 1)"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="safetyCriticality" valueExpression="aql:unified::SafetyCriticalityLevel::HIGH"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="asilLevel" valueExpression="aql:unified::ASILLevel::ASIL_B"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="hasRedundancy" valueExpression="false"/>
-        </subModelOperations>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-  
-  <ownedTools xsi:type="tool:NodeCreationDescription" name="SD_Create_IntegratedHazard" label="Integrated Hazard" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/hazard.gif" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@nodeMappings[name='SD_IntegratedHazard_Node']">
-    <variable name="container"/>
-    <viewVariable name="containerView"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-        <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::IntegratedHazard" referenceName="globalHazards" variableName="newHazard">
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'Hazard_' + (container.globalHazards->size() + 1)"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="riskLevel" valueExpression="aql:unified::RiskLevel::CRITICAL_RISK"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="mitigationStatus" valueExpression="aql:unified::MitigationStatus::NOT_MITIGATED"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="hazardCategory" valueExpression="aql:unified::HazardCategory::FUNCTIONAL_FAILURE"/>
-        </subModelOperations>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-  
-  <ownedTools xsi:type="tool:NodeCreationDescription" name="SD_Create_FailureMode" label="Failure Mode" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-failure.gif" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']/@subNodeMappings[name='SD_BlockFailureMode_ListItem']">
-    <variable name="container"/>
-    <viewVariable name="containerView"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-        <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::BlockFailureMode" referenceName="failureModes" variableName="newFailureMode">
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FM_' + (container.failureModes->size() + 1)"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="failureRate" valueExpression="0.001"/>
-          <subModelOperations xsi:type="tool_1:SetValue" featureName="failureEffect" valueExpression="Describe the effect of this failure mode"/>
-        </subModelOperations>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-  
-  <ownedTools xsi:type="tool:EdgeCreationDescription" name="SD_Create_HazardToBlockEdge" label="Hazard to Block Relation" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link.gif" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@edgeMappings[name='SD_HazardToBlock_Edge']">
-    <sourceVariable name="source"/>
-    <targetVariable name="target"/>
-    <sourceViewVariable name="sourceView"/>
-    <targetViewVariable name="targetView"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
-        <subModelOperations xsi:type="tool_1:SetValue" featureName="relatedBlocks" valueExpression="aql:self.relatedBlocks->including(target)"/>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-</toolSections>
-
-<toolSections name="SafetyAnalysisActions" label="🔬 Safety Analysis">
-  <ownedTools xsi:type="tool_1:OperationAction" name="ValidateSafety" label="Validate Safety Requirements" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
-    <view name="views"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-        <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateSafetyRequirements" label="Validate Safety Requirements" id="edu.kit.sdq.dsis.unified.design.actions.ValidateConsistencyAction"/>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-  
-  <ownedTools xsi:type="tool_1:OperationAction" name="GenerateFMEAFromSafety" label="Generate FMEA Analysis" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/hazard-analysis.gif">
-    <view name="views"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-        <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="GenerateFMEAFromSafety" label="Generate FMEA Analysis" id="edu.kit.sdq.dsis.unified.design.actions.GenerateFMEAAction"/>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-  
-  <ownedTools xsi:type="tool_1:OperationAction" name="AnalyzeHazardCoverage" label="Analyze Hazard Coverage" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/coverage.gif">
-    <view name="views"/>
-    <initialOperation>
-      <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:views">
-        <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="AnalyzeHazardCoverage" label="Analyze Hazard Coverage" id="edu.kit.sdq.dsis.unified.design.actions.HazardAnalysisAction"/>
-      </firstModelOperations>
-    </initialOperation>
-  </ownedTools>
-</toolSections>
+        <edgeMappings name="SD_HazardToBlock_Edge" semanticCandidatesExpression="aql:self.globalHazards" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@nodeMappings[name='SD_IntegratedHazard_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']" targetFinderExpression="aql:self.relatedBlocks" sourceFinderExpression="aql:self" domainClass="unified::IntegratedHazard" useDomainElement="true">
+          <style lineStyle="dash_dot" targetArrow="InputClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="threatens">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="SD_SafetyCriticalBlock_Container" semanticCandidatesExpression="feature:rootBlocks" domainClass="unified::SafetyCriticalBlock" childrenPresentation="List">
+          <subNodeMappings name="SD_BlockFailureMode_ListItem" semanticCandidatesExpression="feature:failureModes" domainClass="unified::BlockFailureMode">
+            <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:'  ► ' + self.name + ' [λ=' + self.failureRate.toString() + ']'" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" height="2">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="8" arcHeight="8" borderSizeComputationExpression="2" labelSize="10" showIcon="false" labelExpression="aql:self.name + ' [' + self.asilLevel.toString() + '] [' + self.failureModes->size().toString() + ' FMs]'" roundedCorner="true" widthComputationExpression="20" heightComputationExpression="aql:4 + self.failureModes->size() * 2">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="SafetyTools" label="Safety Analysis Tools">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="SD_Create_SafetyCriticalBlock" label="Safety Critical Block" containerMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/safety-mechanism.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyCriticalBlock" referenceName="rootBlocks" variableName="newBlock">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyBlock_' + (container.rootBlocks->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="safetyCriticality" valueExpression="aql:unified::SafetyCriticalityLevel::HIGH"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="asilLevel" valueExpression="aql:unified::ASILLevel::ASIL_B"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="hasRedundancy" valueExpression="false"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="SD_Create_IntegratedHazard" label="Integrated Hazard" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@nodeMappings[name='SD_IntegratedHazard_Node']" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/hazard.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::IntegratedHazard" referenceName="globalHazards" variableName="newHazard">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'Hazard_' + (container.globalHazards->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="riskLevel" valueExpression="aql:unified::RiskLevel::CRITICAL_RISK"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="mitigationStatus" valueExpression="aql:unified::MitigationStatus::NOT_MITIGATED"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="hazardCategory" valueExpression="aql:unified::HazardCategory::FUNCTIONAL_FAILURE"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="SD_Create_FailureMode" label="Failure Mode" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@containerMappings[name='SD_SafetyCriticalBlock_Container']/@subNodeMappings[name='SD_BlockFailureMode_ListItem']" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-failure.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::BlockFailureMode" referenceName="failureModes" variableName="newFailureMode">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FM_' + (container.failureModes->size() + 1)"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="failureRate" valueExpression="0.001"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="failureEffect" valueExpression="Describe the effect of this failure mode"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="SD_Create_HazardToBlockEdge" label="Hazard to Block Relation" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='SafetyDiagram']/@defaultLayer/@edgeMappings[name='SD_HazardToBlock_Edge']" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="relatedBlocks" valueExpression="aql:self.relatedBlocks->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="SafetyAnalysisActions" label="🔬 Safety Analysis">
+          <ownedTools xsi:type="tool_1:OperationAction" name="ValidateSafety" label="Validate Safety Requirements" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateSafetyRequirements" label="Validate Safety Requirements" id="edu.kit.sdq.dsis.unified.design.actions.ValidateConsistencyAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:OperationAction" name="GenerateFMEAFromSafety" label="Generate FMEA Analysis" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/hazard-analysis.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="GenerateFMEAFromSafety" label="Generate FMEA Analysis" id="edu.kit.sdq.dsis.unified.design.actions.GenerateFMEAAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:OperationAction" name="AnalyzeHazardCoverage" label="Analyze Hazard Coverage" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/coverage.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:views">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="AnalyzeHazardCoverage" label="Analyze Hazard Coverage" id="edu.kit.sdq.dsis.unified.design.actions.HazardAnalysisAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
       </defaultLayer>
     </ownedRepresentations>
- <ownedRepresentations xsi:type="description_1:DiagramDescription" 
-    name="FMEADiagram" 
-    domainClass="unified::UnifiedSystemModel" 
-    enablePopupBars="true">
-  
-  <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
-  
-  <!-- ========================================== -->
-  <!-- VALIDATION RULES -->
-  <!-- ========================================== -->
-  <validationSet name="fmeaValidation">
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="FMEAItemComplete" 
-        level="ERROR" 
-        message="FMEA item must have valid S/O/D values (1-10)." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:self.severity >= 1 and self.severity &lt;= 10 and self.occurrence >= 1 and self.occurrence &lt;= 10 and self.detection >= 1 and self.detection &lt;= 10"/>
-    </ownedRules>
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="FMEAItemHasComponent" 
-        level="ERROR" 
-        message="FMEA item must be linked to a component." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:self.analyzedComponent &lt;> null"/>
-    </ownedRules>
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="FMEAItemHasFailureMode" 
-        level="WARNING" 
-        message="FMEA item should reference a specific failure mode for precise analysis." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:self.failureMode &lt;> null"/>
-    </ownedRules>
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="HighRPNRequiresMitigation" 
-        level="WARNING" 
-        message="High RPN (>100) requires mitigation action." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:(self.severity * self.occurrence * self.detection) &lt;= 100 or (self.recommendedAction &lt;> null and self.recommendedAction.size() > 0)"/>
-    </ownedRules>
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="CriticalRPNMustBeAddressed" 
-        level="ERROR" 
-        message="Critical RPN (>200) must have mitigation action and responsible party assigned." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:(self.severity * self.occurrence * self.detection) &lt;= 200 or (self.recommendedAction &lt;> null and self.recommendedAction.size() > 0 and self.actionStatus &lt;> unified::ActionStatus::OPEN)"/>
-    </ownedRules>
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="AutoGeneratedItemsNeedReview" 
-        level="INFO" 
-        message="This FMEA item was auto-generated. Please review and refine values." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:not self.autoGenerated"/>
-    </ownedRules>
-    
-    <ownedRules xsi:type="validation:SemanticValidationRule" 
-        name="NonSafetyCriticalBlockInFMEA" 
-        level="WARNING" 
-        message="This FMEA item analyzes a non-safety-critical block. Consider if FMEA analysis is necessary." 
-        targetClass="unified::FMEAItem">
-      <audits auditExpression="aql:self.analyzedComponent.oclIsKindOf(unified::SafetyCriticalBlock)"/>
-    </ownedRules>
-    
-  </validationSet>
-  
-  <!-- ========================================== -->
-  <!-- DEFAULT LAYER - SAFETY-CRITICAL ONLY -->
-  <!-- ========================================== -->
-  <defaultLayer name="FMEA_Layer">
-    
-    <!-- ========================================== -->
-    <!-- SAFETY-CRITICAL BLOCKS ONLY (Default View) -->
-    <!-- ========================================== -->
-    <containerMappings name="FMEA_SafetyCriticalBlock_Container" 
-        semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)->select(b | b.oclIsKindOf(unified::SafetyCriticalBlock))" 
-        domainClass="unified::SafetyCriticalBlock"
-        childrenPresentation="List">
-      
-      <!-- Failure modes as compact list items -->
-      <subNodeMappings name="FMEA_BlockFailureMode_ListItem" 
-          semanticCandidatesExpression="feature:failureModes" 
-          domainClass="unified::BlockFailureMode">
-        
-        <style xsi:type="style:SquareDescription" 
-            labelSize="9" 
-            showIcon="false" 
-            labelExpression="aql:'  ► ' + self.name + ' [λ=' + self.failureRate.toString() + '/hr]'" 
-            labelAlignment="LEFT" 
-            labelPosition="node" 
-            resizeKind="NSEW" 
-            height="3"
-            width="20">
-          <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
-          <labelFormat>italic</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-          <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-        </style>
-      </subNodeMappings>
-      
-      <!-- Container style with dynamic sizing -->
-      <style xsi:type="style:FlatContainerStyleDescription" 
-          borderSizeComputationExpression="2" 
-          labelSize="11" 
-          showIcon="false" 
-          roundedCorner="true"
-          arcWidth="8"
-          arcHeight="8"
-          labelExpression="aql:self.name + ' [' + self.asilLevel.toString() + '] - ' + self.failureModes->size().toString() + ' Failure Modes'"
-          labelAlignment="CENTER" 
-          widthComputationExpression="24" 
-          heightComputationExpression="aql:let fmCount = self.failureModes->size() in if fmCount = 0 then 6 else 5 + fmCount * 3 endif">
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
-        <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-      </style>
-    </containerMappings>
-    
-    <!-- ========================================== -->
-    <!-- FMEA ITEMS - Enhanced for Text Visibility -->
-    <!-- ========================================== -->
-    <nodeMappings name="FMEA_Item_Node" 
-        semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems" 
-        domainClass="unified::FMEAItem">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="10" 
-          showIcon="false" 
-          labelExpression="aql:'📋 ' + self.name + '
-
-Component: ' + if self.analyzedComponent = null then '⚠ Not Set' else self.analyzedComponent.name + if not self.analyzedComponent.oclIsKindOf(unified::SafetyCriticalBlock) then ' ⚠ NON-SAFETY' else '' endif endif + '
-Failure Mode: ' + if self.failureMode = null then '⚠ Not Set' else self.failureMode.name endif + '
-
-Severity (S): ' + self.severity.toString() + ' | Occurrence (O): ' + self.occurrence.toString() + ' | Detection (D): ' + self.detection.toString() + '
-
-➤ RPN = ' + (self.severity * self.occurrence * self.detection).toString() + if (self.severity * self.occurrence * self.detection) > 100 then ' 🔴 HIGH RISK' else if (self.severity * self.occurrence * self.detection) > 50 then ' 🟠 MEDIUM' else ' 🟢 LOW' endif endif + '
-
-Status: ' + self.actionStatus.toString()" 
-          labelAlignment="LEFT"
-          labelPosition="node" 
-          resizeKind="NSEW"
-          width="28" 
-          height="16">
-        
-        <borderColor xsi:type="description:ComputedColor"
-            red="aql:if (self.severity * self.occurrence * self.detection) > 100 then 139 else if (self.severity * self.occurrence * self.detection) > 50 then 255 else 34 endif endif"
-            green="aql:if (self.severity * self.occurrence * self.detection) > 100 then 0 else if (self.severity * self.occurrence * self.detection) > 50 then 140 else 139 endif endif"
-            blue="aql:if (self.severity * self.occurrence * self.detection) > 100 then 0 else if (self.severity * self.occurrence * self.detection) > 50 then 0 else 34 endif endif"/>
-        
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        
-        <!-- RPN-based background color -->
-        <color xsi:type="description:ComputedColor"
-            red="aql:if (self.severity * self.occurrence * self.detection) > 100 then 255 else if (self.severity * self.occurrence * self.detection) > 50 then 255 else 240 endif endif"
-            green="aql:if (self.severity * self.occurrence * self.detection) > 100 then 200 else if (self.severity * self.occurrence * self.detection) > 50 then 245 else 255 endif endif"
-            blue="aql:if (self.severity * self.occurrence * self.detection) > 100 then 200 else if (self.severity * self.occurrence * self.detection) > 50 then 220 else 240 endif endif"/>
-      </style>
-    </nodeMappings>
-    
-    <!-- ========================================== -->
-    <!-- TECHNICAL REQUIREMENTS -->
-    <!-- ========================================== -->
-    <nodeMappings name="FMEA_TechnicalReq_Node" 
-        semanticCandidatesExpression="feature:technicalRequirements" 
-        domainClass="unified::TechnicalSafetyRequirement">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="10" 
-          showIcon="false" 
-          labelExpression="aql:self.requirementId + ': ' + self.name + '
-Status: ' + self.status.toString()" 
-          labelPosition="node" 
-          resizeKind="NSEW" 
-          width="16" 
-          height="6">
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
-      </style>
-    </nodeMappings>
-    
-    <!-- ========================================== -->
-    <!-- SAFETY MECHANISMS -->
-    <!-- ========================================== -->
-    <nodeMappings name="FMEA_SafetyMechanism_Node" 
-        semanticCandidatesExpression="feature:safetyMechanisms" 
-        domainClass="unified::SafetyMechanism">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="10"
-          showIcon="false" 
-          labelExpression="aql:self.name + '
-Type: ' + self.mechanismType.toString()" 
-          labelPosition="node" 
-          resizeKind="NSEW" 
-          width="14" 
-          height="5">
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
-      </style>
-    </nodeMappings>
-    
-    <!-- ========================================== -->
-    <!-- EDGES - Clean Relationship Topology -->
-    <!-- ========================================== -->
-    
-    <!-- Edge 1: FMEA Item → Component Block (Primary Analysis) -->
-    <edgeMappings name="FMEA_ItemToComponent_Edge" 
-        sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-        targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_SafetyCriticalBlock_Container']" 
-        targetFinderExpression="aql:self.analyzedComponent"
-        reconnections="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@toolSections[name='FMEATools']/@ownedTools[name='FMEA_Reconnect_Component']">
-      
-      <style targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
-        <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
-        <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="analyzes">
-          <labelFormat>bold</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
-        </centerLabelStyleDescription>
-      </style>
-    </edgeMappings>
-    
-    <!-- Edge 2: FMEA Item → Failure Mode (Specific Analysis) -->
-    <edgeMappings name="FMEA_ItemToFailureMode_Edge" 
-        sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-        targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_SafetyCriticalBlock_Container']/@subNodeMappings[name='FMEA_BlockFailureMode_ListItem']" 
-        targetFinderExpression="aql:self.failureMode"
-        reconnections="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@toolSections[name='FMEATools']/@ownedTools[name='FMEA_Reconnect_FailureMode']">
-      
-      <style lineStyle="dash" targetArrow="InputArrow" sizeComputationExpression="1">
-        <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="relates to">
-          <labelFormat>italic</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        </centerLabelStyleDescription>
-      </style>
-    </edgeMappings>
-    
-    <!-- Edge 3: Technical Requirement → FMEA Item (Verification) -->
-    <edgeMappings name="FMEA_TechReqToItem_Edge" 
-        semanticCandidatesExpression="aql:self.technicalRequirements" 
-        sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_TechnicalReq_Node']" 
-        targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-        targetFinderExpression="aql:self.verifiedBy" 
-        sourceFinderExpression="aql:self" 
-        domainClass="unified::TechnicalSafetyRequirement" 
-        useDomainElement="true">
-      
-      <style lineStyle="dash" targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
-        <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
-        <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="verifies">
-          <labelFormat>bold</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
-        </centerLabelStyleDescription>
-      </style>
-    </edgeMappings>
-    
-    <!-- Edge 4: Safety Mechanism → FMEA Item (Validation) -->
-    <edgeMappings name="FMEA_MechanismToItem_Edge" 
-        semanticCandidatesExpression="aql:self.safetyMechanisms" 
-        sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" 
-        targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-        targetFinderExpression="aql:self.validatedBy" 
-        sourceFinderExpression="aql:self" 
-        domainClass="unified::SafetyMechanism" 
-        useDomainElement="true">
-      
-      <style lineStyle="dot" targetArrow="InputArrow" sizeComputationExpression="2">
-        <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
-        <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="validates">
-          <labelFormat>italic</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
-        </centerLabelStyleDescription>
-      </style>
-    </edgeMappings>
-    
-    <!-- ========================================== -->
-    <!-- TOOLS -->
-    <!-- ========================================== -->
-    <toolSections name="FMEATools" label="FMEA Analysis">
-      
-      <!-- Tool 1: Create FMEA Item -->
-      <ownedTools xsi:type="tool:NodeCreationDescription" 
-          name="FMEA_Create_Item" 
-          label="FMEA Item" 
-          nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-item.gif">
-        
-        <variable name="container"/>
-        <viewVariable name="containerView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-            <!-- Navigate to FMEA analysis or create if missing -->
-            <subModelOperations xsi:type="tool_1:If" conditionExpression="aql:self.fmeaAnalysis->isEmpty()">
-              <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FMEAAnalysis" referenceName="fmeaAnalysis" variableName="newAnalysis">
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FMEA_Analysis_1'"/>
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="rpnThreshold" valueExpression="100"/>
-              </subModelOperations>
-            </subModelOperations>
-            
-            <!-- Create FMEA item in first analysis -->
-            <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.fmeaAnalysis->first()">
-              <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FMEAItem" referenceName="fmeaItems" variableName="newItem">
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FMEAItem_' + (self.fmeaItems->size() + 1).toString()"/>
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="severity" valueExpression="5"/>
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="occurrence" valueExpression="3"/>
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="detection" valueExpression="4"/>
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="actionStatus" valueExpression="aql:unified::ActionStatus::OPEN"/>
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="autoGenerated" valueExpression="false"/>
-              </subModelOperations>
-            </subModelOperations>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 2: Link Item to Component -->
-      <ownedTools xsi:type="tool:EdgeCreationDescription" 
-          name="FMEA_Link_Item_to_Component" 
-          label="Link to Component" 
-          edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToComponent_Edge']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-component.gif">
-        
-        <sourceVariable name="source"/>
-        <targetVariable name="target"/>
-        <sourceViewVariable name="sourceView"/>
-        <targetViewVariable name="targetView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
-            <subModelOperations xsi:type="tool_1:SetValue" featureName="analyzedComponent" valueExpression="var:target"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 3: Link Item to Failure Mode -->
-      <ownedTools xsi:type="tool:EdgeCreationDescription" 
-          name="FMEA_Link_Item_to_FailureMode" 
-          label="Link to Failure Mode" 
-          edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToFailureMode_Edge']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-failure.gif">
-        
-        <sourceVariable name="source"/>
-        <targetVariable name="target"/>
-        <sourceViewVariable name="sourceView"/>
-        <targetViewVariable name="targetView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
-            <subModelOperations xsi:type="tool_1:SetValue" featureName="failureMode" valueExpression="var:target"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 4: Reconnect Component Edge -->
-      <ownedTools xsi:type="tool:ReconnectEdgeDescription" 
-          name="FMEA_Reconnect_Component">
-        <source name="source"/>
-        <target name="target"/>
-        <sourceView name="sourceView"/>
-        <targetView name="targetView"/>
-        <element name="element"/>
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
-            <subModelOperations xsi:type="tool_1:SetValue" featureName="analyzedComponent" valueExpression="var:target"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 5: Reconnect Failure Mode Edge -->
-      <ownedTools xsi:type="tool:ReconnectEdgeDescription" 
-          name="FMEA_Reconnect_FailureMode">
-        <source name="source"/>
-        <target name="target"/>
-        <sourceView name="sourceView"/>
-        <targetView name="targetView"/>
-        <element name="element"/>
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
-            <subModelOperations xsi:type="tool_1:SetValue" featureName="failureMode" valueExpression="var:target"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 6: Create Technical Requirement -->
-      <ownedTools xsi:type="tool:NodeCreationDescription" 
-          name="FMEA_Create_TechReq" 
-          label="Technical Requirement" 
-          nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_TechnicalReq_Node']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-tech-req.gif">
-        
-        <variable name="container"/>
-        <viewVariable name="containerView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-            <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::TechnicalSafetyRequirement" referenceName="technicalRequirements" variableName="newReq">
-              <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'TSR_' + (container.technicalRequirements->size() + 1).toString()"/>
-              <subModelOperations xsi:type="tool_1:SetValue" featureName="requirementId" valueExpression="aql:'TSR-' + (container.technicalRequirements->size() + 1).toString()"/>
-              <subModelOperations xsi:type="tool_1:SetValue" featureName="status" valueExpression="aql:unified::RequirementStatus::DRAFT"/>
-            </subModelOperations>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 7: Create Safety Mechanism -->
-      <ownedTools xsi:type="tool:NodeCreationDescription" 
-          name="FMEA_Create_Mechanism" 
-          label="Safety Mechanism" 
-          nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-mechanism.gif">
-        
-        <variable name="container"/>
-        <viewVariable name="containerView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-            <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyMechanism" referenceName="safetyMechanisms" variableName="newMech">
-              <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyMech_' + (container.safetyMechanisms->size() + 1).toString()"/>
-              <subModelOperations xsi:type="tool_1:SetValue" featureName="mechanismType" valueExpression="aql:unified::SafetyMechanismType::REDUNDANCY"/>
-            </subModelOperations>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 8: Link Technical Requirement to FMEA Item -->
-      <ownedTools xsi:type="tool:EdgeCreationDescription" 
-          name="FMEA_Link_TechReqToItem" 
-          label="Link TSR → FMEA (Verification)" 
-          edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_TechReqToItem_Edge']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/verification-link.gif">
-        
-        <sourceVariable name="source"/>
-        <targetVariable name="target"/>
-        <sourceViewVariable name="sourceView"/>
-        <targetViewVariable name="targetView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
-            <subModelOperations xsi:type="tool_1:SetValue" featureName="verifiedBy" valueExpression="aql:self.verifiedBy->including(target)"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <!-- Tool 9: Link Safety Mechanism to FMEA Item -->
-      <ownedTools xsi:type="tool:EdgeCreationDescription" 
-          name="FMEA_Link_MechanismToItem" 
-          label="Link Mechanism → FMEA (Validation)" 
-          edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_MechanismToItem_Edge']" 
-          iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validation-link.gif">
-        
-        <sourceVariable name="source"/>
-        <targetVariable name="target"/>
-        <sourceViewVariable name="sourceView"/>
-        <targetViewVariable name="targetView"/>
-        
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
-            <subModelOperations xsi:type="tool_1:SetValue" featureName="validatedBy" valueExpression="aql:self.validatedBy->including(target)"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-    </toolSections>
-    
-    <!-- ========================================== -->
-    <!-- AUTOMATION TOOLS -->
-    <!-- ========================================== -->
-    <toolSections name="FMEAAutomation" label="Automation and Export">
-      
-      <ownedTools xsi:type="tool_1:OperationAction" 
-          name="ValidateFMEA" 
-          label="Validate FMEA Analysis" 
-          precondition="aql:true" 
-          icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
-        <view name="views"/>
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-            <subModelOperations xsi:type="tool_1:ExternalJavaAction" 
-                name="ValidateFMEA" 
-                id="edu.kit.sdq.dsis.unified.design.actions.ValidateConsistencyAction"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <ownedTools xsi:type="tool_1:OperationAction" 
-          name="GenerateFMEA" 
-          label="Auto-Generate FMEA Items" 
-          precondition="aql:true" 
-          icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/generate.gif">
-        <view name="views"/>
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-            <subModelOperations xsi:type="tool_1:ExternalJavaAction" 
-                name="GenerateFMEAItems" 
-                id="edu.kit.sdq.dsis.unified.design.actions.GenerateFMEAAction"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-      <ownedTools xsi:type="tool_1:OperationAction" 
-          name="ExportFMEAAction" 
-          label="Export FMEA Report" 
-          precondition="aql:true" 
-          icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
-        <view name="views"/>
-        <initialOperation>
-          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-            <subModelOperations xsi:type="tool_1:ExternalJavaAction" 
-                name="ExportFMEAAnalysis" 
-                id="edu.kit.sdq.dsis.unified.design.actions.ExportFMEAAction"/>
-          </firstModelOperations>
-        </initialOperation>
-      </ownedTools>
-      
-    </toolSections>
-    
-  </defaultLayer>
-  
-  <!-- ========================================== -->
-  <!-- LAYER: ALL COMPONENTS (Including Non-Safety) -->
-  <!-- ========================================== -->
-  <!-- 
-  PURPOSE: Show ALL system blocks, not just safety-critical ones
-  Use when you need complete system view or when analyzing
-  non-safety-critical components that may still need FMEA
-  -->
-  <additionalLayers name="FMEA_AllComponents_Layer" 
-      label="🔧 Show All Components (Including Non-Safety)" 
-      activeByDefault="false">
-    
-    <!-- Show all SystemBlocks (both safety-critical and regular) -->
-    <containerMappings name="FMEA_AllBlocks_Container" 
-        semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)" 
-        domainClass="unified::SystemBlock"
-        childrenPresentation="List">
-      
-      <!-- Failure modes (only for SafetyCriticalBlocks) -->
-      <subNodeMappings name="FMEA_AllBlocks_FailureMode_ListItem" 
-          semanticCandidatesExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then self.oclAsType(unified::SafetyCriticalBlock).failureModes else Sequence{} endif" 
-          domainClass="unified::BlockFailureMode">
-        
-        <style xsi:type="style:SquareDescription" 
-            labelSize="9" 
-            showIcon="false" 
-            labelExpression="aql:'  ► ' + self.name + ' [λ=' + self.failureRate.toString() + '/hr]'" 
-            labelAlignment="LEFT" 
-            labelPosition="node" 
-            resizeKind="NSEW" 
-            height="3"
-            width="20">
-          <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
-          <labelFormat>italic</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-          <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-        </style>
-      </subNodeMappings>
-      
-      <!-- Different styles for safety-critical vs regular blocks -->
-      <style xsi:type="style:FlatContainerStyleDescription" 
-          borderSizeComputationExpression="2" 
-          labelSize="11" 
-          showIcon="false" 
-          roundedCorner="true"
-          arcWidth="8"
-          arcHeight="8"
-          labelExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then self.name + ' [' + self.oclAsType(unified::SafetyCriticalBlock).asilLevel.toString() + '] - ' + self.oclAsType(unified::SafetyCriticalBlock).failureModes->size().toString() + ' FMs' else self.name + ' [Non-Safety]' endif"
-          labelAlignment="CENTER" 
-          widthComputationExpression="24" 
-          heightComputationExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then let fmCount = self.oclAsType(unified::SafetyCriticalBlock).failureModes->size() in if fmCount = 0 then 6 else 5 + fmCount * 3 endif else 6 endif">
-        
-        <!-- Different border colors: Red for safety-critical, Blue for regular -->
-        <borderColor xsi:type="description:ComputedColor"
-            red="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then 139 else 0 endif"
-            green="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then 0 else 0 endif"
-            blue="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then 0 else 139 endif"/>
-        
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        
-        <!-- Different backgrounds: Yellow for safety-critical, Light Blue for regular -->
-        <backgroundColor xsi:type="description:ComputedColor"
-            red="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then 255 else 173 endif"
-            green="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then 255 else 216 endif"
-            blue="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then 224 else 230 endif"/>
-        
-        <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-      </style>
-    </containerMappings>
-    
-    <!-- Edge for All Components layer (targets any SystemBlock) -->
-    <edgeMappings name="FMEA_ItemToAllComponents_Edge" 
-        sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-        targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@additionalLayers[name='FMEA_AllComponents_Layer']/@containerMappings[name='FMEA_AllBlocks_Container']" 
-        targetFinderExpression="aql:self.analyzedComponent">
-      
-      <style targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
-        <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
-        <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="analyzes">
-          <labelFormat>bold</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
-        </centerLabelStyleDescription>
-      </style>
-    </edgeMappings>
-    
-  </additionalLayers>
-  
-  <!-- ========================================== -->
-  <!-- ADDITIONAL LAYERS FOR FILTERING -->
-  <!-- ========================================== -->
-  
-  <!-- Layer: High Risk Items Only (RPN > 100) -->
-  <additionalLayers name="FMEA_HighRisk_Layer" 
-      label="🔴 High Risk Items (RPN > 100)" 
-      activeByDefault="false">
-    
-    <nodeMappings name="FMEA_HighRisk_Items" 
-        semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | (item.severity * item.occurrence * item.detection) > 100)" 
-        domainClass="unified::FMEAItem">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="11" 
-          showIcon="false" 
-          labelExpression="aql:'🔴 HIGH RISK: ' + self.name + '
-
-Component: ' + if self.analyzedComponent = null then '⚠ Not Set' else self.analyzedComponent.name endif + '
-Failure: ' + if self.failureMode = null then '⚠ Not Set' else self.failureMode.name endif + '
-
-S=' + self.severity.toString() + ' | O=' + self.occurrence.toString() + ' | D=' + self.detection.toString() + '  ➤  RPN=' + (self.severity * self.occurrence * self.detection).toString() + '
-
-Status: ' + self.actionStatus.toString() + '
-Mitigation: ' + if self.recommendedAction = null or self.recommendedAction.size() = 0 then '⚠ NOT DEFINED' else 'Defined' endif" 
-          labelAlignment="LEFT"
-          labelPosition="node" 
-          resizeKind="NSEW"
-          width="30" 
-          height="14">
-        
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
-      </style>
-    </nodeMappings>
-    
-    <!-- Show related SAFETY-CRITICAL components in this layer -->
-    <containerMappings name="FMEA_HighRisk_RelatedBlocks" 
-        semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | (item.severity * item.occurrence * item.detection) > 100).analyzedComponent->select(b | b.oclIsKindOf(unified::SafetyCriticalBlock))->asSet()" 
-        domainClass="unified::SafetyCriticalBlock"
-        childrenPresentation="List">
-      
-      <subNodeMappings name="FMEA_HighRisk_FailureModes" 
-          semanticCandidatesExpression="feature:failureModes" 
-          domainClass="unified::BlockFailureMode">
-        <style xsi:type="style:SquareDescription" 
-            labelSize="9" 
-            showIcon="false" 
-            labelExpression="aql:'  ► ' + self.name" 
-            labelAlignment="LEFT" 
-            labelPosition="node" 
-            resizeKind="NSEW" 
-            height="3">
-          <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-          <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
-        </style>
-      </subNodeMappings>
-      
-      <style xsi:type="style:FlatContainerStyleDescription" 
-          borderSizeComputationExpression="3" 
-          labelSize="11" 
-          showIcon="false" 
-          labelExpression="aql:self.name + ' [HIGH RISK COMPONENT]'" 
-          widthComputationExpression="22" 
-          heightComputationExpression="10">
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
-      </style>
-    </containerMappings>
-    
-  </additionalLayers>
-  
-  <!-- Layer: Open/Pending Items Only -->
-  <additionalLayers name="FMEA_Open_Layer" 
-      label="📝 Open Items (Action Required)" 
-      activeByDefault="false">
-    
-    <nodeMappings name="FMEA_Open_Items" 
-        semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | item.actionStatus = unified::ActionStatus::OPEN)" 
-        domainClass="unified::FMEAItem">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="10" 
-          showIcon="false" 
-          labelExpression="aql:'📝 ' + self.name + ' - ACTION REQUIRED
-
-Component: ' + if self.analyzedComponent = null then '⚠ Not Set' else self.analyzedComponent.name endif + '
-RPN: ' + (self.severity * self.occurrence * self.detection).toString() + '
-
-Status: OPEN
-Next Action: ' + if self.recommendedAction = null or self.recommendedAction.size() = 0 then 'Define mitigation' else self.recommendedAction endif" 
-          labelAlignment="LEFT"
-          labelPosition="node" 
-          resizeKind="NSEW"
-          width="26" 
-          height="12">
-        
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
-      </style>
-    </nodeMappings>
-    
-  </additionalLayers>
-  
-  <!-- Layer: By Subsystem/Component (SAFETY-CRITICAL ONLY) -->
-  <additionalLayers name="FMEA_ByComponent_Layer" 
-      label="🔧 Group by Safety-Critical Component" 
-      activeByDefault="false">
-    
-    <!-- Group FMEA items by their analyzed safety-critical component -->
-    <containerMappings name="FMEA_ComponentGroup" 
-        semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)->select(b | b.oclIsKindOf(unified::SafetyCriticalBlock))" 
-        domainClass="unified::SafetyCriticalBlock"
-        childrenPresentation="List">
-      
-      <!-- FMEA items as subnodes -->
-      <subNodeMappings name="FMEA_ItemInComponent" 
-          semanticCandidatesExpression="aql:self.eContainer().fmeaAnalysis.fmeaItems->select(item | item.analyzedComponent = self)" 
-          domainClass="unified::FMEAItem">
-        
-        <style xsi:type="style:SquareDescription" 
-            labelSize="9" 
-            showIcon="false" 
-            labelExpression="aql:'  • ' + self.name + ' [RPN=' + (self.severity * self.occurrence * self.detection).toString() + ']'" 
-            labelAlignment="LEFT" 
-            labelPosition="node" 
-            height="3">
-          <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-          <color xsi:type="description:ComputedColor"
-              red="aql:if (self.severity * self.occurrence * self.detection) > 100 then 255 else 240 endif"
-              green="aql:if (self.severity * self.occurrence * self.detection) > 100 then 200 else 255 endif"
-              blue="aql:if (self.severity * self.occurrence * self.detection) > 100 then 200 else 240 endif"/>
-        </style>
-      </subNodeMappings>
-      
-      <style xsi:type="style:FlatContainerStyleDescription" 
-          borderSizeComputationExpression="2" 
-          labelSize="11" 
-          showIcon="false" 
-          labelExpression="aql:self.name + ' [' + self.asilLevel.toString() + '] - ' + self.eContainer().fmeaAnalysis.fmeaItems->select(item | item.analyzedComponent = self)->size().toString() + ' FMEA Items'" 
-          widthComputationExpression="24" 
-          heightComputationExpression="aql:7 + self.eContainer().fmeaAnalysis.fmeaItems->select(item | item.analyzedComponent = self)->size() * 3">
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
-      </style>
-    </containerMappings>
-    
-  </additionalLayers>
-  
-  <!-- Layer: Auto-Generated Items (Need Review) -->
-  <additionalLayers name="FMEA_AutoGen_Layer" 
-      label="🤖 Auto-Generated Items (Review Required)" 
-      activeByDefault="false">
-    
-    <nodeMappings name="FMEA_AutoGen_Items" 
-        semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | item.autoGenerated)" 
-        domainClass="unified::FMEAItem">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="10" 
-          showIcon="false" 
-          labelExpression="aql:'🤖 AUTO: ' + self.name + '
-
-⚠ This item was auto-generated - Please review and refine values
-
-Component: ' + if self.analyzedComponent = null then 'Not Set' else self.analyzedComponent.name endif + '
-S=' + self.severity.toString() + ' | O=' + self.occurrence.toString() + ' | D=' + self.detection.toString() + '  RPN=' + (self.severity * self.occurrence * self.detection).toString()" 
-          labelAlignment="LEFT"
-          labelPosition="node" 
-          resizeKind="NSEW"
-          width="26" 
-          height="11">
-        
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-        <labelFormat>italic</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
-        <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
-      </style>
-    </nodeMappings>
-    
-  </additionalLayers>
-  
-  <!-- Layer: Safety Goals (Optional Display) -->
-  <additionalLayers name="FMEA_SafetyGoals_Layer" 
-      label="📋 Show Safety Goals (Traceability)" 
-      activeByDefault="false">
-    
-    <nodeMappings name="FMEA_SafetyGoal_Node" 
-        semanticCandidatesExpression="feature:safetyGoals" 
-        domainClass="unified::SafetyGoal">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="10"
-          showIcon="false" 
-          labelExpression="aql:'📋 ' + self.requirementId + ': ' + self.name + '
-
-ASIL: ' + self.asilLevel.toString() + '
-Status: ' + self.status.toString() + '
-
-(From Requirements Diagram)'" 
-          labelPosition="node" 
-          resizeKind="NSEW" 
-          width="18" 
-          height="8">
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
-        <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
-      </style>
-    </nodeMappings>
-    
-    <!-- Edge: Safety Goal → FMEA Item (Shows Derivation) -->
-    <edgeMappings name="FMEA_GoalToItem_Edge" 
-        semanticCandidatesExpression="aql:self.safetyGoals" 
-        sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@additionalLayers[name='FMEA_SafetyGoals_Layer']/@nodeMappings[name='FMEA_SafetyGoal_Node']" 
-        targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" 
-        targetFinderExpression="aql:self.derivedItems" 
-        sourceFinderExpression="aql:self" 
-        domainClass="unified::SafetyGoal" 
-        useDomainElement="true">
-      
-      <style lineStyle="dash_dot" sizeComputationExpression="1">
-        <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-        <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="derives">
-          <labelFormat>italic</labelFormat>
-          <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-        </centerLabelStyleDescription>
-      </style>
-    </edgeMappings>
-    
-  </additionalLayers>
-  
-  <!-- Layer: Compact View (Overview) -->
-  <additionalLayers name="FMEA_Compact_Layer" 
-      label="📊 Compact View (Overview)" 
-      activeByDefault="false">
-    
-    <nodeMappings name="FMEA_Item_Compact" 
-        semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems" 
-        domainClass="unified::FMEAItem">
-      
-      <style xsi:type="style:SquareDescription" 
-          labelSize="9" 
-          showIcon="false" 
-          labelExpression="aql:self.name + '
-RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' + self.actionStatus.toString()" 
-          labelAlignment="CENTER"
-          labelPosition="node" 
-          resizeKind="NSEW"
-          width="16" 
-          height="5">
-        
-        <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        <labelFormat>bold</labelFormat>
-        <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-        
-        <!-- Same RPN-based color coding -->
-        <color xsi:type="description:ComputedColor"
-            red="aql:if (self.severity * self.occurrence * self.detection) > 100 then 255 else if (self.severity * self.occurrence * self.detection) > 50 then 255 else 240 endif endif"
-            green="aql:if (self.severity * self.occurrence * self.detection) > 100 then 200 else if (self.severity * self.occurrence * self.detection) > 50 then 245 else 255 endif endif"
-            blue="aql:if (self.severity * self.occurrence * self.detection) > 100 then 200 else if (self.severity * self.occurrence * self.detection) > 50 then 220 else 240 endif endif"/>
-      </style>
-    </nodeMappings>
-    
-  </additionalLayers>
-  
-</ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="FMEADiagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <validationSet name="fmeaValidation">
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="FMEAItemComplete" level="ERROR" message="FMEA item must have valid S/O/D values (1-10)." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:self.severity >= 1 and self.severity &lt;= 10 and self.occurrence >= 1 and self.occurrence &lt;= 10 and self.detection >= 1 and self.detection &lt;= 10"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="FMEAItemHasComponent" level="ERROR" message="FMEA item must be linked to a component." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:self.analyzedComponent &lt;> null"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="FMEAItemHasFailureMode" level="WARNING" message="FMEA item should reference a specific failure mode for precise analysis." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:self.failureMode &lt;> null"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="HighRPNRequiresMitigation" level="WARNING" message="High RPN (>100) requires mitigation action." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:(self.severity * self.occurrence * self.detection) &lt;= 100 or (self.recommendedAction &lt;> null and self.recommendedAction.size() > 0)"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="CriticalRPNMustBeAddressed" level="ERROR" message="Critical RPN (>200) must have mitigation action and responsible party assigned." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:(self.severity * self.occurrence * self.detection) &lt;= 200 or (self.recommendedAction &lt;> null and self.recommendedAction.size() > 0 and self.actionStatus &lt;> unified::ActionStatus::OPEN)"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="AutoGeneratedItemsNeedReview" message="This FMEA item was auto-generated. Please review and refine values." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:not self.autoGenerated"/>
+        </ownedRules>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="NonSafetyCriticalBlockInFMEA" level="WARNING" message="This FMEA item analyzes a non-safety-critical block. Consider if FMEA analysis is necessary." targetClass="unified::FMEAItem">
+          <audits auditExpression="aql:self.analyzedComponent.oclIsKindOf(unified::SafetyCriticalBlock)"/>
+        </ownedRules>
+      </validationSet>
+      <defaultLayer name="FMEA_Layer">
+        <nodeMappings name="FMEA_Item_Node" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems" domainClass="unified::FMEAItem">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:'📋 ' + self.name + '  Component: ' + if self.analyzedComponent = null then '⚠ Not Set' else self.analyzedComponent.name + if not self.analyzedComponent.oclIsKindOf(unified::SafetyCriticalBlock) then ' ⚠ NON-SAFETY' else '' endif endif + ' Failure Mode: ' + if self.failureMode = null then '⚠ Not Set' else self.failureMode.name endif + '  Severity (S): ' + self.severity.toString() + ' | Occurrence (O): ' + self.occurrence.toString() + ' | Detection (D): ' + self.detection.toString() + '  ➤ RPN = ' + (self.severity * self.occurrence * self.detection).toString() + if (self.severity * self.occurrence * self.detection) > 100 then ' 🔴 HIGH RISK' else if (self.severity * self.occurrence * self.detection) > 50 then ' 🟠 MEDIUM' else ' 🟢 LOW' endif endif + '  Status: ' + self.actionStatus.toString()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="28" height="16">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="FMEA_TechnicalReq_Node" semanticCandidatesExpression="feature:technicalRequirements" domainClass="unified::TechnicalSafetyRequirement">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:self.requirementId + ': ' + self.name + ' Status: ' + self.status.toString()" labelPosition="node" resizeKind="NSEW" width="16" height="6">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="FMEA_SafetyMechanism_Node" semanticCandidatesExpression="feature:safetyMechanisms" domainClass="unified::SafetyMechanism">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:self.name + ' Type: ' + self.mechanismType.toString()" labelPosition="node" resizeKind="NSEW" width="14" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="FMEA_ItemToComponent_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_SafetyCriticalBlock_Container']" targetFinderExpression="aql:self.analyzedComponent" reconnections="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='FMEA_Reconnect_Component']">
+          <style targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+            <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="analyzes">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_ItemToFailureMode_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@containerMappings[name='FMEA_SafetyCriticalBlock_Container']/@subNodeMappings[name='FMEA_BlockFailureMode_ListItem']" targetFinderExpression="aql:self.failureMode" reconnections="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='FMEA_Reconnect_FailureMode']">
+          <style lineStyle="dash">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="relates to">
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_TechReqToItem_Edge" semanticCandidatesExpression="aql:self.technicalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" targetFinderExpression="aql:self.verifiedBy" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="verifies">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="FMEA_MechanismToItem_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" targetFinderExpression="aql:self.validatedBy" sourceFinderExpression="aql:self" domainClass="unified::SafetyMechanism" useDomainElement="true">
+          <style lineStyle="dot" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="validates">
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="FMEA_SafetyCriticalBlock_Container" semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)->select(b | b.oclIsKindOf(unified::SafetyCriticalBlock))" domainClass="unified::SafetyCriticalBlock" childrenPresentation="List">
+          <subNodeMappings name="FMEA_BlockFailureMode_ListItem" semanticCandidatesExpression="feature:failureModes" domainClass="unified::BlockFailureMode">
+            <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:'  ► ' + self.name + ' [λ=' + self.failureRate.toString() + '/hr]'" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="20" height="3">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="8" arcHeight="8" borderSizeComputationExpression="2" labelSize="11" showIcon="false" labelExpression="aql:self.name + ' [' + self.asilLevel.toString() + '] - ' + self.failureModes->size().toString() + ' Failure Modes'" roundedCorner="true" widthComputationExpression="24" heightComputationExpression="aql:let fmCount = self.failureModes->size() in if fmCount = 0 then 6 else 5 + fmCount * 3 endif">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="FMEATools" label="FMEA Analysis">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_Item" label="FMEA Item" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-item.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:If" conditionExpression="aql:self.fmeaAnalysis->isEmpty()">
+                  <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FMEAAnalysis" referenceName="fmeaAnalysis" variableName="newAnalysis">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FMEA_Analysis_1'"/>
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="rpnThreshold" valueExpression="100"/>
+                  </subModelOperations>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.fmeaAnalysis->first()">
+                  <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::FMEAItem" referenceName="fmeaItems" variableName="newItem">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'FMEAItem_' + (self.fmeaItems->size() + 1).toString()"/>
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="severity" valueExpression="5"/>
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="occurrence" valueExpression="3"/>
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="detection" valueExpression="4"/>
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="actionStatus" valueExpression="aql:unified::ActionStatus::OPEN"/>
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="autoGenerated" valueExpression="false"/>
+                  </subModelOperations>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_Component" label="Link to Component" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToComponent_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-component.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="analyzedComponent" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_Item_to_FailureMode" label="Link to Failure Mode" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_ItemToFailureMode_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/link-failure.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="failureMode" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:ReconnectEdgeDescription" name="FMEA_Reconnect_Component">
+            <source name="source"/>
+            <target name="target"/>
+            <sourceView name="sourceView"/>
+            <targetView name="targetView"/>
+            <element name="element"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="analyzedComponent" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+            <edgeView name="edgeView"/>
+          </ownedTools>
+          <ownedTools xsi:type="tool:ReconnectEdgeDescription" name="FMEA_Reconnect_FailureMode">
+            <source name="source"/>
+            <target name="target"/>
+            <sourceView name="sourceView"/>
+            <targetView name="targetView"/>
+            <element name="element"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:element">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="failureMode" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+            <edgeView name="edgeView"/>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_TechReq" label="Technical Requirement" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_TechnicalReq_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-tech-req.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::TechnicalSafetyRequirement" referenceName="technicalRequirements" variableName="newReq">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'TSR_' + (container.technicalRequirements->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="requirementId" valueExpression="aql:'TSR-' + (container.technicalRequirements->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="status" valueExpression="aql:unified::RequirementStatus::DRAFT"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="FMEA_Create_Mechanism" label="Safety Mechanism" nodeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_SafetyMechanism_Node']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/fmea-mechanism.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="unified::SafetyMechanism" referenceName="safetyMechanisms" variableName="newMech">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'SafetyMech_' + (container.safetyMechanisms->size() + 1).toString()"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="mechanismType" valueExpression="aql:unified::SafetyMechanismType::REDUNDANCY"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_TechReqToItem" label="Link TSR → FMEA (Verification)" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_TechReqToItem_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/verification-link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="verifiedBy" valueExpression="aql:self.verifiedBy->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="FMEA_Link_MechanismToItem" label="Link Mechanism → FMEA (Validation)" edgeMappings="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@edgeMappings[name='FMEA_MechanismToItem_Edge']" iconPath="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validation-link.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="validatedBy" valueExpression="aql:self.validatedBy->including(target)"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="FMEAAutomation" label="Automation and Export">
+          <ownedTools xsi:type="tool_1:OperationAction" name="ValidateFMEA" label="Validate FMEA Analysis" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateFMEA" id="edu.kit.sdq.dsis.unified.design.actions.ValidateConsistencyAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:OperationAction" name="GenerateFMEA" label="Auto-Generate FMEA Items" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/generate.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="GenerateFMEAItems" id="edu.kit.sdq.dsis.unified.design.actions.GenerateFMEAAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:OperationAction" name="ExportFMEAAction" label="Export FMEA Report" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ExportFMEAAnalysis" id="edu.kit.sdq.dsis.unified.design.actions.ExportFMEAAction"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+      <additionalLayers name="FMEA_AllComponents_Layer" label="🔧 Show All Components (Including Non-Safety)">
+        <edgeMappings name="FMEA_ItemToAllComponents_Edge" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@additionalLayers[name='FMEA_AllComponents_Layer']/@containerMappings[name='FMEA_AllBlocks_Container']" targetFinderExpression="aql:self.analyzedComponent">
+          <style targetArrow="InputFillClosedArrow" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
+            <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="analyzes">
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="FMEA_AllBlocks_Container" semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)" domainClass="unified::SystemBlock" childrenPresentation="List">
+          <subNodeMappings name="FMEA_AllBlocks_FailureMode_ListItem" semanticCandidatesExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then self.oclAsType(unified::SafetyCriticalBlock).failureModes else Sequence{} endif" domainClass="unified::BlockFailureMode">
+            <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:'  ► ' + self.name + ' [λ=' + self.failureRate.toString() + '/hr]'" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="20" height="3">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="8" arcHeight="8" borderSizeComputationExpression="2" labelSize="11" showIcon="false" labelExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then self.name + ' [' + self.oclAsType(unified::SafetyCriticalBlock).asilLevel.toString() + '] - ' + self.oclAsType(unified::SafetyCriticalBlock).failureModes->size().toString() + ' FMs' else self.name + ' [Non-Safety]' endif" roundedCorner="true" widthComputationExpression="24" heightComputationExpression="aql:if self.oclIsKindOf(unified::SafetyCriticalBlock) then let fmCount = self.oclAsType(unified::SafetyCriticalBlock).failureModes->size() in if fmCount = 0 then 6 else 5 + fmCount * 3 endif else 6 endif">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+          </style>
+        </containerMappings>
+      </additionalLayers>
+      <additionalLayers name="FMEA_HighRisk_Layer" label="🔴 High Risk Items (RPN > 100)">
+        <nodeMappings name="FMEA_HighRisk_Items" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | (item.severity * item.occurrence * item.detection) > 100)" domainClass="unified::FMEAItem">
+          <style xsi:type="style:SquareDescription" labelSize="11" showIcon="false" labelExpression="aql:'🔴 HIGH RISK: ' + self.name + '  Component: ' + if self.analyzedComponent = null then '⚠ Not Set' else self.analyzedComponent.name endif + ' Failure: ' + if self.failureMode = null then '⚠ Not Set' else self.failureMode.name endif + '  S=' + self.severity.toString() + ' | O=' + self.occurrence.toString() + ' | D=' + self.detection.toString() + '  ➤  RPN=' + (self.severity * self.occurrence * self.detection).toString() + '  Status: ' + self.actionStatus.toString() + ' Mitigation: ' + if self.recommendedAction = null or self.recommendedAction.size() = 0 then '⚠ NOT DEFINED' else 'Defined' endif" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="30" height="14">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
+          </style>
+        </nodeMappings>
+        <containerMappings name="FMEA_HighRisk_RelatedBlocks" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | (item.severity * item.occurrence * item.detection) > 100).analyzedComponent->select(b | b.oclIsKindOf(unified::SafetyCriticalBlock))->asSet()" domainClass="unified::SafetyCriticalBlock" childrenPresentation="List">
+          <subNodeMappings name="FMEA_HighRisk_FailureModes" semanticCandidatesExpression="feature:failureModes" domainClass="unified::BlockFailureMode">
+            <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:'  ► ' + self.name" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" height="3">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="3" labelSize="11" showIcon="false" labelExpression="aql:self.name + ' [HIGH RISK COMPONENT]'" widthComputationExpression="22" heightComputationExpression="10">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_red']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+      </additionalLayers>
+      <additionalLayers name="FMEA_Open_Layer" label="📝 Open Items (Action Required)">
+        <nodeMappings name="FMEA_Open_Items" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | item.actionStatus = unified::ActionStatus::OPEN)" domainClass="unified::FMEAItem">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:'📝 ' + self.name + ' - ACTION REQUIRED  Component: ' + if self.analyzedComponent = null then '⚠ Not Set' else self.analyzedComponent.name endif + ' RPN: ' + (self.severity * self.occurrence * self.detection).toString() + '  Status: OPEN Next Action: ' + if self.recommendedAction = null or self.recommendedAction.size() = 0 then 'Define mitigation' else self.recommendedAction endif" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="26" height="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+          </style>
+        </nodeMappings>
+      </additionalLayers>
+      <additionalLayers name="FMEA_ByComponent_Layer" label="🔧 Group by Safety-Critical Component">
+        <containerMappings name="FMEA_ComponentGroup" semanticCandidatesExpression="aql:self.rootBlocks->union(self.systemBlocks)->select(b | b.oclIsKindOf(unified::SafetyCriticalBlock))" domainClass="unified::SafetyCriticalBlock" childrenPresentation="List">
+          <subNodeMappings name="FMEA_ItemInComponent" semanticCandidatesExpression="aql:self.eContainer().fmeaAnalysis.fmeaItems->select(item | item.analyzedComponent = self)" domainClass="unified::FMEAItem">
+            <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:'  • ' + self.name + ' [RPN=' + (self.severity * self.occurrence * self.detection).toString() + ']'" labelAlignment="LEFT" labelPosition="node" height="3">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="2" labelSize="11" showIcon="false" labelExpression="aql:self.name + ' [' + self.asilLevel.toString() + '] - ' + self.eContainer().fmeaAnalysis.fmeaItems->select(item | item.analyzedComponent = self)->size().toString() + ' FMEA Items'" widthComputationExpression="24" heightComputationExpression="aql:7 + self.eContainer().fmeaAnalysis.fmeaItems->select(item | item.analyzedComponent = self)->size() * 3">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+      </additionalLayers>
+      <additionalLayers name="FMEA_AutoGen_Layer" label="🤖 Auto-Generated Items (Review Required)">
+        <nodeMappings name="FMEA_AutoGen_Items" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems->select(item | item.autoGenerated)" domainClass="unified::FMEAItem">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:'🤖 AUTO: ' + self.name + '  ⚠ This item was auto-generated - Please review and refine values  Component: ' + if self.analyzedComponent = null then 'Not Set' else self.analyzedComponent.name endif + ' S=' + self.severity.toString() + ' | O=' + self.occurrence.toString() + ' | D=' + self.detection.toString() + '  RPN=' + (self.severity * self.occurrence * self.detection).toString()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="26" height="11">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <labelFormat>italic</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </nodeMappings>
+      </additionalLayers>
+      <additionalLayers name="FMEA_SafetyGoals_Layer" label="📋 Show Safety Goals (Traceability)">
+        <nodeMappings name="FMEA_SafetyGoal_Node" semanticCandidatesExpression="feature:safetyGoals" domainClass="unified::SafetyGoal">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="aql:'📋 ' + self.requirementId + ': ' + self.name + '  ASIL: ' + self.asilLevel.toString() + ' Status: ' + self.status.toString() + '  (From Requirements Diagram)'" labelPosition="node" resizeKind="NSEW" width="18" height="8">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_red']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="FMEA_GoalToItem_Edge" semanticCandidatesExpression="aql:self.safetyGoals" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@additionalLayers[name='FMEA_SafetyGoals_Layer']/@nodeMappings[name='FMEA_SafetyGoal_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='FMEADiagram']/@defaultLayer/@nodeMappings[name='FMEA_Item_Node']" targetFinderExpression="aql:self.derivedItems" sourceFinderExpression="aql:self" domainClass="unified::SafetyGoal" useDomainElement="true">
+          <style lineStyle="dash_dot">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="derives">
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+      </additionalLayers>
+      <additionalLayers name="FMEA_Compact_Layer" label="📊 Compact View (Overview)">
+        <nodeMappings name="FMEA_Item_Compact" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems" domainClass="unified::FMEAItem">
+          <style xsi:type="style:SquareDescription" labelSize="9" showIcon="false" labelExpression="aql:self.name + ' RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' + self.actionStatus.toString()" labelPosition="node" resizeKind="NSEW" width="16" height="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>bold</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+          </style>
+        </nodeMappings>
+      </additionalLayers>
+    </ownedRepresentations>
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="TraceabilityDiagram" domainClass="unified::UnifiedSystemModel" enablePopupBars="true">
       <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
       <defaultLayer name="TraceabilityLayer">
@@ -1381,7 +839,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="TRACE_TechReqToMechanism_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyMechanism_Node']" targetFinderExpression="aql:self.eContainer().safetyMechanisms->select(sm | sm.implements->includes(self))" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
+        <edgeMappings name="TRACE_TechReqToMechanism_Edge" semanticCandidatesExpression="aql:self.technicalRequirements" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_TechnicalReq_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyMechanism_Node']" targetFinderExpression="aql:self.eContainer().safetyMechanisms->select(sm | sm.implements->includes(self))" sourceFinderExpression="aql:self" domainClass="unified::TechnicalSafetyRequirement" useDomainElement="true">
           <style lineStyle="dot" targetArrow="InputFillClosedArrow">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
             <centerLabelStyleDescription showIcon="false" labelExpression="implements">
@@ -1397,6 +855,32 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
+        <edgeMappings name="TRACE_HazardToGoal_Edge" semanticCandidatesExpression="aql:self.globalHazards" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_Hazard_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyGoal_Node']" targetFinderExpression="aql:self.eContainer().safetyGoals->select(sg | sg.relatedHazard = self)" sourceFinderExpression="aql:self" domainClass="unified::IntegratedHazard" useDomainElement="true">
+          <style lineStyle="dash" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="addressed by">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_MechanismToFMEA_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyMechanism_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_FMEAItem_Node']" targetFinderExpression="aql:self.validatedBy" sourceFinderExpression="aql:self" domainClass="unified::SafetyMechanism" useDomainElement="true">
+          <style lineStyle="dash_dot" targetArrow="InputFillClosedArrow">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="validated by">
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TRACE_MechanismToBlock_Edge" semanticCandidatesExpression="aql:self.safetyMechanisms->select(sm | sm.implementedIn &lt;> null)" sourceMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyMechanism_Node']" targetMapping="//@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SafetyCriticalBlock_Node'] //@ownedViewpoints[name='UnifiedModeling']/@ownedRepresentations[name='TraceabilityDiagram']/@defaultLayer/@nodeMappings[name='TRACE_SystemBlock_Node']" targetFinderExpression="aql:self.implementedIn" sourceFinderExpression="aql:self" domainClass="unified::SafetyMechanism" useDomainElement="true">
+          <style lineStyle="dot" targetArrow="InputArrowWithDiamond">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="implemented in">
+              <labelFormat>italic</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
         <toolSections name="TraceabilityTools" label="🔗 Traceability Analysis">
           <ownedTools xsi:type="tool_1:OperationAction" name="HighlightTraceChain" label="Highlight Trace Chain" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/trace_chain.gif">
             <view name="views"/>
@@ -1404,6 +888,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
                 <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="HighlightTraceChain" label="Highlight Trace Chain" id="edu.kit.sdq.dsis.unified.design.actions.HighlightTraceChainAction">
                   <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -1414,6 +899,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
                 <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateTraceabilityCoverage" label="Validate Traceability Coverage" id="edu.kit.sdq.dsis.unified.design.actions.ValidateTraceabilityCoverageAction">
                   <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -1424,6 +910,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
                 <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="FindOrphanedElements" label="Find Untraced Elements" id="edu.kit.sdq.dsis.unified.design.actions.TraceabilityQueryAction">
                   <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -1434,6 +921,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
                 <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ExportTraceabilityMatrix" label="Export Traceability Matrix" id="edu.kit.sdq.dsis.unified.design.actions.ExportTraceabilityAction">
                   <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -1444,6 +932,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
                 <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ComputeChangeImpact" label="Compute Change Impact" id="edu.kit.sdq.dsis.unified.design.actions.ImpactAnalysisAction">
                   <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -1454,6 +943,45 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
                 <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="GenerateTraceReport" label="Generate Comprehensive Traceability Report" id="edu.kit.sdq.dsis.unified.design.actions.GenerateTraceabilityReportAction">
                   <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+        <toolSections name="TraceabilityNavigation" label="🔍 Navigate Trace Chain">
+          <ownedTools xsi:type="tool_1:OperationAction" name="ForwardTraceChain" label="▶ Forward Trace (Hazard → FMEA)" precondition="aql:self.oclIsKindOf(unified::IntegratedHazard) or self.oclIsKindOf(unified::SafetyGoal) or self.oclIsKindOf(unified::FunctionalSafetyRequirement) or self.oclIsKindOf(unified::TechnicalSafetyRequirement) or self.oclIsKindOf(unified::SafetyMechanism)" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/trace_chain.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ForwardTraceChain" label="Forward Trace Chain" id="edu.kit.sdq.dsis.unified.design.actions.HighlightTraceChainAction">
+                  <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
+                  <parameters name="direction" value="forward"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:OperationAction" name="BackwardTraceChain" label="◀ Backward Trace (FMEA → Hazard)" precondition="aql:self.oclIsKindOf(unified::FMEAItem) or self.oclIsKindOf(unified::SafetyMechanism) or self.oclIsKindOf(unified::TechnicalSafetyRequirement) or self.oclIsKindOf(unified::FunctionalSafetyRequirement) or self.oclIsKindOf(unified::SafetyGoal)" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/trace_chain.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="BackwardTraceChain" label="Backward Trace Chain" id="edu.kit.sdq.dsis.unified.design.actions.HighlightTraceChainAction">
+                  <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
+                  <parameters name="direction" value="backward"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:OperationAction" name="ShowAllLinkedElements" label="⬡ Show All Linked Elements" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/search.gif">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ShowAllLinkedElements" label="Show All Linked Elements" id="edu.kit.sdq.dsis.unified.design.actions.TraceabilityQueryAction">
+                  <parameters name="views" value="var:views"/>
+                  <parameters name="element" value="var:self"/>
+                  <parameters name="direction" value="both"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
@@ -1999,159 +1527,220 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
             </initialOperation>
           </ownedTools>
         </toolSections>
-		      <!-- ── ISO 26262 Compliance Validation ──────────────────── -->
         <toolSections name="ISO26262_Validation" label="ISO 26262 Validation">
-
-          <!-- 1. Validate Full Requirement Derivation Chain -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_ValidateDerivationChain"
-              label="Validate Requirement Chain [ISO 26262-4 §6.4.5]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_ValidateDerivationChain" label="Validate Requirement Chain [ISO 26262-4 §6.4.5]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="ValidateRequirementDerivationChain"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateRequirementDerivationChainAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateRequirementDerivationChain" id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateRequirementDerivationChainAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 2. Validate HARA Completeness -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_ValidateHARACompleteness"
-              label="Validate HARA Completeness [ISO 26262-3 §7]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_ValidateHARACompleteness" label="Validate HARA Completeness [ISO 26262-3 §7]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="ValidateHARACompleteness"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateHARACompletenessAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateHARACompleteness" id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateHARACompletenessAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 3. Propagate and Validate ASIL Levels -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_PropagateASIL"
-              label="Validate ASIL Propagation [ISO 26262-9 §5]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_PropagateASIL" label="Validate ASIL Propagation [ISO 26262-9 §5]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="PropagateASIL"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.PropagateASILAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="PropagateASIL" id="edu.kit.sdq.dsis.unified.design.actions.req.PropagateASILAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 4. Check TSR Verification Coverage -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_ValidateTSRVerification"
-              label="Validate TSR Verification Coverage [ISO 26262-4 §7.4]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_ValidateTSRVerification" label="Validate TSR Verification Coverage [ISO 26262-4 §7.4]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="ValidateTSRVerification"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateTSRVerificationAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ValidateTSRVerification" id="edu.kit.sdq.dsis.unified.design.actions.req.ValidateTSRVerificationAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 5. Check Approval Status -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_CheckApprovalStatus"
-              label="Check Approval Status [ISO 26262-2 §6.4]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_CheckApprovalStatus" label="Check Approval Status [ISO 26262-2 §6.4]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="CheckApprovalStatus"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.CheckApprovalStatusAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="CheckApprovalStatus" id="edu.kit.sdq.dsis.unified.design.actions.req.CheckApprovalStatusAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 6. Check Architecture Consistency -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_CheckArchitectureConsistency"
-              label="Check Architecture Consistency [ISO 26262-4 §6.4.5]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_CheckArchitectureConsistency" label="Check Architecture Consistency [ISO 26262-4 §6.4.5]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/validate.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="CheckArchitectureConsistency"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.CheckArchitectureConsistencyAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="CheckArchitectureConsistency" id="edu.kit.sdq.dsis.unified.design.actions.req.CheckArchitectureConsistencyAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
         </toolSections>
-
-        <!-- ── ISO 26262 Reports & Evidence ─────────────────────── -->
         <toolSections name="ISO26262_Reports" label="ISO 26262 Reports">
-
-          <!-- 7. Export Safety Requirement Review Report -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_ExportSafetyRequirementReport"
-              label="Export Safety Requirement Review Report [ISO 26262-4 WP-04-06]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_ExportSafetyRequirementReport" label="Export Safety Requirement Review Report [ISO 26262-4 WP-04-06]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="ExportSafetyRequirementReport"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyRequirementReportAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ExportSafetyRequirementReport" id="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyRequirementReportAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 8. Export Safety Case Fragment -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_ExportSafetyCase"
-              label="Export Safety Case Fragment [ISO 26262-2 §6.4]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_ExportSafetyCase" label="Export Safety Case Fragment [ISO 26262-2 §6.4]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/export.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="ExportSafetyCase"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyCaseAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="ExportSafetyCase" id="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyCaseAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-
-          <!-- 9. Promote Requirement Status -->
-          <ownedTools xsi:type="tool_1:OperationAction"
-              name="REQ_PromoteRequirementStatus"
-              label="Promote Requirement Status [ISO 26262-2 §6.4]"
-              precondition="aql:true"
-              icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/metrics.gif">
+          <ownedTools xsi:type="tool_1:OperationAction" name="REQ_PromoteRequirementStatus" label="Promote Requirement Status [ISO 26262-2 §6.4]" precondition="aql:true" icon="/edu.kit.sdq.dsis.metamodel.unified.design/icons/metrics.gif">
             <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
-                <subModelOperations xsi:type="tool_1:ExternalJavaAction"
-                    name="PromoteRequirementStatus"
-                    id="edu.kit.sdq.dsis.unified.design.actions.req.PromoteRequirementStatusAction"/>
+                <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="PromoteRequirementStatus" id="edu.kit.sdq.dsis.unified.design.actions.req.PromoteRequirementStatusAction"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
         </toolSections>
       </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_2:EditionTableDescription" name="MetricsDashboard" label="Quality Metrics Dashboard" domainClass="unified::UnifiedSystemModel" initialHeaderColumnWidth="260">
+      <metamodel href="http://edu.kit.sdq.dsis.metamodel/unified#/"/>
+      <ownedLineMappings name="MD_SummaryLine" domainClass="unified::UnifiedSystemModel" semanticCandidatesExpression="aql:Sequence{self}" headerLabelExpression="aql:'Model v' + self.modelVersion"/>
+      <ownedLineMappings name="MD_HazardLine" domainClass="unified::IntegratedHazard" semanticCandidatesExpression="feature:globalHazards" headerLabelExpression="aql:self.name"/>
+      <ownedLineMappings name="MD_TSRLine" domainClass="unified::TechnicalSafetyRequirement" semanticCandidatesExpression="feature:technicalRequirements" headerLabelExpression="aql:self.requirementId"/>
+      <ownedLineMappings name="MD_FMEALine" domainClass="unified::FMEAItem" semanticCandidatesExpression="aql:self.fmeaAnalysis.fmeaItems" headerLabelExpression="aql:self.name"/>
+      <ownedLineMappings name="MD_MechLine" domainClass="unified::SafetyMechanism" semanticCandidatesExpression="feature:safetyMechanisms" headerLabelExpression="aql:self.name"/>
+      <ownedColumnMappings name="MD_Col_MCR" headerLabelExpression="MCR | Risk Level | ASIL | S | Mech.Type" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel) then   self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mcr.toString() + '% MCR' else if self.oclIsKindOf(unified::IntegratedHazard) then   self.oclAsType(unified::IntegratedHazard).riskLevel.toString() else if self.oclIsKindOf(unified::TechnicalSafetyRequirement) then   self.oclAsType(unified::TechnicalSafetyRequirement).allocatedASIL.toString() else if self.oclIsKindOf(unified::FMEAItem) then   'S:' + self.oclAsType(unified::FMEAItem).severity.toString() else if self.oclIsKindOf(unified::SafetyMechanism) then   self.oclAsType(unified::SafetyMechanism).mechanismType.toString() else '' endif endif endif endif endif">
+        <defaultForeground>
+          <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+        </defaultForeground>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_HTI" headerLabelExpression="HTI | Goal Linked | Verif.Method | O | DC%" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel) then   self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.hti.toString() + '% HTI' else if self.oclIsKindOf(unified::IntegratedHazard) then   if self.eContainer().oclAsType(unified::UnifiedSystemModel).safetyGoals->select(sg | sg.relatedHazard = self)->size() > 0   then 'Goal linked'   else 'No Safety Goal'   endif else if self.oclIsKindOf(unified::TechnicalSafetyRequirement) then   self.oclAsType(unified::TechnicalSafetyRequirement).verificationMethod.toString() else if self.oclIsKindOf(unified::FMEAItem) then   'O:' + self.oclAsType(unified::FMEAItem).occurrence.toString() else if self.oclIsKindOf(unified::SafetyMechanism) then   self.oclAsType(unified::SafetyMechanism).diagnosticCoverage.toString() + '% DC' else '' endif endif endif endif endif">
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.hti &lt; 100">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.hti = 100">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_RAR" headerLabelExpression="RAR | FMEA Linked | Realized By | D | Validated" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel) then   self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.rar.toString() + '% RAR' else if self.oclIsKindOf(unified::IntegratedHazard) then   if self.eContainer().oclAsType(unified::UnifiedSystemModel).fmeaAnalysis.fmeaItems->select(item | item.relatedHazards->includes(self))->size() > 0   then 'FMEA linked'   else 'No FMEA item'   endif else if self.oclIsKindOf(unified::TechnicalSafetyRequirement) then   if self.oclAsType(unified::TechnicalSafetyRequirement).realizedBy->size() > 0   then self.oclAsType(unified::TechnicalSafetyRequirement).realizedBy->size().toString() + ' block(s)'   else 'Unallocated'   endif else if self.oclIsKindOf(unified::FMEAItem) then   'D:' + self.oclAsType(unified::FMEAItem).detection.toString() else if self.oclIsKindOf(unified::SafetyMechanism) then   if self.oclAsType(unified::SafetyMechanism).validatedBy->size() > 0   then self.oclAsType(unified::SafetyMechanism).validatedBy->size().toString() + ' FMEA item(s)'   else 'Unvalidated'   endif else '' endif endif endif endif endif">
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.rar &lt; 95">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.rar >= 95">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_FLC" headerLabelExpression="FLC | Mitigation | Verified By | RPN | TSR count" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel) then   self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.flc.toString() + '% FLC' else if self.oclIsKindOf(unified::IntegratedHazard) then   self.oclAsType(unified::IntegratedHazard).mitigationStatus.toString() else if self.oclIsKindOf(unified::TechnicalSafetyRequirement) then   if self.oclAsType(unified::TechnicalSafetyRequirement).verifiedBy->size() > 0   then self.oclAsType(unified::TechnicalSafetyRequirement).verifiedBy->size().toString() + ' FMEA item(s)'   else 'Not yet verified'   endif else if self.oclIsKindOf(unified::FMEAItem) then   'RPN:' + (self.oclAsType(unified::FMEAItem).severity * self.oclAsType(unified::FMEAItem).occurrence * self.oclAsType(unified::FMEAItem).detection).toString() else if self.oclIsKindOf(unified::SafetyMechanism) then   self.oclAsType(unified::SafetyMechanism).implements->size().toString() + ' TSR(s)' else '' endif endif endif endif endif">
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::FMEAItem) and (self.oclAsType(unified::FMEAItem).severity * self.oclAsType(unified::FMEAItem).occurrence * self.oclAsType(unified::FMEAItem).detection) > 100">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::FMEAItem) and (self.oclAsType(unified::FMEAItem).severity * self.oclAsType(unified::FMEAItem).occurrence * self.oclAsType(unified::FMEAItem).detection) > 50 and (self.oclAsType(unified::FMEAItem).severity * self.oclAsType(unified::FMEAItem).occurrence * self.oclAsType(unified::FMEAItem).detection) &lt;= 100">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::FMEAItem) and (self.oclAsType(unified::FMEAItem).severity * self.oclAsType(unified::FMEAItem).occurrence * self.oclAsType(unified::FMEAItem).detection) &lt;= 50">
+          <style>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.flc &lt; 100">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_TDS" headerLabelExpression="TDS | Hazard Category | TSR Status | Failure Mode | Impl.In" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel) then   self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.tds.toString() + '% TDS' else if self.oclIsKindOf(unified::IntegratedHazard) then   self.oclAsType(unified::IntegratedHazard).hazardCategory.toString() else if self.oclIsKindOf(unified::TechnicalSafetyRequirement) then   self.oclAsType(unified::TechnicalSafetyRequirement).status.toString() else if self.oclIsKindOf(unified::FMEAItem) then   if self.oclAsType(unified::FMEAItem).failureMode &lt;> null   then self.oclAsType(unified::FMEAItem).failureMode.name   else 'No failure mode'   endif else if self.oclIsKindOf(unified::SafetyMechanism) then   if self.oclAsType(unified::SafetyMechanism).implementedIn &lt;> null   then self.oclAsType(unified::SafetyMechanism).implementedIn.name   else 'Not placed'   endif else '' endif endif endif endif endif">
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.tds &lt; 80">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.tds >= 80">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_MVR" headerLabelExpression="MVR | Rel.Blocks | Tech.Category | Validates Mechs" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel) then   self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mvr.toString() + '% MVR' else if self.oclIsKindOf(unified::IntegratedHazard) then   self.oclAsType(unified::IntegratedHazard).relatedBlocks->size().toString() + ' block(s)' else if self.oclIsKindOf(unified::TechnicalSafetyRequirement) then   self.oclAsType(unified::TechnicalSafetyRequirement).technicalCategory.toString() else if self.oclIsKindOf(unified::FMEAItem) then   if self.oclAsType(unified::FMEAItem).validatesMechanisms->size() > 0   then self.oclAsType(unified::FMEAItem).validatesMechanisms->size().toString() + ' mech.'   else 'None'   endif else '' endif endif endif endif">
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mvr &lt; 85">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and (self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mvr >= 85">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_Overall" headerLabelExpression="Overall Status" canEdit="false" featureName="name" labelExpression="aql:if self.oclIsKindOf(unified::UnifiedSystemModel)   then if self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mcr >= 90 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.hti = 100 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.rar >= 95 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.flc = 100 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.tds >= 80 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mvr >= 85 then 'ALL PASS' else 'GAPS' endif   else '' endif">
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mcr >= 90 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.hti = 100 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.rar >= 95 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.flc = 100 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.tds >= 80 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mvr >= 85">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::UnifiedSystemModel) and not (self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mcr >= 90 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.hti = 100 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.rar >= 95 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.flc = 100 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.tds >= 80 and self.oclAsType(unified::UnifiedSystemModel).analysisMetadata.mvr >= 85)">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="MD_Col_ActionStatus" headerLabelExpression="Action Status" canEdit="true" featureName="actionStatus" labelExpression="aql:if self.oclIsKindOf(unified::FMEAItem) then self.oclAsType(unified::FMEAItem).actionStatus.toString() else '' endif">
+        <defaultForeground>
+          <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_green']"/>
+        </defaultForeground>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::FMEAItem) and self.oclAsType(unified::FMEAItem).actionStatus.toString() = 'OPEN'">
+          <style>
+            <labelFormat>bold</labelFormat>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::FMEAItem) and self.oclAsType(unified::FMEAItem).actionStatus.toString() = 'IN_PROGRESS'">
+          <style>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
+          </style>
+        </foregroundConditionalStyle>
+        <foregroundConditionalStyle predicateExpression="aql:self.oclIsKindOf(unified::FMEAItem) and (self.oclAsType(unified::FMEAItem).actionStatus.toString() = 'COMPLETED' or self.oclAsType(unified::FMEAItem).actionStatus.toString() = 'VERIFIED')">
+          <style>
+            <foreGroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='green']"/>
+          </style>
+        </foregroundConditionalStyle>
+      </ownedColumnMappings>
+      <ownedTools xsi:type="tool_1:OperationAction" name="MD_Tool_RefreshMetrics" label="Refresh All Metrics" precondition="aql:true">
+        <view name="views"/>
+        <initialOperation>
+          <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self">
+            <subModelOperations xsi:type="tool_1:ExternalJavaAction" name="RefreshMetrics" id="edu.kit.sdq.dsis.unified.design.actions.metrics.RefreshMetricsAction"/>
+          </firstModelOperations>
+        </initialOperation>
+      </ownedTools>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.metamodel.unified.design.Services"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.services.AdvancedAnalysisServices"/>
@@ -2169,7 +1758,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.ValidateTraceabilityQueryAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.HighlightTraceChainAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.GenerateTraceabilityReportAction"/>
-	 <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateRequirementDerivationChainAction"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateRequirementDerivationChainAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateHARACompletenessAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.PropagateASILAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ValidateTSRVerificationAction"/>
@@ -2178,6 +1767,7 @@ RPN: ' + (self.severity * self.occurrence * self.detection).toString() + ' | ' +
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyRequirementReportAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.ExportSafetyCaseAction"/>
     <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.req.PromoteRequirementStatusAction"/>
-
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.services.MetricsService"/>
+    <ownedJavaExtensions qualifiedClassName="edu.kit.sdq.dsis.unified.design.actions.metrics.RefreshMetricsAction"/>
   </ownedViewpoints>
 </description:Group>

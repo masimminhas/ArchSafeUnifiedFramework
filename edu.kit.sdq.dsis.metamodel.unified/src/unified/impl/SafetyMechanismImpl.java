@@ -71,7 +71,7 @@ public class SafetyMechanismImpl extends UnifiedElementImpl implements SafetyMec
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double DIAGNOSTIC_COVERAGE_EDEFAULT = 0.0;
+	protected static final int DIAGNOSTIC_COVERAGE_EDEFAULT = 0;
 
 	/**
 	 * The cached value of the '{@link #getDiagnosticCoverage() <em>Diagnostic Coverage</em>}' attribute.
@@ -81,7 +81,7 @@ public class SafetyMechanismImpl extends UnifiedElementImpl implements SafetyMec
 	 * @generated
 	 * @ordered
 	 */
-	protected double diagnosticCoverage = DIAGNOSTIC_COVERAGE_EDEFAULT;
+	protected int diagnosticCoverage = DIAGNOSTIC_COVERAGE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getImplements() <em>Implements</em>}' reference list.
@@ -158,7 +158,7 @@ public class SafetyMechanismImpl extends UnifiedElementImpl implements SafetyMec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getDiagnosticCoverage() {
+	public int getDiagnosticCoverage() {
 		return diagnosticCoverage;
 	}
 
@@ -167,8 +167,8 @@ public class SafetyMechanismImpl extends UnifiedElementImpl implements SafetyMec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDiagnosticCoverage(double newDiagnosticCoverage) {
-		double oldDiagnosticCoverage = diagnosticCoverage;
+	public void setDiagnosticCoverage(int newDiagnosticCoverage) {
+		int oldDiagnosticCoverage = diagnosticCoverage;
 		diagnosticCoverage = newDiagnosticCoverage;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UnifiedPackage.SAFETY_MECHANISM__DIAGNOSTIC_COVERAGE, oldDiagnosticCoverage, diagnosticCoverage));
@@ -301,7 +301,7 @@ public class SafetyMechanismImpl extends UnifiedElementImpl implements SafetyMec
 				setMechanismType((SafetyMechanismType)newValue);
 				return;
 			case UnifiedPackage.SAFETY_MECHANISM__DIAGNOSTIC_COVERAGE:
-				setDiagnosticCoverage((Double)newValue);
+				setDiagnosticCoverage((Integer)newValue);
 				return;
 			case UnifiedPackage.SAFETY_MECHANISM__IMPLEMENTS:
 				getImplements().clear();

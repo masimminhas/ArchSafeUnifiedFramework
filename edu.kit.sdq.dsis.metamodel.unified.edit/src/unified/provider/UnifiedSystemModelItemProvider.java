@@ -63,10 +63,33 @@ public class UnifiedSystemModelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
 			addModelVersionPropertyDescriptor(object);
 			addLastModifiedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UnifiedSystemModel_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UnifiedSystemModel_name_feature", "_UI_UnifiedSystemModel_type"),
+				 UnifiedPackage.Literals.UNIFIED_SYSTEM_MODEL__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -172,7 +195,7 @@ public class UnifiedSystemModelItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((UnifiedSystemModel)object).getModelVersion();
+		String label = ((UnifiedSystemModel)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_UnifiedSystemModel_type") :
 			getString("_UI_UnifiedSystemModel_type") + " " + label;
@@ -191,6 +214,7 @@ public class UnifiedSystemModelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UnifiedSystemModel.class)) {
+			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__NAME:
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__MODEL_VERSION:
 			case UnifiedPackage.UNIFIED_SYSTEM_MODEL__LAST_MODIFIED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

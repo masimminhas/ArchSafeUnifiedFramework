@@ -68,6 +68,12 @@ public class AnalysisMetadataItemProvider
 			addFmeaCoveragePropertyDescriptor(object);
 			addTraceabilityDensityPropertyDescriptor(object);
 			addCyclomaticComplexityPropertyDescriptor(object);
+			addMcrPropertyDescriptor(object);
+			addHtiPropertyDescriptor(object);
+			addRarPropertyDescriptor(object);
+			addFlcPropertyDescriptor(object);
+			addTdsPropertyDescriptor(object);
+			addMvrPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -227,6 +233,138 @@ public class AnalysisMetadataItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Mcr feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMcrPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AnalysisMetadata_mcr_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalysisMetadata_mcr_feature", "_UI_AnalysisMetadata_type"),
+				 UnifiedPackage.Literals.ANALYSIS_METADATA__MCR,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Hti feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addHtiPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AnalysisMetadata_hti_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalysisMetadata_hti_feature", "_UI_AnalysisMetadata_type"),
+				 UnifiedPackage.Literals.ANALYSIS_METADATA__HTI,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Rar feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRarPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AnalysisMetadata_rar_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalysisMetadata_rar_feature", "_UI_AnalysisMetadata_type"),
+				 UnifiedPackage.Literals.ANALYSIS_METADATA__RAR,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Flc feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFlcPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AnalysisMetadata_flc_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalysisMetadata_flc_feature", "_UI_AnalysisMetadata_type"),
+				 UnifiedPackage.Literals.ANALYSIS_METADATA__FLC,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Tds feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTdsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AnalysisMetadata_tds_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalysisMetadata_tds_feature", "_UI_AnalysisMetadata_type"),
+				 UnifiedPackage.Literals.ANALYSIS_METADATA__TDS,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Mvr feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMvrPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AnalysisMetadata_mvr_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalysisMetadata_mvr_feature", "_UI_AnalysisMetadata_type"),
+				 UnifiedPackage.Literals.ANALYSIS_METADATA__MVR,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns AnalysisMetadata.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -272,6 +410,12 @@ public class AnalysisMetadataItemProvider
 			case UnifiedPackage.ANALYSIS_METADATA__FMEA_COVERAGE:
 			case UnifiedPackage.ANALYSIS_METADATA__TRACEABILITY_DENSITY:
 			case UnifiedPackage.ANALYSIS_METADATA__CYCLOMATIC_COMPLEXITY:
+			case UnifiedPackage.ANALYSIS_METADATA__MCR:
+			case UnifiedPackage.ANALYSIS_METADATA__HTI:
+			case UnifiedPackage.ANALYSIS_METADATA__RAR:
+			case UnifiedPackage.ANALYSIS_METADATA__FLC:
+			case UnifiedPackage.ANALYSIS_METADATA__TDS:
+			case UnifiedPackage.ANALYSIS_METADATA__MVR:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
